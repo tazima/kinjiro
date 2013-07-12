@@ -7,6 +7,7 @@
     "express": "3.x",
     "express-resource": "*",
     "ejs": "*",
+    "connect-flash": "*",
     "component": "x",
     "grunt": "x"
   }

@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <style>
+      body {
+        margin: 50px;
+      }
+      form {
+        width: 300px;
+      }
+      form h2 {
+        margin-left: 20px;
+      }
+      form label {
+        margin-bottom: 20px;
+        display: block;
+        text-align: right;
+      }
+      form label input {
+        width: 190px;
+        margin-left: 10px;
+        text-align: left;
+      }
+      form [type=submit] {
+        display: block;
+        margin: 0 0 0 auto;
+      }
+      .flash-message .error {
+        color: red;
+      }
+    </style>
   </head>
   <body>
+    <h2>Login</h2>
+    <section class="flash-message">
+      <p class="error">
+        <% messages.forEach(function(message) { %>
+          <%= message %>
+        <% }); %>
+      </p>
+    </section>
     <form method="POST" action="/sessions">
-      <input type="text" name="user" />
-      <input type="password" name="password" />
+      <label>
+        name
+        <input type="text" name="user" />
+      </label>
+      <label>
+        password
+        <input type="password" name="password" />
+      </label>
       <input type="submit" value="login" />
     </form>
   </body>

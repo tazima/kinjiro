@@ -4,7 +4,8 @@
  */
 
 var express = require("express"),
-    Resource = require('express-resource');
+    Resource = require('express-resource'),
+    flash = require("connect-flash");
 
 var app = module.exports = express();
 
@@ -16,15 +17,15 @@ app.set("view engine", "ejs");
 // middleware
 
 app.use(express.bodyParser());
-app.use(express.cookieParser('shhhh, very secret'));
-app.use(express.session());
+app.use(express.methodOverride());
+app.use(express.cookieParser());
+// TODO make secret secret!
+app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
+app.use(flash());
 
-app.all("*", restrict);
+console.log(app.get("env"));
 
 function restrict(req, res, next) {
-  // exclude sessions intractions.
-  if (req.path.match("sessions")) return next();
-
   if (req.session.user) {
     next();
   } else {
@@ -32,13 +33,19 @@ function restrict(req, res, next) {
   }
 }
 
+// routes
+
+app.all(/^(?!.*sessions).*$/, restrict);
+
 app.get("/", function(req, res) {
   res.redirect("subscribes");
 });
 
-// resources
-
 app.resource("sessions", require("./resources/session"));
+
+app.resource("subscribes", require("./resources/subscribe"));
+
+// TODO handle 404
 
 if (!module.parent) {
   app.listen(3000);

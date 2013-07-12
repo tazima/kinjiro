@@ -4,7 +4,7 @@
  */
 
 exports.new = function(req, res){
-  res.render("login");
+  res.render("login", { messages: req.flash("error") });
 };
 
 /**
@@ -14,19 +14,41 @@ exports.new = function(req, res){
 exports.create = function(req, res){
   var param = req.body;
 
-  authenticate(param.name, param,password, function(err, user) {
+  authenticate(param.user, param.password, function(err, user) {
     if (user) {
-      // Regenerate session when sign in for fixation.
-      req.session.Regenerate(function() {
-        req.session.user = user.id;
-        res.redirect("subscribes");
-      });
+      req.session.user = user;
+      res.redirect("subscribes");
+    } else {
+      req.session.user = null;
+      req.flash("error", "Naame or password is incorrect.");
+      res.redirect("/");
     }
-    // TODO ... else raise error
   });
-  res.send('create forum');
 };
 
-function authenticate(name, password, cb) {
-  
+exports.destroy = function(req, res) {
+  req.session = null;
+  res.redirect("/");
+};
+
+// dummy db
+
+var users = {
+  "valid": {
+    user: "valid",
+    password: "hoge"
+  }
+};
+
+function authenticate(user, password, cb) {
+  console.log('authenticating %s:%s', user, password);
+
+  // fetch user;
+  user = users[user];
+
+  if (!user) {
+    return cb(new Error("not logged in"));
+  } else {
+    return cb(null, user);
+  }
 }
