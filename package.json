@@ -1,0 +1,13 @@
+{
+  "name": "kinjiro",
+  "description": "kinjiro",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "express-resource": "*",
+    "ejs": "*",
+    "component": "x",
+    "grunt": "x"
+  }
+}
