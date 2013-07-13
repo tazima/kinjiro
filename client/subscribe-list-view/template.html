@@ -1,1 +1,10 @@
-hoge
+<h2>Subscribes</h2>
+
+<ul class="subscribe-list">
+  <% _.each(contents, function(item) { %>
+    <li class="subscribe-item">
+      <a href="<%= item.url %>"><%= item.name %></a>
+    </li>
+  <% }); %>
+</ul>
+

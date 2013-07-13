@@ -11,5 +11,6 @@
   "styles": [
     "subscribe-list-view.css"
   ],
-  "templates": ["template.html"]
+  "templates": ["template.html"],
+  "files": ["dummy-list.json"]
 }
