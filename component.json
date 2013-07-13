@@ -4,8 +4,13 @@
   "description": "kinjiro",
   "version": "0.0.1",
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "component/simple-grid": "*"
+  },
   "development": {},
+  "styles": [
+    "kinjiro.css"
+  ],
   "local": ["boot"],
   "paths": ["client"],
   "license": "MIT"

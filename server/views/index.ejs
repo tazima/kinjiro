@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="/build.css" />
+  </head>
+  <body>
+    <header>
+      Loggin data
+      <form action="/sessions/myid" method="POST">
+	<input type="submit" value="logout" />
+	<input type="hidden" name="_method" value="delete" />
+      </form>
+    </header>
+
+    <section id="content" class="grid">
+      <div class="subscrive-list col-1-4"></div>
+      <div class="posts col-3-4"></div>
+    </section>
+    <script src="/build.js"></script>
+    <script>require("boot");</script>
+  </body>
+</html>

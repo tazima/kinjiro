@@ -12,7 +12,7 @@ var app = module.exports = express();
 
 // config
 
-app.set("views", __dirname + "/views");
+app.set("views", __dirname + "/server/views");
 app.set("view engine", "ejs");
 
 // middleware
@@ -26,7 +26,7 @@ app.use(flash());
 app.use(express.static(__dirname + "/build"));
 
 function restrict(req, res, next) {
-  if (req.session.user) {
+  if (req.session.walker_id) {
     next();
   } else {
     res.redirect("sessions/new");
@@ -45,9 +45,9 @@ app.get("/", function(req, res) {
   res.redirect("subscribes");
 });
 
-app.resource("sessions", require("./resources/session"));
+app.resource("sessions", require("./server/resources/session"));
 
-app.resource("subscribes", require("./resources/subscribe"));
+app.resource("subscribes", require("./server/resources/subscribe"));
 
 // TODO handle 404
 

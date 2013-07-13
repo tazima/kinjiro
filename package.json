@@ -9,6 +9,7 @@
     "ejs": "*",
     "connect-flash": "*",
     "component": "x",
+    "mongoose": "*",
     "grunt": "x",
     "grunt-express": "*",
     "grunt-component-build": "*",

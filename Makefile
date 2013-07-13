@@ -1,5 +1,5 @@
 
-build: components
+build: components kinjiro.css
 	@component build --dev
 
 components: component.json
