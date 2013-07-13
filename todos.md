@@ -1,2 +1,0 @@
-- [ ] encrypt password
-- [ ] switch via env
