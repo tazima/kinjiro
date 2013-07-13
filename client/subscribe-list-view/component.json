@@ -12,6 +12,5 @@
     "subscribe-list-view.css"
   ],
   "local": ["subscribe-item-view"],
-  "templates": ["template.html"],
-  "files": ["dummy-list.json"]
+  "templates": ["template.html"]
 }
