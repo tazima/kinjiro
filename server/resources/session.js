@@ -45,7 +45,11 @@ function authenticate(walkerId, password, cb) {
     if (!walker) {
       return cb(new Error("not logged in"));
     } else {
-      return cb(null, walker);
+      walker.comparePassword(password, function(err, isMatch) {
+        if (err) throw err;
+        if (!isMatch) return cb(new Error("not logged in"));
+        return cb(null, walker);
+      });
     }
   });
 }
