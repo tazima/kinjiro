@@ -51,13 +51,15 @@ mongoose.connect(app.get("db connection string"), function(err) {
 
 // routes
 
-app.all(/^(?!.*sessions).*$/, restrict, build);
+app.all(/^(?!.*(sessions|users)).*$/, restrict, build);
 
 app.get("/", function(req, res) {
   res.redirect("subscribes");
 });
 
 app.resource("sessions", require("./server/resources/session"));
+
+app.resource("users", require("./server/resources/user"));
 
 app.resource("subscribes", require("./server/resources/subscribe"));
 

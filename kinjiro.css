@@ -1,0 +1,40 @@
+/**
+ * common
+ */
+
+.flash-message .error {
+  color: red;
+}
+
+/**
+ * login
+ */
+
+body#login, body#signin {
+  margin: 50px;
+}
+
+#login form, #signin form {
+  width: 300px;
+}
+
+#login form h2, #signin form h2 {
+  margin-left: 20px;
+}
+
+#login form label, #signin form label {
+  margin-bottom: 20px;
+  display: block;
+  text-align: right;
+}
+
+#login form label input, #signin form label input {
+  width: 190px;
+  margin-left: 10px;
+  text-align: left;
+}
+
+#login form [type=submit], #signin form [type=submit] {
+  display: block;
+  margin: 0 0 0 auto;
+}

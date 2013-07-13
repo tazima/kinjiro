@@ -1,3 +1,4 @@
+
 /**
  * Module dependencies.
  */
@@ -30,6 +31,10 @@ exports.create = function(req, res){
     }
   });
 };
+
+/**
+ * DEL /sessions/:session
+ */
 
 exports.destroy = function(req, res) {
   req.session = null;

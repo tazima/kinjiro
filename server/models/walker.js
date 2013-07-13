@@ -9,15 +9,15 @@ var mongoose = require('mongoose'),
     SALT_WORK_FACTOR = 10;
 
 var WalkerSchema = new Schema({
-    walker_id: {
-      type: String,
-      required: true,
-      index: { unique: true }
-    },
-    password: {
-      type: String,
-      required: true
-    }
+  walker_id: {
+    type: String,
+    required: true,
+    index: { unique: true }
+  },
+  password: {
+    type: String,
+    required: true
+  }
 });
 
 WalkerSchema.pre('save', function(next) {
