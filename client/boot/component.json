@@ -1,0 +1,14 @@
+{
+  "name": "boot",
+  "description": "boot",
+  "dependencies": {
+    "component/jquery": "*",
+    "brighthas/backbone": "*"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "local": ["app-router"]
+}

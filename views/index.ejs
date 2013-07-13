@@ -5,10 +5,16 @@
   <body>
     <header>
       Loggin data
+      <form action="/sessions/myid" method="POST">
+	<input type="submit" value="logout" />
+	<input type="hidden" name="_method" value="delete" />
+      </form>
     </header>
-    <form action="/sessions/myid" method="POST">
-      <input type="submit" value="logout" />
-      <input type="hidden" name="_method" value="delete" />
-    </form>
+
+    <section id="content">
+      <div class="subscrive-list"></div>
+    </section>
+    <script src="/build.js"></script>
+    <script>require("boot");</script>
   </body>
 </html>

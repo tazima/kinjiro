@@ -6,5 +6,7 @@
   "keywords": [],
   "dependencies": {},
   "development": {},
+  "local": ["boot"],
+  "paths": ["client"],
   "license": "MIT"
 }

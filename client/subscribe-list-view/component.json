@@ -1,0 +1,15 @@
+{
+  "name": "subscribe-list-view",
+  "description": "View list subscribes.",
+  "dependencies": {
+    "component/underscore": "*",
+    "brighthas/backbone": "*"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "styles": [
+    "subscribe-list-view.css"
+  ],
+  "templates": ["template.html"]
+}

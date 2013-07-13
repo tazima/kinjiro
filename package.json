@@ -9,6 +9,9 @@
     "ejs": "*",
     "connect-flash": "*",
     "component": "x",
-    "grunt": "x"
+    "grunt": "x",
+    "grunt-express": "*",
+    "grunt-component-build": "*",
+    "component-json": "git://github.com/segmentio/component-json.git"
   }
 }

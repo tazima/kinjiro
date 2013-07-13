@@ -1,0 +1,13 @@
+{
+  "name": "app-router",
+  "description": "Application router.",
+  "dependencies": {
+    "brighthas/backbone": "*"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "local": ["subscribe-list-view"]
+}

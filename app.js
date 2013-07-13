@@ -5,7 +5,8 @@
 
 var express = require("express"),
     Resource = require('express-resource'),
-    flash = require("connect-flash");
+    flash = require("connect-flash"),
+    exec = require("child_process").exec;
 
 var app = module.exports = express();
 
@@ -22,8 +23,7 @@ app.use(express.cookieParser());
 // TODO make secret secret!
 app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
 app.use(flash());
-
-console.log(app.get("env"));
+app.use(express.static(__dirname + "/build"));
 
 function restrict(req, res, next) {
   if (req.session.user) {
@@ -33,9 +33,13 @@ function restrict(req, res, next) {
   }
 }
 
+function build(req, res, next) {
+  exec("grunt", next);  
+}
+
 // routes
 
-app.all(/^(?!.*sessions).*$/, restrict);
+app.all(/^(?!.*sessions).*$/, restrict, build);
 
 app.get("/", function(req, res) {
   res.redirect("subscribes");
