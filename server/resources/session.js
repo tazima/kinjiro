@@ -1,3 +1,8 @@
+/**
+ * Module dependencies.
+ */
+
+var Walker = require("../models/walker");
 
 /**
  * GET /sessions/new
@@ -17,7 +22,6 @@ exports.create = function(req, res){
   authenticate(param.walker_id, param.password, function(err, walker) {
     if (walker) {
       req.session.walker_id = walker.walker_id;
-      console.log(walker);
       res.redirect("subscribes");
     } else {
       req.session.walker_id = null;
@@ -32,24 +36,16 @@ exports.destroy = function(req, res) {
   res.redirect("/");
 };
 
-// dummy db
-
-var walkers = {
-  "valid": {
-    walker_id: "valid",
-    password: "hoge"
-  }
-};
-
 function authenticate(walkerId, password, cb) {
   console.log('authenticating %s:%s', walkerId, password);
 
-  // fetch walker;
-  var walker = walkers[walkerId];
+  Walker.findOne({ walker_id: walkerId }, function(err, walker) {
+    if (err) throw err;
 
-  if (!walker) {
-    return cb(new Error("not logged in"));
-  } else {
-    return cb(null, walker);
-  }
+    if (!walker) {
+      return cb(new Error("not logged in"));
+    } else {
+      return cb(null, walker);
+    }
+  });
 }

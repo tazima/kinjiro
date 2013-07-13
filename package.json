@@ -10,6 +10,7 @@
     "connect-flash": "*",
     "component": "x",
     "mongoose": "*",
+    "bcrypt": "*",
     "grunt": "x",
     "grunt-express": "*",
     "grunt-component-build": "*",

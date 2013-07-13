@@ -6,6 +6,7 @@
 var express = require("express"),
     Resource = require('express-resource'),
     flash = require("connect-flash"),
+    mongoose = require("mongoose"),
     exec = require("child_process").exec;
 
 var app = module.exports = express();
@@ -14,6 +15,10 @@ var app = module.exports = express();
 
 app.set("views", __dirname + "/server/views");
 app.set("view engine", "ejs");
+
+app.configure("development", function() {
+  app.set("db connection string", "mongodb://localhost:27017/kinjiro");
+});
 
 // middleware
 
@@ -36,6 +41,13 @@ function restrict(req, res, next) {
 function build(req, res, next) {
   exec("grunt", next);  
 }
+
+// db
+
+mongoose.connect(app.get("db connection string"), function(err) {
+  if (err) { throw err; }
+  console.log("Connected to mongo db");
+});
 
 // routes
 
