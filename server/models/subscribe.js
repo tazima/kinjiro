@@ -17,3 +17,5 @@ var SubscribeSchema = new Schema({
     ref: 'Walker'
   }
 });
+
+module.exports = mongoose.model('Subscribe', SubscribeSchema);

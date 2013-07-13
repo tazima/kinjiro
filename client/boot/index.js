@@ -9,7 +9,9 @@ var $ = require("jquery"),
 
 Backbone.$ = $;
 
-$(function() {
-  new AppRouter;
-  Backbone.history.start();
-});
+exports = module.exports = function(options) {
+  $(function() {
+    new AppRouter({ subscribes: options.subscribes });
+    Backbone.history.start();
+  });
+};

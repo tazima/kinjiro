@@ -25,6 +25,8 @@ module.exports = function(grunt) {
         verbose: true,
         plugins: ["templates"],
         configure: function(builder) {
+          builder.development();
+          builder.addSourceURLs();
           builder.use(json);
         }
       }

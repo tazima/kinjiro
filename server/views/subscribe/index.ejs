@@ -17,6 +17,14 @@
       <div class="posts col-3-4"></div>
     </section>
     <script src="/build.js"></script>
-    <script>require("boot");</script>
+    <script>
+      (function() {
+        var Subscribe = require("subscribe-collection"),
+            subscribes = new Subscribe;
+        require("boot")({
+          subscribes: subscribes.reset(<%- JSON.stringify(subscribes) %>)
+        });
+      }());
+    </script>
   </body>
 </html>

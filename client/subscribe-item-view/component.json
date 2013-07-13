@@ -1,0 +1,13 @@
+{
+  "name": "subscribe-item-view",
+  "description": "Subsclibe item view.",
+  "dependencies": {
+    "component/underscore": "*",
+    "brighthas/backbone": "*"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "styles": ["subscribe-item-view.css"],
+  "templates": ["template.html"]
+}

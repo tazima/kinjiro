@@ -4,14 +4,22 @@
  */
 
 var _ = require("underscore"),
-    Backbone = require("backbone");
+    Backbone = require("backbone"),
+    SubscribeItemView = require("subscribe-item-view");
 
-var dummyList = require("./dummy-list.json");
+// var dummyList = require("./dummy-list.json");
 
 exports = module.exports = Backbone.View.extend({
 
   render: function() {
-    this.$el.html(this.template({ contents: dummyList }));
+    this.$el.html(this.template());
+    this.collection.each(this.renderOne, this);
+    return this;
+  },
+
+  renderOne: function(model) {
+    this.$(".subscribe-list")
+      .append((new SubscribeItemView({ model: model })).render().el);
     return this;
   },
 

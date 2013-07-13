@@ -12,9 +12,15 @@ exports = module.exports = Backbone.Router.extend({
     "": "index"
   },
 
+  initialize: function(options) {
+    this.subscribes = options.subscribes;
+  },
+
   index: function() {
-    (new SubscribeListView({ el: ".subscrive-list" }))
-      .render();
+    (new SubscribeListView({
+      el: ".subscrive-list",
+      collection: this.subscribes
+    })).render();
   }
 
 });

@@ -1,0 +1,12 @@
+{
+  "name": "subscribe-collection",
+  "description": "Subscribe collection.",
+  "dependencies": {
+    "brighthas/backbone": "*"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

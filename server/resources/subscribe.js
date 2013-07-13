@@ -11,11 +11,9 @@ var Subscribe = require("../models/subscribe");
 
 exports.index = function(req, res) {
   // TODO populate subscribes
-  console.log(req.session.walker);
-  res.render("subscribe/index");
-  // res.render("subscribe/index", {
-  //   subscribes: Subscribe.find({
-  //     walker_id: req.session.walker_id
-  //   })
-  // });
+  Subscribe.find({
+    _walker: req.session.walker_id
+  }, function(err, subscribes) {
+    res.render("subscribe/index", { subscribes: subscribes });
+  });
 };
