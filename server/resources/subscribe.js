@@ -5,5 +5,5 @@
 
 exports.index = function(req, res) {
   // TODO populate subscribes
-  res.render("index");
+  res.render("subscribe/index");
 };

@@ -10,7 +10,7 @@ var Walker = require("../models/walker");
  */
 
 exports.new = function(req, res){
-  res.render("login", { messages: req.flash("error") });
+  res.render("session/new", { messages: req.flash("error") });
 };
 
 /**

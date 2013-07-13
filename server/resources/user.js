@@ -10,7 +10,7 @@ var Walker = require("../models/walker");
  */
 
 exports.new = function(req, res) {
-  res.render("signin");
+  res.render("user/new");
 };
 
 /**
