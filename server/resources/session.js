@@ -20,9 +20,9 @@ exports.new = function(req, res){
 exports.create = function(req, res){
   var param = req.body;
 
-  authenticate(param.walker_id, param.password, function(err, walker) {
+  authenticate(param.name, param.password, function(err, walker) {
     if (walker) {
-      req.session.walker_id = walker.walker_id;
+      req.session.walker_id = walker._id;
       res.redirect("subscribes");
     } else {
       req.session.walker_id = null;
@@ -41,10 +41,10 @@ exports.destroy = function(req, res) {
   res.redirect("/");
 };
 
-function authenticate(walkerId, password, cb) {
-  console.log('authenticating %s:%s', walkerId, password);
+function authenticate(name, password, cb) {
+  console.log('authenticating %s:%s', name, password);
 
-  Walker.findOne({ walker_id: walkerId }, function(err, walker) {
+  Walker.findOne({ name: name }, function(err, walker) {
     if (err) throw err;
 
     if (!walker) {
