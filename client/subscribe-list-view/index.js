@@ -7,8 +7,6 @@ var _ = require("underscore"),
     Backbone = require("backbone"),
     SubscribeItemView = require("subscribe-item-view");
 
-// var dummyList = require("./dummy-list.json");
-
 exports = module.exports = Backbone.View.extend({
 
   render: function() {
@@ -18,8 +16,9 @@ exports = module.exports = Backbone.View.extend({
   },
 
   renderOne: function(model) {
-    this.$(".subscribe-list")
-      .append((new SubscribeItemView({ model: model })).render().el);
+    this.$(".subscribe-list").append(
+      (new SubscribeItemView({ model: model }))
+        .render().el);
     return this;
   },
 
