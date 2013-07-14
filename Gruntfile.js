@@ -39,12 +39,19 @@ module.exports = function(grunt) {
         },
         src: ['server/**/test/*-test.js']
       }
+    },
+
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks("grunt-component-build");
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-karma');
 
   grunt.loadTasks("tasks");
 

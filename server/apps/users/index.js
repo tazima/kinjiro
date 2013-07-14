@@ -4,6 +4,7 @@
  */
 
 var express = require("express"),
+    flash = require("connect-flash"),
     Walker = require("../../models/walker");
 
 var app = module.exports = express();
@@ -16,6 +17,9 @@ app.set("view engine", "ejs");
 // middleware
 
 app.use(express.bodyParser());
+app.use(express.cookieParser());
+app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
+app.use(flash());
 
 /**
  * GET /users/new

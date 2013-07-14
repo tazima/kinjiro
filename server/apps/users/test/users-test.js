@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var expect = require("chai").expect,
+var expect = require("expect.js"),
     request = require("supertest"),
     sinon = require("sinon"),
     app = require("../"),
@@ -56,7 +56,7 @@ describe("users", function() {
         .send({ user: { name: "J.T", password: "my password" } })
         .end(function() {
           expect(this.spy.thisValues[0].password)
-            .to.not.be.undefined;
+            .to.not.be(undefined);
           expect(this.spy.thisValues[0].password)
             .to.not.equal("my password");
           done();
@@ -69,7 +69,7 @@ describe("users", function() {
         .send({ user: { name: "J.T", password: "my password" } })
         .expect(302)
         .end(function(err, res) {
-          expect(err).to.be.null;
+          expect(err).to.be(null);
           expect(res.header.location).to.equal("/");
           done();
         });

@@ -17,9 +17,15 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "chai": "*",
+    "expect.js": "*",
     "sinon": "*",
     "supertest": "*",
-    "grunt-mocha-test": "*"
+    "karma": "canary", 
+    "karma-mocha": "*",
+    "karma-junit-reporter": "*",
+    "karma-growl-reporter": "*",
+    "growly": "*",
+    "grunt-mocha-test": "*",
+    "grunt-karma": "*"
   }
 }
