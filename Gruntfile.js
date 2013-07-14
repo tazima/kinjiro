@@ -108,6 +108,10 @@ module.exports = function(grunt) {
   grunt.registerTask("default", ["karma:unit", "watch"]);
 
   // ci
-  grunt.registerTask("ci", ["karma:ci", "mochaTest"]);
+  grunt.registerTask("ci", [
+    "component_build:prod",
+    "karma:ci",
+    "mochaTest"
+  ]);
 
 };
