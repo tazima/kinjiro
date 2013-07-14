@@ -30,14 +30,25 @@ module.exports = function(grunt) {
           builder.use(json);
         }
       }
+    },
+
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec'
+        },
+        src: ['server/**/test/*-test.js']
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks("grunt-component-build");
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   grunt.loadTasks("tasks");
 
-  grunt.registerTask("default", ["component_build"]);
   grunt.registerTask('server', ['express', 'express-keepalive']);
+
+  grunt.registerTask("default", ["component_build"]);
 };

@@ -13,6 +13,10 @@ var app = module.exports = express();
 app.set("views", __dirname);
 app.set("view engine", "ejs");
 
+// middleware
+
+app.use(express.bodyParser());
+
 /**
  * GET /users/new
  */
@@ -26,7 +30,7 @@ app.get("/users/new", function(req, res) {
  */
 
 app.post("/users", function(req, res) {
-  var walker = new Walker(req.body);
+  var walker = new Walker(req.body.user);
 
   walker.save(function(err) {
     if (err) throw err;

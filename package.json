@@ -14,5 +14,12 @@
     "grunt-express": "*",
     "grunt-component-build": "*",
     "component-json": "git://github.com/segmentio/component-json.git"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*",
+    "sinon": "*",
+    "supertest": "*",
+    "grunt-mocha-test": "*"
   }
 }
