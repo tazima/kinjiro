@@ -10,4 +10,4 @@ before_script:
   - ./node_modules/.bin/component install
 
 script:
-  - ./node_modules/.bin/grunt ci
+  - grunt ci
