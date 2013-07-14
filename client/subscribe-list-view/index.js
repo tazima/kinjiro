@@ -13,6 +13,10 @@ exports = module.exports = Backbone.View.extend({
     "submit .new-subscribe"   : "create"
   },
 
+  initialize: function() {
+    this.collection.on( "add", this.renderOne, this);
+  },
+
   render: function() {
     this.$el.html(this.template());
     this.collection.each(this.renderOne, this);
