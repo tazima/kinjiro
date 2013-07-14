@@ -42,7 +42,7 @@ mongoose.connect(app.get("db connection string"), function(err) {
 
 // routes
 
-app.all(/^(?!.*(sessions|users)).*$/, restrict, build);
+app.all(/^(?!.*(sessions|users)).*$/, restrict);
 
 app.get("/", function(req, res) {
   res.redirect("subscribes");
@@ -58,10 +58,6 @@ function restrict(req, res, next) {
   } else {
     res.redirect("sessions/new");
   }
-}
-
-function build(req, res, next) {
-  exec("grunt", next);  
 }
 
 // TODO handle 404

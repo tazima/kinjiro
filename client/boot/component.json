@@ -3,7 +3,7 @@
   "description": "boot",
   "dependencies": {
     "component/jquery": "*",
-    "brighthas/backbone": "*"
+    "tazima/backbone": "topic-component"
   },
   "development": {},
   "main": "index.js",

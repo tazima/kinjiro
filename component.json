@@ -5,13 +5,19 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "component/simple-grid": "*"
+    "component/simple-grid": "*",
+    "tazima/backbone": "topic-component"
   },
   "development": {},
   "styles": [
     "kinjiro.css"
   ],
-  "local": ["boot", "subscribe-collection"],
-  "paths": ["client"],
+  "local": [
+    "boot",
+    "subscribe-collection"
+  ],
+  "paths": [
+    "client"
+  ],
   "license": "MIT"
 }

@@ -4,7 +4,7 @@
  */
 
 var $ = require("component-jquery"),
-    Backbone = require("brighthas-backbone"),
+    Backbone = require("tazima-backbone"),
     SubscribeCollection = require("subscribe-collection");
 
 // TODO create setup.js

@@ -2,7 +2,7 @@
   "name": "app-router",
   "description": "Application router.",
   "dependencies": {
-    "brighthas/backbone": "*"
+    "tazima/backbone": "topic-component"
   },
   "development": {},
   "main": "index.js",

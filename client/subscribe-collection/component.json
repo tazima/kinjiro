@@ -2,7 +2,7 @@
   "name": "subscribe-collection",
   "description": "Subscribe collection.",
   "dependencies": {
-    "brighthas/backbone": "*"
+    "tazima/backbone": "topic-component"
   },
   "development": {},
   "main": "index.js",
