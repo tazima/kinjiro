@@ -4,7 +4,6 @@
  */
 
 var express = require("express"),
-    Resource = require('express-resource'),
     flash = require("connect-flash"),
     mongoose = require("mongoose"),
     exec = require("child_process").exec;
@@ -29,18 +28,11 @@ app.use(express.cookieParser());
 app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
 app.use(flash());
 app.use(express.static(__dirname + "/build"));
+app.use(app.routes);
 
-function restrict(req, res, next) {
-  if (req.session.walker_id) {
-    next();
-  } else {
-    res.redirect("sessions/new");
-  }
-}
-
-function build(req, res, next) {
-  exec("grunt", next);  
-}
+app.use(require("./server/apps/sessions"));
+app.use(require("./server/apps/users"));
+app.use(require("./server/apps/subscribes"));
 
 // db
 
@@ -57,11 +49,23 @@ app.get("/", function(req, res) {
   res.redirect("subscribes");
 });
 
-app.resource("sessions", require("./server/resources/session"));
+function restrict(req, res, next) {
+  if (req.session.walker_id) {
+    next();
+  } else {
+    res.redirect("sessions/new");
+  }
+}
 
-app.resource("users", require("./server/resources/user"));
+function build(req, res, next) {
+  exec("grunt", next);  
+}
 
-app.resource("subscribes", require("./server/resources/subscribe"));
+// app.resource("sessions", require("./server/resources/session"));
+
+// app.resource("users", require("./server/resources/user"));
+
+// app.resource("subscribes", require("./server/resources/subscribe"));
 
 // TODO handle 404
 

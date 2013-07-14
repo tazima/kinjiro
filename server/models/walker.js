@@ -9,9 +9,6 @@ var mongoose = require('mongoose'),
     SALT_WORK_FACTOR = 10;
 
 var WalkerSchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId
-  },
   name: {
     type: String,
     required: true

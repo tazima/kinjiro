@@ -3,26 +3,33 @@
  * Module dependencies.
  */
 
-var Subscribe = require("../models/subscribe");
+var express = require("express"),
+    Subscribe = require("../../models/subscribe");
+
+var app = module.exports = express();
+
+// config
+
+app.set("views", __dirname);
+app.set("view engine", "ejs");
 
 /**
  * GET /subscribes
  */
 
-exports.index = function(req, res) {
-  // TODO populate subscribes
+app.get("/subscribes", function(req, res) {
   Subscribe.find({
     _walker: req.session.walker_id
   }, function(err, subscribes) {
-    res.render("subscribe/index", { subscribes: subscribes });
+    res.render("index", { subscribes: subscribes });
   });
-};
+});
 
 /**
  * POST /subscribes
  */
 
-exports.create = function(req, res) {
+app.post("/subscribes", function(req, res) {
   var subscribe = new Subscribe(req.body);
   subscribe._walker = req.session.walker_id;
 
@@ -30,4 +37,5 @@ exports.create = function(req, res) {
     if (err) throw err;
     res.send(subscribe);
   });
-};
+});
+

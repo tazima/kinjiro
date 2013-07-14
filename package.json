@@ -5,7 +5,6 @@
   "private": true,
   "dependencies": {
     "express": "3.x",
-    "express-resource": "*",
     "ejs": "*",
     "connect-flash": "*",
     "component": "x",
