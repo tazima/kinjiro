@@ -22,7 +22,10 @@ app.use(express.bodyParser());
  */
 
 app.get("/users/new", function(req, res) {
-  res.render("new", { bodyId: "signin" });
+  res.render("new", {
+    bodyId: "signin",
+    messages: req.flash("error")
+  });
 });
 
 /**
@@ -33,7 +36,14 @@ app.post("/users", function(req, res) {
   var walker = new Walker(req.body.user);
 
   walker.save(function(err) {
-    if (err) throw err;
+    if (err) {
+      if (err.code === 11000) {
+        req.flash("error", "specified ID is exist");
+        return res.redirect("/users/new");
+      } else {
+        throw err;
+      }
+    }
     res.redirect("/");
   });
 });

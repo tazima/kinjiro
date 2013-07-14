@@ -1,13 +1,7 @@
 
 <% include ../../views/head %>
 <h2>Login</h2>
-<section class="flash-message">
-  <p class="error">
-    <% messages.forEach(function(message) { %>
-      <%= message %>
-    <% }); %>
-  </p>
-</section>
+<% include ../../views/flash %>
 <form method="POST" action="/sessions">
   <label>
     ID

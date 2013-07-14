@@ -11,7 +11,8 @@ var mongoose = require('mongoose'),
 var WalkerSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    index: {unique: true, dropDups: true}
   },
   password: {
     type: String,
