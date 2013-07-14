@@ -9,6 +9,9 @@ var expect = require("chai").expect,
     app = require("../"),
     Walker = require("../../../models/walker");
 
+// TODO appecify `test` env via grunt
+app.set("db connection string", "mongodb://localhost:27017/kinjiro-test");
+
 describe("users", function() {
   
   describe("GET /users/new", function() {
@@ -28,8 +31,9 @@ describe("users", function() {
   });
 
   describe("POST /users", function() {
-    beforeEach(function() {
+    beforeEach(function(done) {
       this.spy = sinon.spy(Walker.prototype, "save");
+      Walker.remove(done);
     });
 
     afterEach(function() {

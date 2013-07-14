@@ -19,6 +19,10 @@ app.configure("development", function() {
   app.set("db connection string", "mongodb://localhost:27017/kinjiro");
 });
 
+app.configure("test", function() {
+  app.set("db connection string", "mongodb://localhost:27017/kinjiro-test");
+});
+
 // middleware
 
 app.use(express.bodyParser());
