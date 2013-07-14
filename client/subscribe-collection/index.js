@@ -5,4 +5,10 @@
 
 var Backbone = require("backbone");
 
-exports = module.exports = Backbone.Collection.extend();
+var SubscribeModel = Backbone.Model.extend();
+
+exports = module.exports = Backbone.Collection.extend({
+  model: SubscribeModel,
+  url: "/subscribes",
+  idAttribute: "_id"
+});

@@ -9,6 +9,10 @@ var _ = require("underscore"),
 
 exports = module.exports = Backbone.View.extend({
 
+  events: {
+    "submit .new-subscribe"   : "create"
+  },
+
   render: function() {
     this.$el.html(this.template());
     this.collection.each(this.renderOne, this);
@@ -20,6 +24,12 @@ exports = module.exports = Backbone.View.extend({
       (new SubscribeItemView({ model: model }))
         .render().el);
     return this;
+  },
+
+  create: function(e) {
+    e.preventDefault();
+    // TODO name search
+    this.collection.create({ name: "hoge", url: this.$(".new-subscribe [type=text]").val() });
   },
 
   template: _.template(require("./template"))

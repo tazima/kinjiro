@@ -11,6 +11,10 @@ var SubscribeSchema = new Schema({
     type: String,
     require: true
   },
+  url: {
+    type: String,
+    require: true
+  },
   _walker : {
     type: Schema.Types.ObjectId,
     require: true,
