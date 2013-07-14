@@ -79,6 +79,7 @@ module.exports = function(config) {
       'karma-mocha',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
+      "karma-phantomjs-launcher",
       'karma-junit-reporter'
     ]
   });
