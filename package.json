@@ -28,6 +28,6 @@
     "growly": "*",
     "grunt-contrib-watch": "*",
     "grunt-mocha-test": "*",
-    "grunt-karma": "*"
+    "grunt-karma": "git://github.com/karma-runner/grunt-karma.git"
   }
 }
