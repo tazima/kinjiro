@@ -1,21 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link rel="stylesheet" type="text/css" href="/build.css" />
-  </head>
-  <body id="signin">
-    <h2>Signing</h2>
-    <form method="POST" action="/users">
-      <!-- TODO consifer partial -->
-      <label>
-        ID
-        <input type="text" name="name" />
-      </label>
-      <label>
-        password
-        <input type="password" name="password" />
-      </label>
-      <input type="submit" value="sign in" />
-    </form>
-  </body>
-</html>
+<% include ../../views/head %>
+<h2>Signing</h2>
+<form method="POST" action="/users">
+  <label>
+    ID
+    <input type="text" name="name" />
+  </label>
+  <label>
+    password
+    <input type="password" name="password" />
+  </label>
+  <input type="submit" value="sign in" />
+</form>
+<% include ../../views/foot %>

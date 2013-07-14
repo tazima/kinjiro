@@ -21,7 +21,10 @@ app.get("/subscribes", function(req, res) {
   Subscribe.find({
     _walker: req.session.walker_id
   }, function(err, subscribes) {
-    res.render("index", { subscribes: subscribes });
+    res.render("index", {
+      bodyId: "subscribes",
+      subscribes: subscribes
+    });
   });
 });
 

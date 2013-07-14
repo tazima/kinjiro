@@ -18,7 +18,10 @@ app.set("view engine", "ejs");
  */
 
 app.get("/sessions/new", function(req, res) {
-  res.render("new", { messages: req.flash("error") });
+  res.render("new", {
+    bodyId: "login",
+    messages: req.flash("error")
+  });
 });
 
 /**

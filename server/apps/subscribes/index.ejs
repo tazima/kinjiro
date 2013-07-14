@@ -1,30 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link rel="stylesheet" type="text/css" href="/build.css" />
-  </head>
-  <body>
-    <header>
-      Loggin data
-      <form action="/session" method="POST">
-	<input type="submit" value="logout" />
-	<input type="hidden" name="_method" value="delete" />
-      </form>
-    </header>
 
-    <section id="content" class="grid">
-      <div class="subscrive-list col-1-4"></div>
-      <div class="posts col-3-4"></div>
-    </section>
-    <script src="/build.js"></script>
-    <script>
-      (function() {
-        var Subscribe = require("subscribe-collection"),
-            subscribes = new Subscribe;
-        require("boot")({
-          subscribes: subscribes.reset(<%- JSON.stringify(subscribes) %>)
-        });
-      }());
-    </script>
-  </body>
-</html>
+<% include ../../views/head %>
+<header>
+  Loggin data
+  <form action="/session" method="POST">
+    <input type="submit" value="logout" />
+    <input type="hidden" name="_method" value="delete" />
+  </form>
+</header>
+
+<section id="content" class="grid">
+  <div class="subscrive-list col-1-4"></div>
+  <div class="posts col-3-4"></div>
+</section>
+<script src="/build.js"></script>
+<script>
+  (function() {
+    var Subscribe = require("subscribe-collection"),
+        subscribes = new Subscribe;
+    require("boot")({
+      subscribes: subscribes.reset(<%- JSON.stringify(subscribes) %>)
+    });
+  }());
+</script>
+<% include ../../views/foot %>

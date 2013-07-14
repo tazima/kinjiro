@@ -18,7 +18,7 @@ app.set("view engine", "ejs");
  */
 
 app.get("/users/new", function(req, res) {
-  res.render("new");
+  res.render("new", { bodyId: "signin" });
 });
 
 /**
