@@ -7,10 +7,6 @@ var $ = require("component-jquery"),
     Backbone = require("tazima-backbone"),
     SubscribeItemView = require("subscribe-item-view");
 
-// TODO create setup.js
-
-Backbone.$ = $;
-
 describe("subscribe-item-view", function() {
 
   beforeEach(function() {

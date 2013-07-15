@@ -7,10 +7,6 @@ var $ = require("component-jquery"),
     Backbone = require("tazima-backbone"),
     SubscribeCollection = require("subscribe-collection");
 
-// TODO create setup.js
-
-Backbone.$ = $;
-
 describe("subscribe-collection", function() {
 
   beforeEach(function() {

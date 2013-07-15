@@ -10,6 +10,7 @@ module.exports = function(karma) {
       "../node_modules/expect.js/expect.js",
       "../node_modules/sinon/pkg/sinon.js",
       "../build/build.js",
+      "test/setup.js",
       "**/test/*-test.js"
     ],
 
