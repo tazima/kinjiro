@@ -10,7 +10,7 @@ exports = module.exports = Backbone.View.extend({
 
   tagName: "li",
 
-  className: "subscribe-teim",
+  className: "subscribe-item",
 
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
