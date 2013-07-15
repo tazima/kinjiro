@@ -14,7 +14,7 @@ exports = module.exports = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "enableAddButton", "alertError");
+    _.bindAll(this, "clearForm", "alertError");
     this.collection.on("add", this.renderOne, this);
   },
 
@@ -38,17 +38,18 @@ exports = module.exports = Backbone.View.extend({
       url: this.$(".new-subscribe [type=text]").val()
     }, {
       wait: true,
-      success: this.enableAddButton,
+      success: this.clearForm,
       error: this.alertError
     });
   },
 
   alertError: function(model, response) {
     alert(response.responseText);
-    this.enableAddButton();
+    this.clearForm();
   },
 
-  enableAddButton: function() {
+  clearForm: function() {
+    this.$(".new-subscribe [type=text]").val("");
     this.$("[type=submit]").attr("disabled", false);    
   },
 

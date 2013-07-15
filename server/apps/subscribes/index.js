@@ -4,6 +4,7 @@
  */
 
 var express = require("express"),
+    flash = require("connect-flash"),
     FeedParser = require('feedparser'),
     request = require('request'),
     Subscribe = require("../../models/subscribe");
@@ -14,6 +15,9 @@ var app = module.exports = express();
 
 app.set("views", __dirname);
 app.set("view engine", "ejs");
+
+app.use(express.bodyParser());
+app.use(flash());
 
 /**
  * GET /subscribes

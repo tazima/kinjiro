@@ -18,6 +18,7 @@ app.set("view engine", "ejs");
 
 app.use(express.bodyParser());
 app.use(express.cookieParser());
+// TODO make secret secret!
 app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
 app.use(flash());
 
