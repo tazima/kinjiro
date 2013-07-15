@@ -90,6 +90,14 @@ module.exports = function(grunt) {
         browsers: ["PhantomJS"],
         singleRun: true
       }
+    },
+
+    nodemon: {
+      dev: {
+        file: "app.js",
+        watchedExtensions: ['js', "ejs"],
+        watchedFolders: ["server"]
+      }
     }
   });
 
@@ -98,11 +106,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-nodemon');
 
   grunt.loadTasks("tasks");
 
   // start server for development.
-  grunt.registerTask('server', ['express', 'express-keepalive']);
+  grunt.registerTask('server', ["nodemon", 'express', 'express-keepalive']);
 
   // default for development task.
   grunt.registerTask("default", ["karma:unit", "watch"]);
