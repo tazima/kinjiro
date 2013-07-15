@@ -11,6 +11,7 @@
     "component": "x",
     "mongoose": "*",
     "bcrypt": "*",
+    "async": "*",
     "grunt": "x",
     "grunt-express": "*",
     "grunt-component-build": "*",
