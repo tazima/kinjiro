@@ -7,12 +7,14 @@ var expect = require("expect.js"),
     request = require("supertest"),
     sinon = require("sinon"),
     app = require("../"),
+    setup = require("../../../test/setup"),
     Walker = require("../../../models/walker");
 
-// TODO appecify `test` env via grunt
-app.set("db connection string", "mongodb://localhost:27017/kinjiro-test");
-
 describe("users", function() {
+
+  before(function(done) {
+    setup(done);
+  });
   
   describe("GET /users/new", function() {
     it("should have user[name] field", function(done) {

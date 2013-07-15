@@ -14,6 +14,7 @@
     "async": "*",
     "grunt": "x",
     "grunt-express": "*",
+    "grunt-env": "*",
     "grunt-component-build": "*",
     "component-json": "git://github.com/segmentio/component-json.git"
   },

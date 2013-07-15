@@ -13,7 +13,9 @@ module.exports = function(grunt) {
     watch: {
       component_build: {
         files: [
-          "client/**/*!(-test).js"
+          "client/**/*!(-test).js",
+          "kinjiro.css",
+          "client/**/*.css"
         ],
         tasks: ['component_build:dev']
       },
@@ -93,6 +95,15 @@ module.exports = function(grunt) {
       }
     },
 
+    env: {
+      dev: {
+        NODE_ENV: "development"
+      },
+      test: {
+        NODE_ENV: "test"
+      }
+    },
+
     nodemon: {
       dev: {
         file: "app.js",
@@ -108,14 +119,24 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-nodemon');
+  grunt.loadNpmTasks('grunt-env');
 
   grunt.loadTasks("tasks");
 
   // start server for development.
-  grunt.registerTask('server', ["nodemon", 'express', 'express-keepalive']);
+  grunt.registerTask('server', [
+    "env:dev",
+    "nodemon",
+    'express',
+    'express-keepalive'
+  ]);
 
-  // default for development task.
-  grunt.registerTask("default", ["karma:unit", "watch"]);
+  // default for test task.
+  grunt.registerTask("default", [
+    "env:test",
+    "karma:unit",
+    "watch"
+  ]);
 
   // ci
   grunt.registerTask("ci", [

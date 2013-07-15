@@ -6,7 +6,7 @@
 var expect = require("expect.js"),
     sinon = require("sinon"),
     async = require("async"),
-    mongoose = require("mongoose"),
+    setup = require("../../test/setup"),
     Walker = require("../walker");
 
 var MONGO_CONN_STRING = "mongodb://localhost:27017/kinjiro-test";
@@ -14,7 +14,7 @@ var MONGO_CONN_STRING = "mongodb://localhost:27017/kinjiro-test";
 describe("Walker", function() {
 
   before(function(done) {
-    mongoose.createConnection(MONGO_CONN_STRING, done);
+    setup(done);
   });
 
   beforeEach(function(done) {

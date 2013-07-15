@@ -6,6 +6,8 @@
   "keywords": [],
   "dependencies": {
     "component/simple-grid": "*",
+    "necolas/normalize.css": "*",
+    "enricomarino/css-reset": "*",
     "tazima/backbone": "topic-component"
   },
   "development": {},

@@ -10,7 +10,7 @@
  * login
  */
 
-body#login, body#signin {
+body#login, body#signin, body#subscribes {
   margin: 50px;
 }
 
@@ -38,3 +38,24 @@ body#login, body#signin {
   display: block;
   margin: 0 0 0 auto;
 }
+
+/**
+ * subscribes
+ */
+
+#subscribes header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  width: 100%;
+  background-color: #2d2d2d;
+  color: #b0b0b0;
+}
+
+#subscribes header form {
+  float: right;
+}
+
+
+
