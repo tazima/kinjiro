@@ -12,6 +12,8 @@
     "mongoose": "*",
     "bcrypt": "*",
     "async": "*",
+    "request": "*",
+    "feedparser": "*",
     "grunt": "x",
     "grunt-express": "*",
     "grunt-env": "*",

@@ -10,11 +10,12 @@ var _ = require("underscore"),
 exports = module.exports = Backbone.View.extend({
 
   events: {
-    "submit .new-subscribe"   : "create"
+    "submit .new-subscribe": "create"
   },
 
   initialize: function() {
-    this.collection.on( "add", this.renderOne, this);
+    _.bindAll(this, "enableAddButton", "alertError");
+    this.collection.on("add", this.renderOne, this);
   },
 
   render: function() {
@@ -32,8 +33,23 @@ exports = module.exports = Backbone.View.extend({
 
   create: function(e) {
     e.preventDefault();
-    // TODO name search
-    this.collection.create({ name: "hoge", url: this.$(".new-subscribe [type=text]").val() });
+    this.$("[type=submit]").attr("disabled", true);
+    this.collection.create({
+      url: this.$(".new-subscribe [type=text]").val()
+    }, {
+      wait: true,
+      success: this.enableAddButton,
+      error: this.alertError
+    });
+  },
+
+  alertError: function(model, response) {
+    alert(response.responseText);
+    this.enableAddButton();
+  },
+
+  enableAddButton: function() {
+    this.$("[type=submit]").attr("disabled", false);    
   },
 
   template: _.template(require("./template"))
