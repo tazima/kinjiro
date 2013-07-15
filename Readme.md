@@ -1,5 +1,4 @@
-
-# kinjiro
+# kinjiro [![Build Status](https://travis-ci.org/tazima/kinjiro.png?branch=master)](https://travis-ci.org/tazima/kinjiro)
 
   kinjiro
 
