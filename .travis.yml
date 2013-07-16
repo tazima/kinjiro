@@ -10,7 +10,6 @@ before_script:
   - sh -e /etc/init.d/xvfb start
   - npm install
   - npm install -g grunt-cli
-  - ./node_modules/.bin/component install
 
 script:
   - grunt ci
