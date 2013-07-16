@@ -4,7 +4,7 @@
  */
 
 var Backbone = require("backbone"),
-    SubscribeListView = require("subscribe-list-view");
+    AppView = require("app-view");
 
 exports = module.exports = Backbone.Router.extend({
 
@@ -17,10 +17,7 @@ exports = module.exports = Backbone.Router.extend({
   },
 
   index: function() {
-    (new SubscribeListView({
-      el: ".subscrive-list",
-      collection: this.subscribes
-    })).render();
+    (new AppView({ el: "#content", collection: this.subscribes })).render();
   }
 
 });

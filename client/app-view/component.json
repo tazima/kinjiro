@@ -1,0 +1,19 @@
+{
+  "name": "app-view",
+  "description": "Application view.",
+  "dependencies": {
+    "component/underscore": "*",
+    "tazima/backbone": "topic-component"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [
+    "app-view.css"
+  ],
+  "local": [
+     "subscribe-list-view"
+  ]
+}

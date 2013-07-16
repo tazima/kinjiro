@@ -35,27 +35,4 @@ describe("subscribe-item-view", function() {
 
   });
 
-  describe("on `submit .new-subscribe`", function() {
-
-    beforeEach(function() {
-      this.createSpy = sinon.stub(this.collection, "create", function() {
-      });
-    });
-
-    afterEach(function() {
-      this.collection.create.restore();
-    });
-
-    it("should create new SubscribeModel", function() {
-      this.view.render();
-      this.view.$(".new-subscribe [type=text]").val("hoge");
-      this.view.$(".new-subscribe").submit();
-
-      expect(this.createSpy.called).to.be.ok();
-      expect(this.createSpy.args[0][0])
-        .to.have.property("url", "hoge");
-    });
-
-  });
-
 });

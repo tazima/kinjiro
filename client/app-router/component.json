@@ -9,5 +9,5 @@
   "scripts": [
     "index.js"
   ],
-  "local": ["subscribe-list-view"]
+  "local": ["app-view"]
 }
