@@ -141,7 +141,7 @@ module.exports = function(grunt) {
 
   // ci
   grunt.registerTask("ci", [
-    "component_build:prod",
+    "component_build:dev",
     "karma:ci",
     "mochaTest"
   ]);

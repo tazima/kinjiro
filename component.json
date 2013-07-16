@@ -10,7 +10,9 @@
     "enricomarino/css-reset": "*",
     "tazima/backbone": "topic-component"
   },
-  "development": {},
+  "development": {
+    "tazima/component-mock": "*"
+  },
   "styles": [
     "kinjiro.css"
   ],

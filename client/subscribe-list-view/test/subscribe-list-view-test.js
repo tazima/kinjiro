@@ -4,41 +4,16 @@
  */
 
 var $ = require("component-jquery"),
-    Backbone = require("tazima-backbone");
+    Backbone = require("tazima-backbone"),
+    componentMock = require("tazima-component-mock");
 
 var SubscribeListView = null;
 
 describe("subscribe-item-view", function() {
 
-  // TODO extract component-moch
-
-  var originalMockMap = {};
-
-  /**
-   * register mock
-   * @param {String} moduleName
-   * @param {Object} mock
-   */
-
-  function registerMock(moduleName, mock) {
-    originalMockMap[moduleName] = require.modules[moduleName];
-    require.register(moduleName, function(exports, require, module) {
-      module.exports = mock;
-    });
-  }
-
-  /**
-   * deregister mock
-   * @param {String} moduleName
-   */
-
-  function deregisterMock(moduleName) {
-    require.register(moduleName, originalMockMap[moduleName]);
-  }
-
   beforeEach(function() {
     this.ItemViewMock = sinon.spy(Backbone.View.extend());
-    registerMock("subscribe-item-view/index.js", this.ItemViewMock);
+    componentMock.registerMock("subscribe-item-view/index.js", this.ItemViewMock);
     this.collection = new Backbone.Collection([
       { name: "hoge", url: "piyo" }
     ]);
@@ -48,7 +23,7 @@ describe("subscribe-item-view", function() {
   });
 
   afterEach(function() {
-    deregisterMock("subscribe-item-view/index.js");
+    componentMock.deregisterMock("subscribe-item-view/index.js");
   });
 
   describe("#render", function() {
