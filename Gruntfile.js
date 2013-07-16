@@ -125,6 +125,7 @@ module.exports = function(grunt) {
 
   // start server for development.
   grunt.registerTask('server', [
+    "component_build:dev",
     "env:dev",
     "nodemon",
     'express',

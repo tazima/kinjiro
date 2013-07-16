@@ -35,5 +35,8 @@
     "grunt-mocha-test": "*",
     "grunt-karma": "git://github.com/karma-runner/grunt-karma.git",
     "grunt-nodemon": "*"
+  },
+  "scripts": {
+    "postinstall": "./node_modules/.bin/component install"
   }
 }
