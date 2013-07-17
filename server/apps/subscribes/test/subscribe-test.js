@@ -7,31 +7,25 @@ var express = require("express"),
     expect = require("expect.js"),
     request = require("supertest"),
     sinon = require("sinon"),
-    subscribe = require("../"),
+    nock = require("nock"),
+    readFileSync = require("fs").readFileSync,
     ObjectId = require("mongoose").Types.ObjectId,
-    Request = require("request").Request,
+    // Request = require("request").Request,
+    subscribe = require("../"),
     FeedParser = require('feedparser'),
     setup = require("../../../test/setup"),
     Subscribe = require("../../../models/subscribe");
 
 var app = express();
 
+var USER_ID = new ObjectId();
+var fixture = require("./fixture")(USER_ID);
+
+var feedXml = readFileSync(__dirname + "/sample-feed.xml");
+var feedUrlContainHtml = readFileSync(__dirname + "/sample-feed-url-contain.html");
+var feedUrlNotContainHtml = readFileSync(__dirname + "/sample-feed-url-not-contain.html");
+
 describe("subscribes", function() {
-
-  var USER_ID = new ObjectId();
-
-  var fixture = [
-    {
-      name: "DailyJS",
-      url: "http://feeds.feedburner.com/dailyjs",
-      _user: USER_ID
-    },
-    {
-      name: "ROR",
-      url: "http://weblog.rubyonrails.org/feed/atom.xml",
-      _user: USER_ID
-    }
-  ];
 
   before(function(done) {
     app.use(function(req, res, next) {
@@ -81,66 +75,131 @@ describe("subscribes", function() {
 
   describe("POST /subscribes", function() {
 
-    describe("on parser's `meta` event", function() {
+    beforeEach(function() {
+      this.subscribeSaveSpy = sinon.spy(Subscribe.prototype, "save");
+    });
+
+    afterEach(function() {
+      Subscribe.prototype.save.restore();
+    });
+
+    describe("with valid feed url", function() {
 
       beforeEach(function() {
-        sinon.stub(Request.prototype, "pipe", function(dest) {
-          this.dest = dest;
-          return {
-            on: function(event, cb) {
-              if (event !== "meta") { return this; }
-              cb({
-                link: "http://dailyjs.com/",
-                title: "DailyJS"
-              });
-              return this;
-            }
-          };
-        }.bind(this));
-        this.subscribeSaveSpy = sinon.spy(Subscribe.prototype, "save");
+        this.url = "http://feeds.feedburner.com/dailyjs";
+        this.scope = nock(this.url)
+          .get('/dailyjs')
+          .reply(200, feedXml);
       });
 
-      afterEach(function() {
-        Request.prototype.pipe.restore();
-        Subscribe.prototype.save.restore();
-      });
-
-      it("should pipe to `FeedParser`", function(done) {
+      it("should request to feed url", function(done) {
         request(app)
           .post("/subscribes")
-          .send({ url: "http://feeds.feedburner.com/dailyjs" })
+          .send({ url: this.url })
           .expect(200)
           .end(function(err, res) {
-            expect(err).to.be(null);
-            expect(this.dest).to.be.a(FeedParser);
-            done();
+            expect(this.scope.isDone());
+            done(err);
           }.bind(this));
       });
 
-      it("should save subscribe with fetched `url`", function(done) {
+      it("should save meta data", function(done) {
         request(app)
           .post("/subscribes")
-          .send({ url: "http://feeds.feedburner.com/dailyjs" })
+          .send({ url: this.url })
           .expect(200)
           .end(function(err, res) {
-            expect(err).to.be(null);
+            expect(this.subscribeSaveSpy.called).to.be.ok();
             expect(this.subscribeSaveSpy.thisValues[0])
-              .to.have.property("url", "http://dailyjs.com/");
-            done();
-          }.bind(this));
-      });
-
-      it("should save subscribe with fetched `title`", function(done) {
-        request(app)
-          .post("/subscribes")
-          .send({ url: "http://feeds.feedburner.com/dailyjs" })
-          .expect(200)
-          .end(function(err, res) {
-            expect(err).to.be(null);
+              .to.have.property("url", "http://dailyjs.com");
             expect(this.subscribeSaveSpy.thisValues[0])
               .to.have.property("name", "DailyJS");
-            done();
+            done(err);
           }.bind(this));
+      });
+
+      it("should save Subscribe with user_id", function(done) {
+        request(app)
+          .post("/subscribes")
+          .send({ url: this.url })
+          .end(function(err, res) {
+            expect(this.subscribeSaveSpy.thisValues[0])
+              .to.have.property("_user", USER_ID);
+            done(err);
+          }.bind(this));
+      });
+
+      it("should responde save Subscribe", function(done) {
+        request(app)
+          .post("/subscribes")
+          .send({ url: this.url })
+          .end(function(err, res) {
+            var id = this.subscribeSaveSpy.thisValues[0]
+                  ._id.toString();
+            expect(res.body).to.have.property("_id", id);
+            expect(res.body).to.have.property("name", "DailyJS");
+            expect(res.body)
+              .to.have.property("_user", USER_ID.toString());
+            expect(res.body)
+              .to.have.property("url", "http://dailyjs.com");
+            done(err);
+          }.bind(this));
+      });
+    });
+
+    describe("with invalid feed url", function() {
+      describe("scraped html contains feed url", function() {
+
+        beforeEach(function() {
+          this.url = "http://dailyjs.com/";
+          this.scope = nock(this.url)
+            .get("/")
+            .reply(200, feedUrlContainHtml)
+            .get("/")
+            .reply(200, feedUrlContainHtml);
+        });
+
+        it("should rquest to feed url", function(done) {
+          request(app)
+            .post("/subscribes")
+            .send({ url: this.url })
+            .expect(200)
+            .end(function(err, res) {
+              this.scope.isDone();
+              done(err);
+            }.bind(this));
+        });
+      });
+
+      describe("scraped html not have feed url", function() {
+
+        beforeEach(function() {
+          this.url = "http://dailyjs.com/";
+          this.scope = nock(this.url)
+            .get("/")
+            .reply(200, feedUrlContainHtml)
+            .get("/")
+            .reply(200, feedUrlNotContainHtml);
+        });
+
+        it("should rquest to feed url", function(done) {
+          request(app)
+            .post("/subscribes")
+            .send({ url: this.url })
+            .end(function(err, res) {
+              this.scope.isDone();
+              done();
+            }.bind(this));
+        });
+
+        it("should respond with err", function(done) {
+          request(app)
+            .post("/subscribes")
+            .send({ url: this.url })
+            .expect(500, {
+              message: "Cannot find feed url"
+            }, done);
+        });
       });
     });
     

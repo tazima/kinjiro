@@ -8,7 +8,7 @@ var express = require("express"),
     FeedParser = require('feedparser'),
     request = require('request'),
     nodeio = require("node.io"),
-    feedUrlFetch = require("./feed-url-fetch"),
+    fetchFeedUrl = require("./fetch-feed-url"),
     Subscribe = require("../../models/subscribe");
 
 var app = module.exports = express();
@@ -50,8 +50,11 @@ app.post("/subscribes", function(req, res) {
     .on('error', function(err) {
       console.log(err);
 
-      feedUrlFetch(req.body.url, function(err, result) {
-        if (err) throw err;
+      fetchFeedUrl(req.body.url, function(err, result) {
+        if (err) {
+          res.status(500);
+          return res.send({ message: err });
+        }
 
         console.log(result);
         request(result[0])

@@ -11,11 +11,10 @@ exports = module.exports = function(originalUrl, cb) {
     run: function(originalUrl) {
       this.getHtml(originalUrl, function(err, $) {
         if (err) { return this.exit(err); }
+        var url = $("link[type=application/rss+xml]", $("html"), true);
+        if (!url) { return this.exit("Cannot find feed url"); }
 
-        var url = $("link[type=application/rss+xml]").attribs.href;
-        if (url.length < 1) { return this.exit("Cannot find feed url"); }
-
-        this.emit(url);
+        this.emit(url.attribs.href);
       });
     }
   });
