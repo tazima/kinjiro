@@ -7,6 +7,8 @@ var express = require("express"),
     flash = require("connect-flash"),
     FeedParser = require('feedparser'),
     request = require('request'),
+    nodeio = require("node.io"),
+    feedUrlFetch = require("./feed-url-fetch"),
     Subscribe = require("../../models/subscribe");
 
 var app = module.exports = express();
@@ -42,11 +44,33 @@ app.post("/subscribes", function(req, res) {
   var subscribe = new Subscribe(req.body);
   subscribe._user = req.session.user_id;
 
+  // TODO refatoring!
   request(req.body.url)
     .pipe(new FeedParser())
     .on('error', function(err) {
-      res.status(500);
-      res.send({ message: err.message });
+      console.log(err);
+
+      feedUrlFetch(req.body.url, function(err, result) {
+        if (err) throw err;
+
+        console.log(result);
+        request(result[0])
+          .pipe(new FeedParser())
+          .on("error", function(err) {
+            res.status(500);
+            res.send({ message: err.message });
+          })
+          .on("meta", function(meta) {
+            console.log("success fetch");
+            subscribe.name = meta.title;
+            subscribe.url = meta.link;
+            subscribe.save(function(err) {
+              if (err) throw err;
+              console.log("save");
+              res.send(subscribe);
+            });
+          });
+      });
     })
     .on('meta', function (meta) {
       // TODO adjust property names
@@ -57,6 +81,4 @@ app.post("/subscribes", function(req, res) {
         res.send(subscribe);
       });
     });
-
 });
-
