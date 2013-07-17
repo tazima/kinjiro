@@ -7,23 +7,23 @@ var expect = require("expect.js"),
     sinon = require("sinon"),
     async = require("async"),
     setup = require("../../test/setup"),
-    Walker = require("../walker");
+    User = require("../user");
 
 var MONGO_CONN_STRING = "mongodb://localhost:27017/kinjiro-test";
 
-describe("Walker", function() {
+describe("User", function() {
 
   before(function(done) {
     setup(done);
   });
 
   beforeEach(function(done) {
-    this.walker = new Walker({ name: "foo", password: "abc" });
-    Walker.remove(done);
+    this.user = new User({ name: "foo", password: "abc" });
+    User.remove(done);
   });
 
   it("should save `name`", function(done) {
-    this.walker.save(function(err, doc) {
+    this.user.save(function(err, doc) {
       expect(err).to.be(null);
       expect(doc.name).to.equal("foo");
       done();
@@ -31,7 +31,7 @@ describe("Walker", function() {
   });
 
   it("should save encripted password", function(done) {
-    this.walker.save(function(err, doc) {
+    this.user.save(function(err, doc) {
       expect(err).to.be(null);
       expect(doc.password).to.not.be(undefined);
       expect(doc.password).to.not.equal("abc");
@@ -40,8 +40,8 @@ describe("Walker", function() {
   });
 
   it("should pass err if name is not specified", function(done) {
-    this.walker.set("name", null);
-    this.walker.save(function(err, doc) {
+    this.user.set("name", null);
+    this.user.save(function(err, doc) {
       expect(err).to.not.be(null);
       expect(err.name).to.equal("ValidationError");
       done();
@@ -49,8 +49,8 @@ describe("Walker", function() {
   });
 
   it("should pass err if password is not specified", function(done) {
-    this.walker.set("password", null);
-    this.walker.save(function(err, doc) {
+    this.user.set("password", null);
+    this.user.save(function(err, doc) {
       expect(err).to.not.be(null);
       expect(err.message).to.match(/Validation failed/);
       done();
@@ -60,9 +60,9 @@ describe("Walker", function() {
   it("should not save duplicate model nmae", function(done) {
     var self = this;
     async.series([
-      function(cb) { self.walker.save(cb); },
+      function(cb) { self.user.save(cb); },
       function() {
-        var dup = new Walker({ name: "foo", password: "abc" });
+        var dup = new User({ name: "foo", password: "abc" });
         dup.save(function(err, doc) {
           expect(err).to.not.be(null);
           expect(err.message).to.match(/duplicate/);

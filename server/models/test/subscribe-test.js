@@ -19,11 +19,11 @@ describe("Subscribe", function() {
   });
 
   beforeEach(function(done) {
-    this.walkerId = new ObjectId();
+    this.userId = new ObjectId();
     this.subscribe = new Subscribe({
       name: "DailyJS",
       url: "http://feeds.feedburner.com/dailyjs",
-      _walker: this.walkerId
+      _user: this.userId
     });
     Subscribe.remove(done);
   });
@@ -44,10 +44,10 @@ describe("Subscribe", function() {
     });
   });
 
-  it("should save `_walker` ref", function(done) {
+  it("should save `_user` ref", function(done) {
     this.subscribe.save(function(err, doc) {
       expect(err).to.be(null);
-      expect(doc._walker).to.equal(this.walkerId);
+      expect(doc._user).to.equal(this.userId);
       done();
     }.bind(this));    
   });

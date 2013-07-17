@@ -5,7 +5,7 @@
 
 var express = require("express"),
     flash = require("connect-flash"),
-    Walker = require("../../models/walker");
+    User = require("../../models/user");
 
 var app = module.exports = express();
 
@@ -38,9 +38,9 @@ app.get("/users/new", function(req, res) {
  */
 
 app.post("/users", function(req, res) {
-  var walker = new Walker(req.body.user);
+  var user = new User(req.body.user);
 
-  walker.save(function(err) {
+  user.save(function(err) {
     if (err) {
       if (err.code === 11000) {
         req.flash("error", "specified ID is exist");

@@ -18,26 +18,26 @@ var app = express();
 
 describe("subscribes", function() {
 
-  var WALKER_ID = new ObjectId();
+  var USER_ID = new ObjectId();
 
   var fixture = [
     {
       name: "DailyJS",
       url: "http://feeds.feedburner.com/dailyjs",
-      _walker: WALKER_ID
+      _user: USER_ID
     },
     {
       name: "ROR",
       url: "http://weblog.rubyonrails.org/feed/atom.xml",
-      _walker: WALKER_ID
+      _user: USER_ID
     }
   ];
 
   before(function(done) {
     app.use(function(req, res, next) {
-      // fake walker_id
+      // fake user_id
       req.session = {};
-      req.session.walker_id = WALKER_ID;
+      req.session.user_id = USER_ID;
       next();
     });
     app.use(subscribe);
@@ -57,13 +57,13 @@ describe("subscribes", function() {
       Subscribe.find.restore();
     });
 
-    it("should query subscribes with walker_id", function(done) {
+    it("should query subscribes with user_id", function(done) {
       request(app)
         .get("/subscribes")
         .expect(200)
         .end(function(err, res) {
           expect(err).to.be(null);
-          expect(this.query).to.have.property("_walker", WALKER_ID);
+          expect(this.query).to.have.property("_user", USER_ID);
           done();
         }.bind(this));
     });

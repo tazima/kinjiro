@@ -25,7 +25,7 @@ app.use(flash());
 
 app.get("/subscribes", function(req, res) {
   Subscribe.find({
-    _walker: req.session.walker_id
+    _user: req.session.user_id
   }, function(err, subscribes) {
     res.render("index", {
       bodyId: "subscribes",
@@ -40,7 +40,7 @@ app.get("/subscribes", function(req, res) {
 
 app.post("/subscribes", function(req, res) {
   var subscribe = new Subscribe(req.body);
-  subscribe._walker = req.session.walker_id;
+  subscribe._user = req.session.user_id;
 
   request(req.body.url)
     .pipe(new FeedParser())

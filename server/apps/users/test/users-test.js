@@ -8,7 +8,7 @@ var expect = require("expect.js"),
     sinon = require("sinon"),
     app = require("../"),
     setup = require("../../../test/setup"),
-    Walker = require("../../../models/walker");
+    User = require("../../../models/user");
 
 describe("users", function() {
 
@@ -34,12 +34,12 @@ describe("users", function() {
 
   describe("POST /users", function() {
     beforeEach(function(done) {
-      this.spy = sinon.spy(Walker.prototype, "save");
-      Walker.remove(done);
+      this.spy = sinon.spy(User.prototype, "save");
+      User.remove(done);
     });
 
     afterEach(function() {
-      Walker.prototype.save.restore();
+      User.prototype.save.restore();
     });
 
     it("should save user name", function(done) {

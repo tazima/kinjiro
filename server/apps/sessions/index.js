@@ -4,7 +4,7 @@
  */
 
 var express = require("express"),
-    Walker = require("../../models/walker");
+    User = require("../../models/user");
 
 var app = module.exports = express();
 
@@ -31,12 +31,12 @@ app.get("/sessions/new", function(req, res) {
 app.post("/sessions", function(req, res) {
   var param = req.body;
 
-  authenticate(param.name, param.password, function(err, walker) {
-    if (walker) {
-      req.session.walker_id = walker._id;
+  authenticate(param.name, param.password, function(err, user) {
+    if (user) {
+      req.session.user_id = user._id;
       res.redirect("/subscribes");
     } else {
-      req.session.walker_id = null;
+      req.session.user_id = null;
       req.flash("error", "Naame or password is incorrect.");
       res.redirect("/");
     }
@@ -63,16 +63,16 @@ app.del("/session", function(req, res) {
 function authenticate(name, password, cb) {
   console.log('authenticating %s:%s', name, password);
 
-  Walker.findOne({ name: name }, function(err, walker) {
+  User.findOne({ name: name }, function(err, user) {
     if (err) throw err;
 
-    if (!walker) {
+    if (!user) {
       return cb(new Error("not logged in"));
     } else {
-      walker.comparePassword(password, function(err, isMatch) {
+      user.comparePassword(password, function(err, isMatch) {
         if (err) throw err;
         if (!isMatch) return cb(new Error("not logged in"));
-        return cb(null, walker);
+        return cb(null, user);
       });
     }
   });

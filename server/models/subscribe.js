@@ -15,10 +15,10 @@ var SubscribeSchema = new Schema({
     type: String,
     require: true
   },
-  _walker : {
+  _user : {
     type: Schema.Types.ObjectId,
     require: true,
-    ref: 'Walker'
+    ref: 'User'
   }
 });
 
