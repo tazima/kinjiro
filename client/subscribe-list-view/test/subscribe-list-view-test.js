@@ -11,9 +11,16 @@ var SubscribeListView = null;
 
 describe("subscribe-item-view", function() {
 
-  beforeEach(function() {
+  before(function() {
     this.ItemViewMock = sinon.spy(Backbone.View.extend());
     componentMock.registerMock("subscribe-item-view/index.js", this.ItemViewMock);
+  });
+
+  afterEach(function() {
+    componentMock.deregisterMock("subscribe-item-view/index.js");
+  });
+
+  beforeEach(function() {
     this.collection = new Backbone.Collection([
       { name: "hoge", url: "piyo" }
     ]);
@@ -23,7 +30,7 @@ describe("subscribe-item-view", function() {
   });
 
   afterEach(function() {
-    componentMock.deregisterMock("subscribe-item-view/index.js");
+    this.ItemViewMock.reset();
   });
 
   describe("#render", function() {

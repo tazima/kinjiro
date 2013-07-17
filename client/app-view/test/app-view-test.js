@@ -18,28 +18,28 @@ describe("app-view", function() {
       "    <input type=\"text\" name=\"url\" />",
       "    <input type=\"submit\" value=\"add\" />",
       "  </form>",
-      "  <div class=\"subscrive-list\"></div>",
+      "  <div class=\"subscribe-list\"></div>",
       "</section>"
     ].join("")).appendTo("body");
+    this.ListViewMock = sinon.spy(Backbone.View.extend());
+    componentMock.registerMock("subscribe-list-view/index.js", this.ListViewMock);
+    AppView = require("app-view");
   });
 
   after(function() {
     this.testBed.remove();
+    componentMock.deregisterMock("subscribe-list-view/index.js");
   });
 
   beforeEach(function() {
-    debugger;
-    this.ListViewMock = sinon.spy(Backbone.View.extend());
-    componentMock.registerMock("subscribe-list-view/index.js", this.ListViewMock);
-    AppView = require("app-view");
     this.collection = new Backbone.Collection();
     this.collection.url = "/hoge";
     this.view = new AppView({ el: "#content", collection: this.collection });
   });
 
   afterEach(function() {
+    this.ListViewMock.reset();
     $("#content").off();
-    componentMock.deregisterMock("subscribe-list-view/index.js");
   });
 
   describe("#render", function() {
@@ -49,7 +49,16 @@ describe("app-view", function() {
       expect(this.ListViewMock.called).to.be.ok();
     });
 
-    it("should instantiate ListView with collection");
+    it("should instantiate ListView with .subscribe-list el", function() {
+      this.view.render();
+      expect(this.ListViewMock.called).to.be.ok();
+      expect(this.ListViewMock.args[0][0].el.attr("class")).to.match(/subscribe-list/);
+    });
+
+    it("should instantiate ListView with collection", function() {
+      this.view.render();
+      expect(this.ListViewMock.args[0][0].collection).to.be(this.collection);
+    });
   });
 
   describe("on `submit .new-subscribe`", function() {

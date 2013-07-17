@@ -18,9 +18,8 @@ exports = module.exports = Backbone.View.extend({
   },
 
   render: function() {
-    debugger;
     var subscribeListView = new SubscribeListView({
-      el: this.$(".subscrive-list"),
+      el: this.$(".subscribe-list"),
       collection: this.collection
     });
     subscribeListView.render();
