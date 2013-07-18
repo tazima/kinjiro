@@ -15,6 +15,10 @@ var app = module.exports = express();
 app.set("views", __dirname + "/server/views");
 app.set("view engine", "ejs");
 
+app.configure("production", function() {
+  app.set("db connection string", "mongodb://localhost:27017/kinjiro");
+});
+
 app.configure("development", function() {
   app.set("db connection string", "mongodb://localhost:27017/kinjiro");
 });
@@ -62,8 +66,9 @@ function restrict(req, res, next) {
 
 // TODO handle 404
 
+var port = process.env.PORT || 3000;
 if (!module.parent) {
-  app.listen(3000);
+  app.listen(port);
   console.log('Express started on port 3000');
 }
 
