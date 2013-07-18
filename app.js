@@ -53,7 +53,7 @@ app.use(require("./server/apps/users"));
 app.use(require("./server/apps/subscribes"));
 
 function restrict(req, res, next) {
-  if (req.session.walker_id) {
+  if (req.session.user_id) {
     next();
   } else {
     res.redirect("sessions/new");
