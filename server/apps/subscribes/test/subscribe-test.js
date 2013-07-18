@@ -75,6 +75,8 @@ describe("subscribes", function() {
 
   describe("POST /subscribes", function() {
 
+    // TODO extract job test
+
     beforeEach(function() {
       this.subscribeSaveSpy = sinon.spy(Subscribe.prototype, "save");
     });
@@ -196,9 +198,8 @@ describe("subscribes", function() {
           request(app)
             .post("/subscribes")
             .send({ url: this.url })
-            .expect(500, {
-              message: "Cannot find feed url"
-            }, done);
+            .set('Accept', 'application/json')
+            .expect(500, done); // TODO err message verification
         });
       });
     });

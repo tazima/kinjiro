@@ -5,10 +5,7 @@
 
 var express = require("express"),
     flash = require("connect-flash"),
-    FeedParser = require('feedparser'),
-    request = require('request'),
-    nodeio = require("node.io"),
-    fetchFeedUrl = require("./fetch-feed-url"),
+    getFeedMetaData = require("./get-feed-meta-data"),
     Subscribe = require("../../models/subscribe");
 
 var app = module.exports = express();
@@ -19,6 +16,7 @@ app.set("views", __dirname);
 app.set("view engine", "ejs");
 
 app.use(express.bodyParser());
+app.use(express.errorHandler({ dumpExceptions: true }));
 app.use(flash());
 
 /**
@@ -40,48 +38,21 @@ app.get("/subscribes", function(req, res) {
  * POST /subscribes
  */
 
-app.post("/subscribes", function(req, res) {
-  var subscribe = new Subscribe(req.body);
-  subscribe._user = req.session.user_id;
+app.post("/subscribes", function(req, res, next) {
+  var subscribe = new Subscribe(req.body),
+      url = req.body.url;
 
-  // TODO refatoring!
-  request(req.body.url)
-    .pipe(new FeedParser())
-    .on('error', function(err) {
-      console.log(err);
+  if (!url) { throw new Error("url is not specified"); }
 
-      fetchFeedUrl(req.body.url, function(err, result) {
-        if (err) {
-          res.status(500);
-          return res.send({ message: err });
-        }
+  getFeedMetaData(url, function(err, meta) {
+    if (err) { return next(err); }
 
-        console.log(result);
-        request(result[0])
-          .pipe(new FeedParser())
-          .on("error", function(err) {
-            res.status(500);
-            res.send({ message: err.message });
-          })
-          .on("meta", function(meta) {
-            console.log("success fetch");
-            subscribe.name = meta.title;
-            subscribe.url = meta.link;
-            subscribe.save(function(err) {
-              if (err) throw err;
-              console.log("save");
-              res.send(subscribe);
-            });
-          });
-      });
-    })
-    .on('meta', function (meta) {
-      // TODO adjust property names
-      subscribe.name = meta.title;
-      subscribe.url = meta.link;
-      subscribe.save(function(err) {
-        if (err) throw err;
-        res.send(subscribe);
-      });
+    subscribe._user = req.session.user_id;
+    subscribe.name = meta[0].title;
+    subscribe.url = meta[0].link;
+    subscribe.save(function(err) {
+      if (err) { return next(err); }
+      res.send(subscribe);
     });
+  });
 });
