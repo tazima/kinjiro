@@ -16,7 +16,7 @@ app.set("views", __dirname + "/server/views");
 app.set("view engine", "ejs");
 
 app.configure("production", function() {
-  app.set("db connection string", "mongodb://localhost:27017/kinjiro");
+  app.set("db connection string", process.env.MONGOLAB_URI);
 });
 
 app.configure("development", function() {
