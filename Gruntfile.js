@@ -146,4 +146,8 @@ module.exports = function(grunt) {
     "mochaTest"
   ]);
 
+  // heroku
+  grunt.registerTask("heroku:production", [
+    "component_build:prod"
+  ]);
 };
