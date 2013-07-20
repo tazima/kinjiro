@@ -11,15 +11,11 @@ var Backbone = require("backbone"),
 exports = module.exports = Backbone.Router.extend({
 
   routes: {
-    "": "index",
     "feeds/:fid/posts": "posts"
   },
 
   initialize: function(options) {
     this.feeds = options.feeds;
-  },
-
-  index: function() {
     (new AppView({
       el: "#content",
       collection: this.feeds
