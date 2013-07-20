@@ -20,25 +20,39 @@ describe("Feed", function() {
 
   beforeEach(function(done) {
     this.feed = new Feed({
-      name: "DailyJS",
-      url: "http://feeds.feedburner.com/dailyjs"
+      title: "DailyJS",
+      xmlurl: "http://feeds.feedburner.com/dailyjs",
+      link: "http://dailyjs.com",
+      favicon: "http://hoge"
     });
     Feed.remove(done);
   });
 
-  it("should save `name`", function(done) {
+  it("should save `title`", function(done) {
     this.feed.save(function(err, doc) {
-      expect(err).to.be(null);
-      expect(doc.name).to.equal("DailyJS");
-      done();
+      expect(doc.title).to.equal("DailyJS");
+      done(err);
     });
   });
 
-  it("should save `url`", function(done) {
+  it("should save `xmlurl`", function(done) {
     this.feed.save(function(err, doc) {
-      expect(err).to.be(null);
-      expect(doc.url).to.equal("http://feeds.feedburner.com/dailyjs");
-      done();
+      expect(doc.xmlurl).to.equal("http://feeds.feedburner.com/dailyjs");
+      done(err);
+    });
+  });
+
+  it("should save `link`", function(done) {
+    this.feed.save(function(err, doc) {
+      expect(doc.link).to.equal("http://dailyjs.com");
+      done(err);
+    });
+  });
+
+  it("should save `favicon`", function(done) {
+    this.feed.save(function(err, doc) {
+      expect(doc.favicon).to.equal("http://hoge");
+      done(err);
     });
   });
 

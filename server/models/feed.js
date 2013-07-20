@@ -7,13 +7,20 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var FeedSchema = new Schema({
-  name: {
+  title: {
     type: String,
     require: true
   },
-  url: {
+  xmlurl: {
     type: String,
     require: true
+  },
+  link: {
+    type: String,
+    require: true
+  },
+  favicon: {
+    type: String
   }
 });
 
