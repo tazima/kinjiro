@@ -1,0 +1,12 @@
+{
+  "name": "post-collection",
+  "description": "Post collection.",
+  "dependencies": {
+    "tazima/backbone": "topic-component"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

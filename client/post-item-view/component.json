@@ -1,0 +1,13 @@
+{
+  "name": "post-item-view",
+  "description": "Post item view.",
+  "dependencies": {
+    "component/underscore": "*",
+    "tazima/backbone": "topic-component"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "styles": ["post-item-view.css"],
+  "templates": ["template.html"]
+}
