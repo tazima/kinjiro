@@ -9,5 +9,9 @@
   "scripts": [
     "index.js"
   ],
-  "local": ["app-view"]
+  "local": [
+    "app-view",
+    "post-list-view",
+    "post-collection"
+  ]
 }
