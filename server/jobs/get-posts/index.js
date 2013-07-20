@@ -29,30 +29,39 @@ exports = module.exports = new nodeio.Job({
   },
 
   run: function(feed) {
-    var job = this;
+    var job = this,
+        postIds = [];
+
+    console.log(feed.xmlurl);
 
     request(feed.xmlurl)
       .pipe(new FeedParser)
       .on("error", function(err) { job.fail(err); })
       .on("data", function(article) {
-        var post = new Post(article);
-        post._id = article.guid;
-        post._feed = feed._id;
-        post.imageUrl = article.image.url;
-        post.imageTitle = article.image.title;
-        post.save(function(err, post) {
+        Post.update({ _id: article.guid }, {
+          _feed: feed._id,
+          title: article.title,
+          description: article.description,
+          summary: article.summary,
+          imageUrl: article.image.url || "",
+          imageTitle: article.image.title || ""
+        }, { upsert: true }, function(err) {
           if (err) { job.exit(err); }
-          feed._feed_posts.push(post._id);
-          feed.save(function(err, post) {
-            if (err) { job.exit(err); }
-            job.emit(post);
-          });
+          postIds.push(article.guid);
+        });
+      })
+      .on("end", function() {
+        // console.log(postIds);
+        feed._feed_posts = postIds;
+        feed.save(function(err, post) { 
+          if (err) { job.exit(err); }
+          job.emit(post);
         });
       });
   },
 
   output: function(feeds) {
-    console.log(feeds);
+    // console.log(feeds);
   }
 
 });
