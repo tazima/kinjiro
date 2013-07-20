@@ -9,21 +9,21 @@
 
 <section id="content" class="grid">
   <div class="col-2-9">
-    <form class="new-subscribe" action="#" method="">
+    <form class="subscribe" action="#" method="">
       <input type="text" name="url" />
       <input type="submit" value="add" />
     </form>
-    <div class="subscribe-list"></div>
+    <div class="feed-list"></div>
   </div>
   <div class="col-5-7"></div>
 </section>
 <script src="/build.js"></script>
 <script>
   (function() {
-    var Subscribe = require("subscribe-collection"),
-        subscribes = new Subscribe;
+    var Feeds = require("feed-collection"),
+        feeds = new Feeds;
     require("boot")({
-      subscribes: subscribes.reset(<%- JSON.stringify(subscribes) %>)
+      feeds: feeds.reset(<%- JSON.stringify(feeds) %>)
     });
   }());
 </script>

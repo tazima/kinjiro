@@ -42,7 +42,10 @@ function getFeedMetaData(url, cb) {
           job.getHtml(url, function(err, $) {
             console.log("get html");
             if (err) { return job.exit(err); }
-            var feedUrl = $("link[type=application/rss+xml]", $("html"), true);
+            var rssUrl = $("link[type=application/rss+xml]", $("html"), true),
+                atomUrl = $("link[type=application/atom+xml]", $("html"), true),
+                feedUrl = rssUrl || feedUrl;
+
             if (!feedUrl) { return job.exit("Cannot find feed url"); }
 
             request(feedUrl.attribs.href)

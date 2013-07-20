@@ -6,7 +6,9 @@
 var expect = require("expect.js"),
     sinon = require("sinon"),
     async = require("async"),
+    ObjectId = require("mongoose").Schema.ObjectId,
     setup = require("../../test/setup"),
+    Feed = require("../feed"),
     User = require("../user");
 
 var MONGO_CONN_STRING = "mongodb://localhost:27017/kinjiro-test";
@@ -18,8 +20,16 @@ describe("User", function() {
   });
 
   beforeEach(function(done) {
-    this.user = new User({ name: "foo", password: "abc" });
-    User.remove(done);
+    this.feed = new Feed();
+    this.feed.save(function(err, feed) {
+      this.user = new User({
+        name: "foo",
+        password: "abc"
+      });
+      expect(this.user._subscribes).to.not.be(undefined);
+      this.user._subscribes.push(feed._id);
+      User.remove(done);
+    }.bind(this));
   });
 
   it("should save `name`", function(done) {
@@ -33,10 +43,18 @@ describe("User", function() {
   it("should save encripted password", function(done) {
     this.user.save(function(err, doc) {
       expect(err).to.be(null);
-      expect(doc.password).to.not.be(undefined);
       expect(doc.password).to.not.equal("abc");
       done();
     });
+  });
+
+  it("should save subscribes", function(done) {
+    this.user.save(function(err, doc) {
+      expect(err).to.be(null);
+      expect(doc._subscribes).to.not.be(undefined);
+      expect(doc._subscribes).to.contain(this.feed._id);
+      done();
+    }.bind(this));
   });
 
   it("should pass err if name is not specified", function(done) {

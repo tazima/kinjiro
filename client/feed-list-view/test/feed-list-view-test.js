@@ -7,17 +7,17 @@ var $ = require("component-jquery"),
     Backbone = require("tazima-backbone"),
     componentMock = require("tazima-component-mock");
 
-var SubscribeListView = null;
+var FeedListView = null;
 
-describe("subscribe-item-view", function() {
+describe("feed-item-view", function() {
 
   before(function() {
     this.ItemViewMock = sinon.spy(Backbone.View.extend());
-    componentMock.registerMock("subscribe-item-view/index.js", this.ItemViewMock);
+    componentMock.registerMock("feed-item-view/index.js", this.ItemViewMock);
   });
 
   afterEach(function() {
-    componentMock.deregisterMock("subscribe-item-view/index.js");
+    componentMock.deregisterMock("feed-item-view/index.js");
   });
 
   beforeEach(function() {
@@ -25,8 +25,8 @@ describe("subscribe-item-view", function() {
       { name: "hoge", url: "piyo" }
     ]);
     this.collection.url = "/piyo";
-    SubscribeListView = require("subscribe-list-view");
-    this.view = new SubscribeListView({ collection: this.collection });
+    FeedListView = require("feed-list-view");
+    this.view = new FeedListView({ collection: this.collection });
   });
 
   afterEach(function() {

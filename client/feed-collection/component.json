@@ -1,6 +1,6 @@
 {
-  "name": "subscribe-collection",
-  "description": "Subscribe collection.",
+  "name": "feed-collection",
+  "description": "Feed collection.",
   "dependencies": {
     "tazima/backbone": "topic-component"
   },

@@ -49,12 +49,12 @@ mongoose.connect(app.get("db connection string"), function(err) {
 app.all(/^(?!.*(sessions|users)).*$/, restrict);
 
 app.get("/", function(req, res) {
-  res.redirect("subscribes");
+  res.redirect("feeds");
 });
 
 app.use(require("./server/apps/sessions"));
 app.use(require("./server/apps/users"));
-app.use(require("./server/apps/subscribes"));
+app.use(require("./server/apps/feeds"));
 
 function restrict(req, res, next) {
   if (req.session.user_id) {

@@ -8,63 +8,61 @@ var express = require("express"),
     request = require("supertest"),
     sinon = require("sinon"),
     nock = require("nock"),
+    async = require("async"),
     readFileSync = require("fs").readFileSync,
     ObjectId = require("mongoose").Types.ObjectId,
-    // Request = require("request").Request,
-    subscribe = require("../"),
+    feed = require("../"),
     FeedParser = require('feedparser'),
     setup = require("../../../test/setup"),
-    Subscribe = require("../../../models/subscribe");
+    User = require("../../../models/user"),
+    Feed = require("../../../models/feed");
 
 var app = express();
 
-var USER_ID = new ObjectId();
-var fixture = require("./fixture")(USER_ID);
-
+var fixture = require("./fixture");
 var feedXml = readFileSync(__dirname + "/sample-feed.xml");
 var feedUrlContainHtml = readFileSync(__dirname + "/sample-feed-url-contain.html");
 var feedUrlNotContainHtml = readFileSync(__dirname + "/sample-feed-url-not-contain.html");
 
-describe("subscribes", function() {
+describe("feeds", function() {
 
   before(function(done) {
-    app.use(function(req, res, next) {
-      // fake user_id
-      req.session = {};
-      req.session.user_id = USER_ID;
-      next();
-    });
-    app.use(subscribe);
-    setup(done);
+    var self = this;
+    async.series([
+      function(cb) { User.remove(cb); },
+      function(cb) { Feed.remove(cb); },
+      function(cb) { Feed.create(fixture, cb); },
+      function(cb) {
+        Feed.find(function(err, feeds) {
+          if (err) { cb(err); }
+          self.user = new User({ name: "a", password: "b" });
+          self.user._subscribes.push.apply(
+            self.user._subscribes,
+            feeds.map(function(feed) {
+              return feed._id;
+            })
+          );
+          self.user.save(cb);
+        });
+      },
+      function() {
+        // fake user_id
+        app.use(function(req, res, next) {
+          req.session = {};
+          req.session.user_id = self.user._id;
+          next();
+        });
+        app.use(feed);
+        setup(done);
+      }
+    ]);
   });
 
-  describe("GET /subscribes", function() {
+  describe("GET /feeds", function() {
     
-    beforeEach(function() {
-      this.spy = sinon.stub(Subscribe, "find", function(query, cb) {
-        this.query = query;
-        cb(null, fixture);
-      }.bind(this));
-    });
-
-    afterEach(function() {
-      Subscribe.find.restore();
-    });
-
-    it("should query subscribes with user_id", function(done) {
+    it("should render users' `feeds`", function(done) {
       request(app)
-        .get("/subscribes")
-        .expect(200)
-        .end(function(err, res) {
-          expect(err).to.be(null);
-          expect(this.query).to.have.property("_user", USER_ID);
-          done();
-        }.bind(this));
-    });
-
-    it("should render `subscribes`", function(done) {
-      request(app)
-        .get("/subscribes")
+        .get("/feeds")
         .expect(/DailyJS/)
         .expect(/http:\/\/feeds\.feedburner\.com\/dailyjs/)
         .expect(/ROR/)
@@ -73,16 +71,18 @@ describe("subscribes", function() {
     });
   });
 
-  describe("POST /subscribes", function() {
+  describe("POST /feeds", function() {
 
     // TODO extract job test
 
     beforeEach(function() {
-      this.subscribeSaveSpy = sinon.spy(Subscribe.prototype, "save");
+      this.feedSaveSpy = sinon.spy(Feed.prototype, "save");
+      this.userSaveSpy = sinon.spy(User.prototype, "save");
     });
 
     afterEach(function() {
-      Subscribe.prototype.save.restore();
+      Feed.prototype.save.restore();
+      User.prototype.save.restore();
     });
 
     describe("with valid feed url", function() {
@@ -96,7 +96,7 @@ describe("subscribes", function() {
 
       it("should request to feed url", function(done) {
         request(app)
-          .post("/subscribes")
+          .post("/feeds")
           .send({ url: this.url })
           .expect(200)
           .end(function(err, res) {
@@ -107,43 +107,46 @@ describe("subscribes", function() {
 
       it("should save meta data", function(done) {
         request(app)
-          .post("/subscribes")
+          .post("/feeds")
           .send({ url: this.url })
           .expect(200)
           .end(function(err, res) {
-            expect(this.subscribeSaveSpy.called).to.be.ok();
-            expect(this.subscribeSaveSpy.thisValues[0])
-              .to.have.property("url", "http://dailyjs.com");
-            expect(this.subscribeSaveSpy.thisValues[0])
-              .to.have.property("name", "DailyJS");
+            expect(this.feedSaveSpy.called).to.be.ok();
+            expect(this.feedSaveSpy.thisValues[0])
+              .to.have.property("link", "http://dailyjs.com");
+            expect(this.feedSaveSpy.thisValues[0])
+              .to.have.property("title", "DailyJS");
             done(err);
           }.bind(this));
       });
 
-      it("should save Subscribe with user_id", function(done) {
+      it("should add new feeds' id to users' subscribes", function(done) {
         request(app)
-          .post("/subscribes")
+          .post("/feeds")
           .send({ url: this.url })
+          .expect(200)
           .end(function(err, res) {
-            expect(this.subscribeSaveSpy.thisValues[0])
-              .to.have.property("_user", USER_ID);
+            expect(this.userSaveSpy.called).to.be.ok();
+
+            var subscribes = this.userSaveSpy.thisValues[0]._subscribes,
+                feedId = this.feedSaveSpy.thisValues[0]._id;
+
+            expect(subscribes).contain(feedId);
             done(err);
           }.bind(this));
       });
 
-      it("should responde save Subscribe", function(done) {
+      it("should responde save Feed", function(done) {
         request(app)
-          .post("/subscribes")
+          .post("/feeds")
           .send({ url: this.url })
           .end(function(err, res) {
-            var id = this.subscribeSaveSpy.thisValues[0]
+            var id = this.feedSaveSpy.thisValues[0]
                   ._id.toString();
             expect(res.body).to.have.property("_id", id);
-            expect(res.body).to.have.property("name", "DailyJS");
+            expect(res.body).to.have.property("title", "DailyJS");
             expect(res.body)
-              .to.have.property("_user", USER_ID.toString());
-            expect(res.body)
-              .to.have.property("url", "http://dailyjs.com");
+              .to.have.property("link", "http://dailyjs.com");
             done(err);
           }.bind(this));
       });
@@ -163,7 +166,7 @@ describe("subscribes", function() {
 
         it("should rquest to feed url", function(done) {
           request(app)
-            .post("/subscribes")
+            .post("/feeds")
             .send({ url: this.url })
             .expect(200)
             .end(function(err, res) {
@@ -186,7 +189,7 @@ describe("subscribes", function() {
 
         it("should rquest to feed url", function(done) {
           request(app)
-            .post("/subscribes")
+            .post("/feeds")
             .send({ url: this.url })
             .end(function(err, res) {
               this.scope.isDone();
@@ -196,7 +199,7 @@ describe("subscribes", function() {
 
         it("should respond with err", function(done) {
           request(app)
-            .post("/subscribes")
+            .post("/feeds")
             .send({ url: this.url })
             .set('Accept', 'application/json')
             .expect(500, done); // TODO err message verification

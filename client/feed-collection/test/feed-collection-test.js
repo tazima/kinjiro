@@ -5,17 +5,17 @@
 
 var $ = require("component-jquery"),
     Backbone = require("tazima-backbone"),
-    SubscribeCollection = require("subscribe-collection");
+    FeedCollection = require("feed-collection");
 
-describe("subscribe-collection", function() {
+describe("feed-collection", function() {
 
   beforeEach(function() {
-    this.collection = new SubscribeCollection;
+    this.collection = new FeedCollection;
   });
 
-  it("should have url attribute `/subscribes`", function() {
+  it("should have url attribute `/feeds`", function() {
     expect(this.collection)
-      .to.have.property("url", "/subscribes");
+      .to.have.property("url", "/feeds");
   });
 
   it("should have idAttribute `_id`", function() {

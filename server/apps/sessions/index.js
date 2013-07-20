@@ -34,7 +34,7 @@ app.post("/sessions", function(req, res) {
   authenticate(param.name, param.password, function(err, user) {
     if (user) {
       req.session.user_id = user._id;
-      res.redirect("/subscribes");
+      res.redirect("/feeds");
     } else {
       req.session.user_id = null;
       req.flash("error", "Naame or password is incorrect.");

@@ -5,12 +5,12 @@
 
 var _ = require("underscore"),
     Backbone = require("backbone"),
-    SubscribeListView = require("subscribe-list-view");
+    FeedListView = require("feed-list-view");
 
 exports = module.exports = Backbone.View.extend({
 
   events: {
-    "submit .new-subscribe": "create"
+    "submit .subscribe": "create"
   },
 
   initialize: function() {
@@ -18,11 +18,11 @@ exports = module.exports = Backbone.View.extend({
   },
 
   render: function() {
-    var subscribeListView = new SubscribeListView({
-      el: this.$(".subscribe-list"),
+    var feedListView = new FeedListView({
+      el: this.$(".feed-list"),
       collection: this.collection
     });
-    subscribeListView.render();
+    feedListView.render();
     return this;
   },
 
@@ -30,7 +30,7 @@ exports = module.exports = Backbone.View.extend({
     e.preventDefault();
     this.$("[type=submit]").attr("disabled", true);
     this.collection.create({
-      url: this.$(".new-subscribe [type=text]").val()
+      url: this.$(".subscribe [type=text]").val()
     }, {
       wait: true,
       success: this.clearForm,
@@ -44,7 +44,7 @@ exports = module.exports = Backbone.View.extend({
   },
 
   clearForm: function() {
-    this.$(".new-subscribe [type=text]").val("");
+    this.$(".subscribe [type=text]").val("");
     this.$("[type=submit]").attr("disabled", false);    
   }
 
