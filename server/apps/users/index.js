@@ -49,7 +49,7 @@ app.post("/users", function(req, res) {
         throw err;
       }
     }
-    res.redirect("/");
+    res.redirect("/sessions/new");
   });
 });
 

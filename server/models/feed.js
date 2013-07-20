@@ -4,7 +4,8 @@
  */
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    Post = require("./post");
 
 var FeedSchema = new Schema({
   title: {
@@ -21,7 +22,11 @@ var FeedSchema = new Schema({
   },
   favicon: {
     type: String
-  }
+  },
+  _feed_posts: [{
+    type: String,
+    ref: "Post"
+  }]
 });
 
 module.exports = mongoose.model('Feed', FeedSchema);
