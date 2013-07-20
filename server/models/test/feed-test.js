@@ -19,11 +19,9 @@ describe("Feed", function() {
   });
 
   beforeEach(function(done) {
-    this.userId = new ObjectId();
     this.feed = new Feed({
       name: "DailyJS",
-      url: "http://feeds.feedburner.com/dailyjs",
-      _user: this.userId
+      url: "http://feeds.feedburner.com/dailyjs"
     });
     Feed.remove(done);
   });
@@ -42,14 +40,6 @@ describe("Feed", function() {
       expect(doc.url).to.equal("http://feeds.feedburner.com/dailyjs");
       done();
     });
-  });
-
-  it("should save `_user` ref", function(done) {
-    this.feed.save(function(err, doc) {
-      expect(err).to.be(null);
-      expect(doc._user).to.equal(this.userId);
-      done();
-    }.bind(this));    
   });
 
 });

@@ -14,11 +14,6 @@ var FeedSchema = new Schema({
   url: {
     type: String,
     require: true
-  },
-  _user : {
-    type: Schema.Types.ObjectId,
-    require: true,
-    ref: 'User'
   }
 });
 
