@@ -10,7 +10,7 @@ var $ = require("component-jquery"),
 describe("feed-item-view", function() {
 
   beforeEach(function() {
-    this.model = new Backbone.Model({ name: "hoge", url: "piyo" });
+    this.model = new Backbone.Model({ title: "hoge", link: "piyo" });
     this.view = new FeedItemView({ model: this.model });
   });
 
@@ -22,14 +22,14 @@ describe("feed-item-view", function() {
     expect(this.view.render().el.className).to.match(/feed-item/i);
   });
 
-  it("should render models' url", function() {
+  it("should render models' link", function() {
     expect(this.view.render().$("a").attr("href"))
-      .to.equal(this.model.get("url"));
+      .to.equal(this.model.get("link"));
   });
 
-  it("should render models' name", function() {
+  it("should render models' title", function() {
     expect(this.view.render().$("a").text())
-      .to.equal(this.model.get("name"));
+      .to.equal(this.model.get("title"));
   });
 
 });
