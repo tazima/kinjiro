@@ -6,7 +6,7 @@
 var express = require("express"),
     flash = require("connect-flash"),
     getFeedMetaData = require("./get-feed-meta-data"),
-    Subscribe = require("../../models/subscribe");
+    Feed = require("../../models/feed");
 
 var app = module.exports = express();
 
@@ -20,26 +20,26 @@ app.use(express.errorHandler({ dumpExceptions: true }));
 app.use(flash());
 
 /**
- * GET /subscribes
+ * GET /feeds
  */
 
-app.get("/subscribes", function(req, res) {
-  Subscribe.find({
+app.get("/feeds", function(req, res) {
+  Feed.find({
     _user: req.session.user_id
-  }, function(err, subscribes) {
+  }, function(err, feeds) {
     res.render("index", {
-      bodyId: "subscribes",
-      subscribes: subscribes
+      bodyId: "feeds",
+      feeds: feeds
     });
   });
 });
 
 /**
- * POST /subscribes
+ * POST /feeds
  */
 
-app.post("/subscribes", function(req, res, next) {
-  var subscribe = new Subscribe(req.body),
+app.post("/feeds", function(req, res, next) {
+  var feed = new Feed(req.body),
       url = req.body.url;
 
   if (!url) { throw new Error("url is not specified"); }
@@ -47,12 +47,12 @@ app.post("/subscribes", function(req, res, next) {
   getFeedMetaData(url, function(err, meta) {
     if (err) { return next(err); }
 
-    subscribe._user = req.session.user_id;
-    subscribe.name = meta[0].title;
-    subscribe.url = meta[0].link;
-    subscribe.save(function(err) {
+    feed._user = req.session.user_id;
+    feed.name = meta[0].title;
+    feed.url = meta[0].link;
+    feed.save(function(err) {
       if (err) { return next(err); }
-      res.send(subscribe);
+      res.send(feed);
     });
   });
 });

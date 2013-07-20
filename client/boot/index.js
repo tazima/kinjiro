@@ -11,7 +11,7 @@ Backbone.$ = $;
 
 exports = module.exports = function(options) {
   $(function() {
-    new AppRouter({ subscribes: options.subscribes });
+    new AppRouter({ feeds: options.feeds });
     Backbone.history.start();
   });
 };

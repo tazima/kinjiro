@@ -1,6 +1,6 @@
 {
-  "name": "subscribe-list-view",
-  "description": "View list subscribes.",
+  "name": "feed-item-view",
+  "description": "Feed item view.",
   "dependencies": {
     "component/underscore": "*",
     "tazima/backbone": "topic-component"
@@ -8,9 +8,6 @@
   "development": {},
   "main": "index.js",
   "scripts": ["index.js"],
-  "styles": [
-    "subscribe-list-view.css"
-  ],
-  "local": ["subscribe-item-view"],
+  "styles": ["feed-item-view.css"],
   "templates": ["template.html"]
 }

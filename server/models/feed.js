@@ -6,7 +6,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var SubscribeSchema = new Schema({
+var FeedSchema = new Schema({
   name: {
     type: String,
     require: true
@@ -22,4 +22,4 @@ var SubscribeSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model('Subscribe', SubscribeSchema);
+module.exports = mongoose.model('Feed', FeedSchema);

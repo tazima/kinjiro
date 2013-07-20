@@ -14,21 +14,21 @@ describe("app-view", function() {
   before(function() {
     this.testBed = $([
       "<section id=\"content\">",
-      "  <form class=\"new-subscribe\" action=\"#\" method=\"\">",
+      "  <form class=\"subscribe\" action=\"#\" method=\"\">",
       "    <input type=\"text\" name=\"url\" />",
       "    <input type=\"submit\" value=\"add\" />",
       "  </form>",
-      "  <div class=\"subscribe-list\"></div>",
+      "  <div class=\"feed-list\"></div>",
       "</section>"
     ].join("")).appendTo("body");
     this.ListViewMock = sinon.spy(Backbone.View.extend());
-    componentMock.registerMock("subscribe-list-view/index.js", this.ListViewMock);
+    componentMock.registerMock("feed-list-view/index.js", this.ListViewMock);
     AppView = require("app-view");
   });
 
   after(function() {
     this.testBed.remove();
-    componentMock.deregisterMock("subscribe-list-view/index.js");
+    componentMock.deregisterMock("feed-list-view/index.js");
   });
 
   beforeEach(function() {
@@ -49,10 +49,10 @@ describe("app-view", function() {
       expect(this.ListViewMock.called).to.be.ok();
     });
 
-    it("should instantiate ListView with .subscribe-list el", function() {
+    it("should instantiate ListView with .feed-list el", function() {
       this.view.render();
       expect(this.ListViewMock.called).to.be.ok();
-      expect(this.ListViewMock.args[0][0].el.attr("class")).to.match(/subscribe-list/);
+      expect(this.ListViewMock.args[0][0].el.attr("class")).to.match(/feed-list/);
     });
 
     it("should instantiate ListView with collection", function() {
@@ -61,7 +61,7 @@ describe("app-view", function() {
     });
   });
 
-  describe("on `submit .new-subscribe`", function() {
+  describe("on `submit .subscribe`", function() {
 
     beforeEach(function() {
       this.createSpy = sinon.stub(this.collection, "create", function() {});
@@ -71,10 +71,10 @@ describe("app-view", function() {
       this.collection.create.restore();
     });
 
-    it("should create new SubscribeModel", function() {
+    it("should create new FeedModel", function() {
       this.view.render();
-      this.view.$(".new-subscribe [type=text]").val("hoge");
-      this.view.$(".new-subscribe").submit();
+      this.view.$(".subscribe [type=text]").val("hoge");
+      this.view.$(".subscribe").submit();
 
       expect(this.createSpy.called).to.be.ok();
       expect(this.createSpy.args[0][0])

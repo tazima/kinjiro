@@ -5,21 +5,21 @@
 
 var $ = require("component-jquery"),
     Backbone = require("tazima-backbone"),
-    SubscribeItemView = require("subscribe-item-view");
+    FeedItemView = require("feed-item-view");
 
-describe("subscribe-item-view", function() {
+describe("feed-item-view", function() {
 
   beforeEach(function() {
     this.model = new Backbone.Model({ name: "hoge", url: "piyo" });
-    this.view = new SubscribeItemView({ model: this.model });
+    this.view = new FeedItemView({ model: this.model });
   });
 
   it("should set tagName as li", function() {
     expect(this.view.render().el.tagName).to.match(/li/i);
   });
 
-  it("should set className as subscribe-item", function() {
-    expect(this.view.render().el.className).to.match(/subscribe-item/i);
+  it("should set className as feed-item", function() {
+    expect(this.view.render().el.className).to.match(/feed-item/i);
   });
 
   it("should render models' url", function() {

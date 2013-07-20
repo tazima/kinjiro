@@ -8,11 +8,11 @@ var expect = require("expect.js"),
     async = require("async"),
     ObjectId = require("mongoose").Types.ObjectId,
     setup = require("../../test/setup"),
-    Subscribe = require("../subscribe");
+    Feed = require("../feed");
 
 var MONGO_CONN_STRING = "mongodb://localhost:27017/kinjiro-test";
 
-describe("Subscribe", function() {
+describe("Feed", function() {
 
   before(function(done) {
     setup(done);
@@ -20,16 +20,16 @@ describe("Subscribe", function() {
 
   beforeEach(function(done) {
     this.userId = new ObjectId();
-    this.subscribe = new Subscribe({
+    this.feed = new Feed({
       name: "DailyJS",
       url: "http://feeds.feedburner.com/dailyjs",
       _user: this.userId
     });
-    Subscribe.remove(done);
+    Feed.remove(done);
   });
 
   it("should save `name`", function(done) {
-    this.subscribe.save(function(err, doc) {
+    this.feed.save(function(err, doc) {
       expect(err).to.be(null);
       expect(doc.name).to.equal("DailyJS");
       done();
@@ -37,7 +37,7 @@ describe("Subscribe", function() {
   });
 
   it("should save `url`", function(done) {
-    this.subscribe.save(function(err, doc) {
+    this.feed.save(function(err, doc) {
       expect(err).to.be(null);
       expect(doc.url).to.equal("http://feeds.feedburner.com/dailyjs");
       done();
@@ -45,7 +45,7 @@ describe("Subscribe", function() {
   });
 
   it("should save `_user` ref", function(done) {
-    this.subscribe.save(function(err, doc) {
+    this.feed.save(function(err, doc) {
       expect(err).to.be(null);
       expect(doc._user).to.equal(this.userId);
       done();
