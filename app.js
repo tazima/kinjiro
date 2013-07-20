@@ -36,6 +36,7 @@ app.use(express.cookieParser());
 app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
 app.use(flash());
 app.use(express.static(__dirname + "/build"));
+app.use(express.errorHandler());
 
 // db
 
@@ -55,6 +56,7 @@ app.get("/", function(req, res) {
 app.use(require("./server/apps/sessions"));
 app.use(require("./server/apps/users"));
 app.use(require("./server/apps/feeds"));
+app.use(require("./server/apps/posts"));
 
 function restrict(req, res, next) {
   if (req.session.user_id) {

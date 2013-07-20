@@ -2,6 +2,10 @@
  * common
  */
 
+body {
+  font-size: 14px;
+}
+
 .flash-message .error {
   color: red;
 }
@@ -10,7 +14,7 @@
  * login
  */
 
-body#login, body#signin, body#feeds {
+body#login, body#signin {
   margin: 50px;
 }
 
@@ -57,5 +61,7 @@ body#login, body#signin, body#feeds {
   float: right;
 }
 
-
-
+body#feeds {
+  margin: 20px;
+  margin-top: 72px;
+}

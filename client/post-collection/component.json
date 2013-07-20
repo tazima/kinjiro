@@ -1,6 +1,6 @@
 {
-  "name": "app-router",
-  "description": "Application router.",
+  "name": "post-collection",
+  "description": "Post collection.",
   "dependencies": {
     "tazima/backbone": "topic-component"
   },
@@ -8,10 +8,5 @@
   "main": "index.js",
   "scripts": [
     "index.js"
-  ],
-  "local": [
-    "app-view",
-    "post-list-view",
-    "post-collection"
   ]
 }

@@ -10,7 +10,12 @@ var $ = require("component-jquery"),
 describe("feed-item-view", function() {
 
   beforeEach(function() {
-    this.model = new Backbone.Model({ title: "hoge", link: "piyo" });
+    this.model = new Backbone.Model({
+      _id: "myid",
+      title: "hoge",
+      link: "piyo"
+    });
+    this.model.idAttribute = "_id";
     this.view = new FeedItemView({ model: this.model });
   });
 
@@ -22,9 +27,9 @@ describe("feed-item-view", function() {
     expect(this.view.render().el.className).to.match(/feed-item/i);
   });
 
-  it("should render models' link", function() {
+  it("should have anchor to its' posts", function() {
     expect(this.view.render().$("a").attr("href"))
-      .to.equal(this.model.get("link"));
+      .to.equal("#feeds/" + this.model.get("_id") + "/posts");
   });
 
   it("should render models' title", function() {

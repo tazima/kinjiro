@@ -1,0 +1,16 @@
+{
+  "name": "post-list-view",
+  "description": "View list posts.",
+  "dependencies": {
+    "component/underscore": "*",
+    "tazima/backbone": "topic-component"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": ["index.js"],
+  "styles": [
+    "post-list-view.css"
+  ],
+  "local": ["post-item-view"],
+  "templates": ["template.html"]
+}
