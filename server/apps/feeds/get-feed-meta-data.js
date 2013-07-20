@@ -24,7 +24,6 @@ exports = module.exports = getFeedMetaData;
  */
 
 function getFeedMetaData(url, cb) {
-  var parser = new FeedParser();
   var job = new nodeio.Job({
 
     input: [url],
