@@ -5,10 +5,10 @@
 
 var Backbone = require("backbone");
 
-var SubscribeModel = Backbone.Model.extend();
+var FeedModel = Backbone.Model.extend();
 
 exports = module.exports = Backbone.Collection.extend({
-  model: SubscribeModel,
-  url: "/subscribes",
+  model: FeedModel,
+  url: "/feeds",
   idAttribute: "_id"
 });

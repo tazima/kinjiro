@@ -13,11 +13,11 @@ exports = module.exports = Backbone.Router.extend({
   },
 
   initialize: function(options) {
-    this.subscribes = options.subscribes;
+    this.feeds = options.feeds;
   },
 
   index: function() {
-    (new AppView({ el: "#content", collection: this.subscribes })).render();
+    (new AppView({ el: "#content", collection: this.feeds })).render();
   }
 
 });

@@ -5,7 +5,7 @@
 
 var _ = require("underscore"),
     Backbone = require("backbone"),
-    SubscribeItemView = require("subscribe-item-view");
+    FeedItemView = require("feed-item-view");
 
 exports = module.exports = Backbone.View.extend({
 
@@ -20,8 +20,8 @@ exports = module.exports = Backbone.View.extend({
   },
 
   renderOne: function(model) {
-    this.$(".subscribe-list").append(
-      (new SubscribeItemView({ model: model }))
+    this.$(".feed-list").append(
+      (new FeedItemView({ model: model }))
         .render().el);
     return this;
   },

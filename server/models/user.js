@@ -17,7 +17,11 @@ var UserSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  _subscribes: [{
+    type: Schema.Types.ObjectId,
+    ref: "Feed"
+  }]
 });
 
 UserSchema.pre('save', function(next) {
