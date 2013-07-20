@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var nodeio = require("node.io"),
+var url = require("url"),
+    nodeio = require("node.io"),
     request = require('request'),
     FeedParser = require('feedparser');
 
@@ -23,22 +24,22 @@ exports = module.exports = getFeedMetaData;
  * @param {Function} cb
  */
 
-function getFeedMetaData(url, cb) {
+function getFeedMetaData(originalUrl, cb) {
   var job = new nodeio.Job({
 
-    input: [url],
+    input: [originalUrl],
 
-    run: function(url) {
+    run: function(originalUrl) {
       var job = this,
           emit = job.emit.bind(job);
 
-      request(url)
+      request(originalUrl)
         .pipe(new FeedParser())
         .on("error", function(err) {
-          console.log("Get feed, first fail + " + url);
-          console.log("Get feed, try scraping + " + url);
+          console.log("Get feed, first fail + " + originalUrl);
+          console.log("Get feed, try scraping + " + originalUrl);
 
-          job.getHtml(url, function(err, $) {
+          job.getHtml(originalUrl, function(err, $) {
             console.log("get html");
             if (err) { return job.exit(err); }
             var rssUrl = $("link[type=application/rss+xml]", $("html"), true),
@@ -47,11 +48,15 @@ function getFeedMetaData(url, cb) {
 
             if (!feedUrl) { return job.exit("Cannot find feed url"); }
 
-            request(feedUrl.attribs.href)
+            feedUrl = feedUrl.attribs.href;
+            if (feedUrl.match(/^\/.*/)) { feedUrl = url.resolve(originalUrl, feedUrl); }
+            console.log(feedUrl);
+
+            request(feedUrl)
               .pipe(new FeedParser())
               .on("error", function(err) {
-                console.log("Get feed, second fail " + url);
-                console.log("Get feed, abort " + url);
+                console.log("Get feed, second fail " + originalUrl);
+                console.log("Get feed, abort " + originalUrl);
                 return job.exit(err);
               })
               .on("meta", emit);

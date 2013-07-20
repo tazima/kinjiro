@@ -65,14 +65,14 @@ describe("users", function() {
         }.bind(this));
     });
 
-    it("should redirect to `/` after save", function(done) {
+    it("should redirect to `/sessions/new` after save", function(done) {
       request(app)
         .post("/users")
         .send({ user: { name: "J.T", password: "my password" } })
         .expect(302)
         .end(function(err, res) {
           expect(err).to.be(null);
-          expect(res.header.location).to.equal("/");
+          expect(res.header.location).to.equal("/sessions/new");
           done();
         });
     });

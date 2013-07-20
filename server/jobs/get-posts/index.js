@@ -27,7 +27,7 @@ exports = module.exports = new nodeio.Job({
       console.log(err);
       cb(docs);
     });
-    if (start > 2) cb(false);
+    if (start > 10) cb(false);
   },
 
 

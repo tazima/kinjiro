@@ -1,0 +1,11 @@
+
+.posts {
+  padding-left: 30px;
+  border-left: 1px solid #C0C0C0;
+}
+
+.posts h2 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}

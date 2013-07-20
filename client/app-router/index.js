@@ -24,7 +24,7 @@ exports = module.exports = Backbone.Router.extend({
 
   posts: function(fid) {
     (new PostListView({
-      el: ".post-list",
+      el: ".posts",
       collection: new PostCollection([], { fid: fid })
     })).render();
   }
