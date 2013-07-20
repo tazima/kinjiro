@@ -8,7 +8,8 @@ var expect = require("expect.js"),
     async = require("async"),
     ObjectId = require("mongoose").Types.ObjectId,
     setup = require("../../test/setup"),
-    Feed = require("../feed");
+    Feed = require("../feed"),
+    Post = require("../post");
 
 var MONGO_CONN_STRING = "mongodb://localhost:27017/kinjiro-test";
 
@@ -19,13 +20,22 @@ describe("Feed", function() {
   });
 
   beforeEach(function(done) {
-    this.feed = new Feed({
-      title: "DailyJS",
-      xmlurl: "http://feeds.feedburner.com/dailyjs",
-      link: "http://dailyjs.com",
-      favicon: "http://hoge"
-    });
-    Feed.remove(done);
+    async.waterfall([
+      function(cb) { Post.create({ _id: "hoge" }, cb); },
+      function(post, cb) {
+        this.post = post;
+        this.feed = new Feed({
+          title: "DailyJS",
+          xmlurl: "http://feeds.feedburner.com/dailyjs",
+          link: "http://dailyjs.com",
+          favicon: "http://hoge"
+        });
+        this.feed._feed_posts.push(post._id);
+        cb(null);
+      }.bind(this),
+      function(cb) { Feed.remove(cb); },
+      function(feed, cb) { Post.remove(cb); }
+    ], done);
   });
 
   it("should save `title`", function(done) {
@@ -54,6 +64,14 @@ describe("Feed", function() {
       expect(doc.favicon).to.equal("http://hoge");
       done(err);
     });
+  });
+
+  it("should save `posts`", function(done) {
+    this.feed.save(function(err, doc) {
+      
+      expect(doc._feed_posts).to.contain(this.post._id);
+      done(err);
+    }.bind(this));
   });
 
 });
