@@ -22,22 +22,26 @@ exports = module.exports = new nodeio.Job({
 
   input: function (start, num, cb) {
     // stream ?
+    console.log(arguments);
     Feed.find({}, function(err, docs) {
       console.log(err);
       cb(docs);
     });
+    if (start > 2) cb(false);
   },
+
 
   run: function(feed) {
     var job = this,
         postIds = [];
 
-    console.log(feed.xmlurl);
+    // console.log(feed);
 
     request(feed.xmlurl)
       .pipe(new FeedParser)
       .on("error", function(err) { job.fail(err); })
       .on("data", function(article) {
+        console.log(article);
         Post.update({ _id: article.guid }, {
           _feed: feed._id,
           title: article.title,
