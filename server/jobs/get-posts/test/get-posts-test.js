@@ -8,7 +8,6 @@ var expect = require("expect.js"),
     nock = require("nock"),
     Request = require("request").Request,
     ObjectId = require("mongoose").Types.ObjectId,
-    Feed = require("../../../models/feed"),
     PostWritableStream = require("../post-writable-stream"),
     getPostsJob = require("../").job;
 
