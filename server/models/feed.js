@@ -23,6 +23,8 @@ var FeedSchema = new Schema({
   favicon: {
     type: String
   },
+  lastCrawlDate: { type: Date, default: null },
+  crawlEnd: { type: Boolean, default: false },
   _feed_posts: [{
     type: String,
     ref: "Post"
