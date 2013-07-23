@@ -4,68 +4,93 @@
  */
 
 var nodeio = require("node.io"),
-    request = require('request'),
     mongoose = require("mongoose"),
+    request = require("request"),
+    FeedParser = require("feedparser"),
     Feed = require("../../models/feed"),
-    Post = require("../../models/post"),
-    FeedParser = require('feedparser'),
-    root = require("../../../app");
+    root = require("../../../app"),
+    PostWritableStream = require("./post-writable-stream");
 
-// ad-hoc batch.
-// $ ./node_modules/.bin/node.io --debug server/jobs/get-posts
 mongoose.createConnection(root.get("db connection string"), function(err) {
   if (err) { throw err; }
   console.log("Connected to mongo db");
 });
 
-exports = module.exports = new nodeio.Job({
+/**
+ * Get and store posts of feeds who met conditions.
+ *
+ * Usage:
+ *
+ *  node.io index.js 3600000
+ */
 
-  input: function (start, num, cb) {
-    // stream ?
-    console.log(arguments);
-    Feed.find({}, function(err, docs) {
-      console.log(err);
-      cb(docs);
-    });
-    if (start > 10) cb(false);
+exports.job = new nodeio.Job({
+  wait: 1
+}, {
+
+  init: function() {
+    if (this.options.args.length > 0)
+      this.options.interval = parseInt(this.options.args, 10);
+    else
+      this.options.interval = 1000 * 60 * 60; // default to 1 hour
   },
 
-
-  run: function(feed) {
-    var job = this,
-        postIds = [];
-
-    // console.log(feed);
-
-    request(feed.xmlurl)
-      .pipe(new FeedParser)
-      .on("error", function(err) { job.fail(err); })
-      .on("data", function(article) {
-        console.log(article);
-        Post.update({ _id: article.guid }, {
-          _feed: feed._id,
-          title: article.title,
-          description: article.description,
-          summary: article.summary,
-          imageUrl: article.image.url || "",
-          imageTitle: article.image.title || ""
-        }, { upsert: true }, function(err) {
-          if (err) { job.exit(err); }
-          postIds.push(article.guid);
-        });
+  input: function(start, num, callback) {
+    var job = this;
+    Feed
+      .find({
+        $or: [
+          {
+            $and: [
+              // last crawl was end,
+              { crawlEnd: true },
+              // and last crawl was completed before specified time
+              { lastCrawlDate: {
+                $lt: new Date((new Date()).getTime() - job.options.interval) }}
+            ]
+          },
+          // or new one
+          { lastCrawlDate: null }
+        ]
       })
-      .on("end", function() {
-        // console.log(postIds);
-        feed._feed_posts = postIds;
-        feed.save(function(err, post) { 
-          if (err) { job.exit(err); }
-          job.emit(post);
-        });
+      .exec(function(err, feeds) {
+        if (err) job.exit(err);
+        if (feeds.length == 0)
+          callback([null]);
+        else
+          callback(feeds);
       });
   },
 
-  output: function(feeds) {
-    // console.log(feeds);
-  }
+  run: function(line) {
+    var job = this;
+    // skip this run if input is null,
+    if (line == null) return job.skip();
 
+    // otherwise process input.
+    Feed.findOne({ _id: line._id }, function(err, feed) {
+      if (err) { return job.exit(); }
+
+      feed.crawlEnd = false;
+      feed.save(function(err, feed) {
+        if (err) { return job.exit(); }
+
+        var postWritableStream = new PostWritableStream(feed._id, { objectMode: true });
+
+        request(feed.xmlurl)
+          .pipe(new FeedParser)
+          .pipe(postWritableStream)
+          .on("error", function(err) { job.exit(err); })
+          .on("finish", function() {
+            feed._feed_posts = postWritableStream.getPostIds();
+            feed.lastCrawlDate = new Date();
+            feed.crawlEnd = true;
+            feed.save(function(err, feed) {
+              if (err) { return job.exit(); }
+              job.emit(feed);
+            });
+          });
+      });
+    });
+  }
 });
