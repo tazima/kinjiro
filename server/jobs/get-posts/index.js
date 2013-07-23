@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -19,9 +18,13 @@ mongoose.createConnection(root.get("db connection string"), function(err) {
 /**
  * Get and store posts of feeds who met conditions.
  *
+ * Condition:
+ *  - a feed that has been crawled before specified ms ago
+ *  - a feed that has nerver crawled
+ *
  * Usage:
  *
- *  node.io index.js 3600000
+ *  $ node.io index.js 3600000
  */
 
 exports.job = new nodeio.Job({
@@ -44,7 +47,7 @@ exports.job = new nodeio.Job({
             $and: [
               // last crawl was end,
               { crawlEnd: true },
-              // and last crawl was completed before specified time
+              // and last crawl was completed before specified time ago
               { lastCrawlDate: {
                 $lt: new Date((new Date()).getTime() - job.options.interval) }}
             ]
@@ -64,10 +67,10 @@ exports.job = new nodeio.Job({
 
   run: function(line) {
     var job = this;
+
     // skip this run if input is null,
     if (line == null) return job.skip();
 
-    // otherwise process input.
     Feed.findOne({ _id: line._id }, function(err, feed) {
       if (err) { return job.exit(); }
 
