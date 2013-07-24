@@ -38,6 +38,13 @@ module.exports = function(grunt) {
       }
     },
 
+    jshint: {
+      options: {
+        jshintrc: ".jshintrc"
+      },
+      all: ["Gruntfile.js", "app.js", "server/**/*.js", "client/**/*.js", "tasks/**/*.js"]
+    },
+
     express: {
       server: {
         options: {
@@ -118,6 +125,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-env');
 
