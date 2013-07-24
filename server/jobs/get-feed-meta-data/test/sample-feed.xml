@@ -2,14 +2,14 @@
 <feed xmlns="http://www.w3.org/2005/Atom"
       xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0">
  <title>DailyJS</title>
- 
+
  <link href="http://dailyjs.com" />
  <updated>2013-07-17T18:05:06+01:00</updated>
  <id>http://dailyjs.com/</id>
  <author>
    <name>DailyJS</name>
  </author>
- 
+
  <atom10:link xmlns:atom10="http://www.w3.org/2005/Atom"
 	      rel="self" type="application/atom+xml"
 	      href="http://feeds.feedburner.com/dailyjs" />
@@ -24,7 +24,7 @@ You can send in your Node projects for review through our &lt;a href='/contact.h
 &lt;/div&gt;
    </content>
  </entry>
- 
+
  <entry>
    <title>jQuery Roundup: Queuing Ajax Requests, imagefill.js, Feedback Me</title>
    <link href="http://feedproxy.google.com/~r/dailyjs/~3/2NVyQzKnrfk/jquery-roundup" />
@@ -36,7 +36,7 @@ Note: You can send your plugins and articles in for review through our &lt;a hre
 &lt;/div&gt;
    </content>
  </entry>
- 
+
  <entry>
    <title>Reddit Insight, dropstore-ng</title>
    <link href="http://feedproxy.google.com/~r/dailyjs/~3/-l9HyBPmWdU/reddit-insight" />
@@ -49,4 +49,3 @@ Note: You can send your plugins and articles in for review through our &lt;a hre
    </content>
  </entry>
 </feed>
-
