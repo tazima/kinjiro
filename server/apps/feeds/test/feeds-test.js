@@ -5,24 +5,18 @@
 
 var express = require("express"),
     expect = require("expect.js"),
+    async = require("async"),
     request = require("supertest"),
     sinon = require("sinon"),
-    nock = require("nock"),
-    async = require("async"),
-    readFileSync = require("fs").readFileSync,
-    ObjectId = require("mongoose").Types.ObjectId,
-    feed = require("../"),
-    FeedParser = require('feedparser'),
-    setup = require("../../../test/setup"),
+    nodeio = require("node.io"),
+    Feed = require("../../../models/feed"),
     User = require("../../../models/user"),
-    Feed = require("../../../models/feed");
+    setup = require("../../../test/setup"),
+    feed = require("../");
 
 var app = express();
 
 var fixture = require("./fixture");
-var feedXml = readFileSync(__dirname + "/sample-feed.xml");
-var feedUrlContainHtml = readFileSync(__dirname + "/sample-feed-url-contain.html");
-var feedUrlNotContainHtml = readFileSync(__dirname + "/sample-feed-url-not-contain.html");
 
 describe("feeds", function() {
 
@@ -33,14 +27,13 @@ describe("feeds", function() {
       function(cb) { Feed.remove(cb); },
       function(cb) { Feed.create(fixture, cb); },
       function(cb) {
+        // make user to subscribe feeds.
         Feed.find(function(err, feeds) {
           if (err) { cb(err); }
           self.user = new User({ name: "a", password: "b" });
           self.user._subscribes.push.apply(
             self.user._subscribes,
-            feeds.map(function(feed) {
-              return feed._id;
-            })
+            feeds.map(function(feed) { return feed._id; })
           );
           self.user.save(cb);
         });
@@ -60,7 +53,7 @@ describe("feeds", function() {
 
   describe("GET /feeds", function() {
     
-    it("should render users' `feeds`", function(done) {
+    it("should respond users' `feeds`", function(done) {
       request(app)
         .get("/feeds")
         .expect(/DailyJS/)
@@ -69,15 +62,15 @@ describe("feeds", function() {
         .expect(/http:\/\/weblog\.rubyonrails\.org\/feed\/atom\.xml/)
         .expect(200, done);
     });
+
   });
 
   describe("POST /feeds", function() {
 
-    // TODO extract job test
-
     beforeEach(function() {
       this.feedSaveSpy = sinon.spy(Feed.prototype, "save");
       this.userSaveSpy = sinon.spy(User.prototype, "save");
+      this.url = "http://piyopiyo";
     });
 
     afterEach(function() {
@@ -85,24 +78,25 @@ describe("feeds", function() {
       User.prototype.save.restore();
     });
 
-    describe("with valid feed url", function() {
+    describe("when `getFeedMetaData` success", function() {
 
       beforeEach(function() {
-        this.url = "http://feeds.feedburner.com/dailyjs";
-        this.scope = nock(this.url)
-          .get('/dailyjs')
-          .reply(200, feedXml);
+        // mock getFeedMetaData job
+        var self = this;
+        self.jobMock = new nodeio.Job({
+          input: ["http://dailyjs.feed"],
+          run: function() {
+            this.emit({
+              link: "http://dailyjs.com",
+              title: "DailyJS"
+            });
+          }
+        });
+        self.JobStub = sinon.stub(nodeio, "Job", function() { return self.jobMock; });
       });
 
-      it("should request to feed url", function(done) {
-        request(app)
-          .post("/feeds")
-          .send({ url: this.url })
-          .expect(200)
-          .end(function(err, res) {
-            expect(this.scope.isDone());
-            done(err);
-          }.bind(this));
+      afterEach(function() {
+        nodeio.Job.restore();
       });
 
       it("should save meta data", function(done) {
@@ -136,7 +130,7 @@ describe("feeds", function() {
           }.bind(this));
       });
 
-      it("should responde save Feed", function(done) {
+      it("should responde with saved Feed", function(done) {
         request(app)
           .post("/feeds")
           .send({ url: this.url })
@@ -152,59 +146,30 @@ describe("feeds", function() {
       });
     });
 
-    describe("with invalid feed url", function() {
-      describe("scraped html contains feed url", function() {
+    describe("when `getFeedMetaData` fail", function() {
 
-        beforeEach(function() {
-          this.url = "http://dailyjs.com/";
-          this.scope = nock(this.url)
-            .get("/")
-            .reply(200, feedUrlContainHtml)
-            .get("/")
-            .reply(200, feedUrlContainHtml);
+      beforeEach(function() {
+        // mock getFeedMetaData job
+        var self = this;
+        self.jobMock = new nodeio.Job({
+          input: ["http://dailyjs.feed"],
+          run: function() { this.exit("sorry"); }
         });
-
-        it("should rquest to feed url", function(done) {
-          request(app)
-            .post("/feeds")
-            .send({ url: this.url })
-            .expect(200)
-            .end(function(err, res) {
-              this.scope.isDone();
-              done(err);
-            }.bind(this));
-        });
+        self.JobStub = sinon.stub(nodeio, "Job", function() { return self.jobMock; });
       });
 
-      describe("scraped html not have feed url", function() {
-
-        beforeEach(function() {
-          this.url = "http://dailyjs.com/";
-          this.scope = nock(this.url)
-            .get("/")
-            .reply(200, feedUrlContainHtml)
-            .get("/")
-            .reply(200, feedUrlNotContainHtml);
-        });
-
-        it("should rquest to feed url", function(done) {
-          request(app)
-            .post("/feeds")
-            .send({ url: this.url })
-            .end(function(err, res) {
-              this.scope.isDone();
-              done();
-            }.bind(this));
-        });
-
-        it("should respond with err", function(done) {
-          request(app)
-            .post("/feeds")
-            .send({ url: this.url })
-            .set('Accept', 'application/json')
-            .expect(500, done); // TODO err message verification
-        });
+      afterEach(function() {
+        nodeio.Job.restore();
       });
+
+      it("should respond with `500`", function(done) {
+        request(app)
+          .post("/feeds")
+          .send({ url: this.url })
+          .set('Accept', 'application/json')
+          .expect(500, done); // TODO err message verification
+      });
+
     });
     
   });
