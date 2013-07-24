@@ -21,8 +21,6 @@ exports = module.exports = PostWritableStream;
 function PostWritableStream(feedId, options) {
   PostWritableStream.super_.call(this, options);
   this.postIds = [];
-  console.log(feedId);
-  console.log("aaaaaaaaaaaaaaaaA");
   this.feedId = feedId;
 }
 
