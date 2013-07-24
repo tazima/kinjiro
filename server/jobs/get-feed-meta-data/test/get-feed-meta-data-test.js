@@ -34,7 +34,7 @@ describe("get-feed-meta-data", function() {
       getFeedMetaData(this.validUrl, function(err, meta) {
         expect(meta[0].title).to.equal("DailyJS"); // from sample-feed.xml
         done(err);
-      }.bind(this));      
+      }.bind(this));
     });
 
   });
@@ -74,7 +74,7 @@ describe("get-feed-meta-data", function() {
         getFeedMetaData(this.validUrl, function(err, meta) {
           expect(meta[0].title).to.equal("DailyJS"); // from sample-feed.xml
           done(err);
-        }.bind(this));      
+        }.bind(this));
       });
 
     });
