@@ -7,7 +7,7 @@ var expect = require("expect.js"),
     sinon = require("sinon"),
     nock = require("nock"),
     Request = require("request").Request,
-    ObjectId = require("mongoose").Schema.ObjectId,
+    ObjectId = require("mongoose").Types.ObjectId,
     Feed = require("../../../models/feed"),
     PostWritableStream = require("../post-writable-stream"),
     getPostsJob = require("../").job;
@@ -77,6 +77,7 @@ describe("get-posts", function() {
   describe("#run()", function() {
 
     beforeEach(function(done) {
+      // stub response to feed.xmlurl request
       nock("http://hoge").get("/").reply(200);
 
       // stub Request#pipe to pipe to `finish` event.
@@ -88,12 +89,17 @@ describe("get-posts", function() {
         return this;
       });
 
+      var self = this;
+      this.newPostIds = [new ObjectId(), new ObjectId()];
+      this.alreadyStoredPostId = new ObjectId();
+
       sinon.stub(PostWritableStream.prototype, "getPostIds", function() {
-        return [new ObjectId(), new ObjectId()];
+        return self.newPostIds;
       });
 
       this.feed = new Feed({
-        title: "new one", xmlurl: "http://hoge", link: "http://hoge" });
+        title: "new one", xmlurl: "http://hoge", link: "http://hoge",
+        _feed_posts: [this.alreadyStoredPostId] });
       this.feed.save(done);
     });
 
@@ -116,6 +122,18 @@ describe("get-posts", function() {
         var now = new Date();
         expect(feed.lastCrawlDate)
           .to.be.within(new Date(now.getTime() - 1000), new Date(now.getTime() + 1000));
+        done();
+      });
+      getPostsJob.run(this.feed);
+    });
+
+    it("should merge `_feed_post_ids", function(done) {
+      this.newPostIds.push(this.alreadyStoredPostId);
+      var expectedIds = this.newPostIds.map(function(p) { return p.toString(); });
+      sinon.stub(getPostsJob, "emit", function(feed) {
+        console.log(feed._feed_posts);
+        var feedPosts = feed._feed_posts.map(function(p) { return p.toString(); });
+        expect(feedPosts).to.eql(expectedIds);
         done();
       });
       getPostsJob.run(this.feed);      
