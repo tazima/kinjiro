@@ -27,7 +27,7 @@ exports = module.exports = new nodeio.Job({
       console.log(err);
       cb(docs);
     });
-    if (start > 10) cb(false);
+    if (start > 10) { cb(false); }
   },
 
 
@@ -35,10 +35,8 @@ exports = module.exports = new nodeio.Job({
     var job = this,
         postIds = [];
 
-    // console.log(feed);
-
     request(feed.xmlurl)
-      .pipe(new FeedParser)
+      .pipe(new FeedParser())
       .on("error", function(err) { job.fail(err); })
       .on("data", function(article) {
         console.log(article);
