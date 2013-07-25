@@ -11,14 +11,14 @@ var expect = require("expect.js"),
 describe("PostWritableStream", function() {
 
   it("should inherits from stream.Writable", function() {
-    expect(new PostWritableStream).to.be.a(require("stream").Writable);
+    expect(new PostWritableStream()).to.be.a(require("stream").Writable);
   });
 
   describe("write", function() {
 
     beforeEach(function(done) {
       Post.remove(done);
-      this.feedId = ObjectId();
+      this.feedId = new ObjectId();
       this.ws = new PostWritableStream(this.feedId, { objectMode: true });
       this.article = {
         guid: "http://hoge",

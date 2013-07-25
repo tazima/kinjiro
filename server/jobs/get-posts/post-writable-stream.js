@@ -44,7 +44,7 @@ PostWritableStream.prototype._write = function(article, enc, next) {
     imageUrl: article.image.url || "",
     imageTitle: article.image.title || ""
   }, { upsert: true }, function(err, post) {
-    if (err) next(err);
+    if (err) { next(err); }
     self.postIds.push(article.guid);
     next();
   });

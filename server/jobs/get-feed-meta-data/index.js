@@ -69,5 +69,5 @@ function getFeedMetaData(originalUrl, cb) {
   });
 
   nodeio.start(job, { silent: true }, cb, true);
-};
+}
 

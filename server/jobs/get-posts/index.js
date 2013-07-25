@@ -32,10 +32,11 @@ exports.job = new nodeio.Job({
 }, {
 
   init: function() {
-    if (this.options.args.length > 0)
+    if (this.options.args.length > 0) {
       this.options.interval = parseInt(this.options.args, 10);
-    else
+    } else {
       this.options.interval = 1000 * 60 * 60; // default to 1 hour
+    }
   },
 
   input: function(start, num, callback) {
@@ -57,11 +58,12 @@ exports.job = new nodeio.Job({
         ]
       })
       .exec(function(err, feeds) {
-        if (err) job.exit(err);
-        if (feeds.length == 0)
+        if (err) { job.exit(err); }
+        if (feeds.length === 0) {
           callback([null]);
-        else
+        } else {
           callback(feeds);
+        }
       });
   },
 
@@ -69,7 +71,7 @@ exports.job = new nodeio.Job({
     var job = this;
 
     // skip this run if input is null,
-    if (line == null) return job.skip();
+    if (line == null) { return job.skip(); }
 
     Feed.findOne({ _id: line._id }, function(err, feed) {
       if (err) { return job.exit(); }
@@ -81,7 +83,7 @@ exports.job = new nodeio.Job({
         var postWritableStream = new PostWritableStream(feed._id, { objectMode: true });
 
         request(feed.xmlurl)
-          .pipe(new FeedParser)
+          .pipe(new FeedParser())
           .pipe(postWritableStream)
           .on("error", function(err) { job.exit(err); })
           .on("finish", function() {
