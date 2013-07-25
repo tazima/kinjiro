@@ -35,6 +35,17 @@ module.exports = function(grunt) {
           "server/**/*.ejs"
         ],
         tasks: ["mochaTest"]
+      },
+
+      jshint: {
+        files: [
+          "Gruntfile.js",
+          "app.js",
+          "server/**/*.js",
+          "client/**/*.js",
+          "tasks/**/*.js"
+        ],
+        tasks: ["jshint"]
       }
     },
 
@@ -149,6 +160,7 @@ module.exports = function(grunt) {
 
   // ci
   grunt.registerTask("ci", [
+    "jshint",
     "component_build:dev",
     "karma:ci",
     "mochaTest"
