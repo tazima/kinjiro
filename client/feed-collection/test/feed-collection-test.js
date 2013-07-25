@@ -10,7 +10,7 @@ var $ = require("component-jquery"),
 describe("feed-collection", function() {
 
   beforeEach(function() {
-    this.collection = new FeedCollection;
+    this.collection = new FeedCollection();
   });
 
   it("should have url attribute `/feeds`", function() {

@@ -64,14 +64,14 @@ function authenticate(name, password, cb) {
   console.log('authenticating %s:%s', name, password);
 
   User.findOne({ name: name }, function(err, user) {
-    if (err) throw err;
+    if (err) { throw err; }
 
     if (!user) {
       return cb(new Error("not logged in"));
     } else {
       user.comparePassword(password, function(err, isMatch) {
-        if (err) throw err;
-        if (!isMatch) return cb(new Error("not logged in"));
+        if (err) { throw err; }
+        if (!isMatch) { return cb(new Error("not logged in")); }
         return cb(null, user);
       });
     }
