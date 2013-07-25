@@ -62,7 +62,7 @@ describe("get-posts", function() {
         expect(feeds).to.be.empty();
         done();
       });
-    })
+    });
 
     it("should emit feeds crawled before 1 hour", function(done) {
       getPostsJob.input(0, 0, function(feeds) {
@@ -83,7 +83,7 @@ describe("get-posts", function() {
       // stub Request#pipe to pipe to `finish` event.
       sinon.stub(Request.prototype, "pipe", function() {
         this.on = function(e, cb) {
-          if (e === "finish") cb();
+          if (e === "finish") { cb(); }
           return this;
         };
         return this;
