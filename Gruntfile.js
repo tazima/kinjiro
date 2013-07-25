@@ -35,7 +35,25 @@ module.exports = function(grunt) {
           "server/**/*.ejs"
         ],
         tasks: ["mochaTest"]
+      },
+
+      jshint: {
+        files: [
+          "Gruntfile.js",
+          "app.js",
+          "server/**/*.js",
+          "client/**/*.js",
+          "tasks/**/*.js"
+        ],
+        tasks: ["jshint"]
       }
+    },
+
+    jshint: {
+      options: {
+        jshintrc: ".jshintrc"
+      },
+      all: ["Gruntfile.js", "app.js", "server/**/*.js", "client/**/*.js", "tasks/**/*.js"]
     },
 
     express: {
@@ -118,6 +136,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-env');
 
@@ -141,6 +160,7 @@ module.exports = function(grunt) {
 
   // ci
   grunt.registerTask("ci", [
+    "jshint",
     "component_build:dev",
     "karma:ci",
     "mochaTest"

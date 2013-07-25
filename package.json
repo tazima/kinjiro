@@ -34,6 +34,7 @@
     "karma-phantomjs-launcher": "*",
     "growly": "*",
     "grunt-contrib-watch": "*",
+    "grunt-contrib-jshint": "*",
     "grunt-mocha-test": "*",
     "grunt-karma": "git://github.com/karma-runner/grunt-karma.git",
     "grunt-nodemon": "*"

@@ -39,6 +39,7 @@ exports = module.exports = Backbone.View.extend({
   },
 
   alertError: function(model, response) {
+    /*global alert:true */
     alert(response.responseText);
     this.clearForm();
   },

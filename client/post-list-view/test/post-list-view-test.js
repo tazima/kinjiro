@@ -11,7 +11,7 @@ var $ = require("component-jquery"),
 describe("post-list-view", function() {
 
   beforeEach(function() {
-    this.collection = new Backbone.Collection;
+    this.collection = new Backbone.Collection();
     this.collection.url = "/foo";
     this.collectionFetchSpy =
       sinon.stub(this.collection, "fetch", function() {
