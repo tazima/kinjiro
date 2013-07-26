@@ -44,6 +44,7 @@ exports = module.exports = new nodeio.Job({
           _feed: feed._id,
           title: article.title,
           description: article.description,
+          pubdate: article.pubdate,
           summary: article.summary,
           imageUrl: article.image.url || "",
           imageTitle: article.image.title || ""
