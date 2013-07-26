@@ -4,14 +4,18 @@
  */
 
 var _ = require("underscore"),
-    Backbone = require("backbone");
+    Backbone = require("backbone"),
+    moment = require("moment");
 
 exports = module.exports = Backbone.View.extend({
 
   className: "post-item",
 
   render: function() {
-    this.$el.html(this.template(this.model.toJSON()));
+    var json = this.model.toJSON();
+    json.pubdate = moment(json.pubdate).format("YYYY-MM-DD");
+    console.log(json);
+    this.$el.html(this.template(json));
     return this;
   },
 
