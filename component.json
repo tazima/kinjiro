@@ -5,9 +5,7 @@
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
-    "component/simple-grid": "*",
-    "necolas/normalize.css": "*",
-    "enricomarino/css-reset": "*",
+    "layerssss/todc-bootstrap": "*",
     "tazima/backbone": "topic-component"
   },
   "development": {
