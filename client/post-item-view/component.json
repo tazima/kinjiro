@@ -3,7 +3,8 @@
   "description": "Post item view.",
   "dependencies": {
     "component/underscore": "*",
-    "tazima/backbone": "topic-component"
+    "tazima/backbone": "topic-component",
+    "component/moment": "*"
   },
   "development": {},
   "main": "index.js",
