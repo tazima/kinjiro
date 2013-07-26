@@ -27,7 +27,7 @@ describe("post-item-view", function() {
 
     it("should render description", function() {
       this.view.render();
-      expect(this.view.$(".description").text()).to.match(/Hello, world/);
+      expect(this.view.$el.text()).to.match(/Hello, world/);
     });
 
     it("should render pubdate", function() {
