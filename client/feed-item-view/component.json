@@ -8,6 +8,6 @@
   "development": {},
   "main": "index.js",
   "scripts": ["index.js"],
-  "styles": ["feed-item-view.css"],
+  "styles": [],
   "templates": ["template.html"]
 }

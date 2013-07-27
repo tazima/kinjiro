@@ -12,7 +12,7 @@
     "tazima/component-mock": "*"
   },
   "styles": [
-    "kinjiro.css"
+    "kinjiro.styl"
   ],
   "local": [
     "boot",

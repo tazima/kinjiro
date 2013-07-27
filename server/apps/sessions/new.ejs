@@ -1,5 +1,33 @@
-
 <% include ../../views/head %>
+
+<div class="container">
+	<div class="signin">
+        <div class="signin-box">
+          <h2 class="form-signin-heading">Log in</h2>
+          <% include ../../views/flash %>
+          <form method="POST" action="/sessions">
+          	<fieldset>
+          		<label for="id">ID</label>
+              	<input type="text" class="input-block-level" name="name" >
+              	<label for="passwd">Password</label>
+              	<input type="password" class="input-block-level" name="password">
+              	<input type="submit" class="btn btn-primary" value="Log in">
+            </fieldset>
+          </form>
+          <ul>
+	        <li>
+	          <a href="/users/new">Sign in</a>
+	        </li>
+	      </ul>
+      	</div>
+    </div>
+</div>
+<% include ../../views/foot %>
+
+
+
+
+<!-- <% include ../../views/head %>
 <h2>Login</h2>
 <% include ../../views/flash %>
 <form method="POST" action="/sessions">
@@ -14,4 +42,4 @@
   <input type="submit" value="login" />
 </form>
 <a href="/users/new">Sign in</a>
-<% include ../../views/foot %>
+<% include ../../views/foot %> -->

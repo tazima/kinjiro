@@ -19,7 +19,8 @@
     "grunt-express": "*",
     "grunt-env": "*",
     "grunt-component-build": "*",
-    "component-json": "git://github.com/segmentio/component-json.git"
+    "component-json": "git://github.com/segmentio/component-json.git",
+    "component-stylus-plugin": "*"
   },
   "devDependencies": {
     "mocha": "*",

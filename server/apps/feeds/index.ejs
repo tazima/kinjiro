@@ -1,24 +1,28 @@
 
 <% include ../../views/head %>
-<div class="navbar navbar-inverse">
+<!-- <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
-    <div class="container">
-      <form class="navbar-form pull-right" action="/session" method="POST">
-        <input class="btn btn-primary" type="submit" value="logout" />
-        <input type="hidden" name="_method" value="delete" />
-      </form>
-    </div>
+    <form class="navbar-form pull-right" action="/session" method="POST">
+      <input class="btn btn-primary" type="submit" value="logout" />
+      <input type="hidden" name="_method" value="delete" />
+    </form>
   </div>
-</div>
+</div> -->
 
-<section id="content" class="container-fluid">
+<section id="content" class="container">
   <div class="row-fluid">
     <div class="span3 feeds">
-      <form class="subscribe" action="#" method="">
-        <input type="text" name="url" />
-        <input type="submit" value="add" />
-      </form>
-      <div class="feed-list"></div>
+      <div class="bs-docs-sidenav affix">
+        <form class="subscribe input-append" action="#" method="">
+          <input type="text" placeholder="Enter url" name="url" />
+          <button class="btn" type="submit"><i class="icon-plus"></i></button>
+        </form>
+        <div class="feed-list"></div>
+        <form action="/session" method="POST">
+          <input class="btn btn-primary" type="submit" value="logout" />
+          <input type="hidden" name="_method" value="delete" />
+        </form>
+      </div>
     </div>
     <div class="span9 posts"></div>
   </div>
