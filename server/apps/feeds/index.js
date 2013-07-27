@@ -6,7 +6,7 @@
 var express = require("express"),
     flash = require("connect-flash"),
     async = require("async"),
-    getFeedMetaData = require("./get-feed-meta-data"),
+    getFeedMetaData = require("../../jobs/get-feed-meta-data"),
     User = require("../../models/user"),
     Feed = require("../../models/feed");
 
