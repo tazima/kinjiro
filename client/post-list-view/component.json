@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": ["index.js"],
   "styles": [
-    "post-list-view.css"
+    
   ],
   "local": ["post-item-view"],
   "templates": ["template.html"]

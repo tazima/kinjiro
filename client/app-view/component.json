@@ -11,7 +11,7 @@
     "index.js"
   ],
   "styles": [
-    "app-view.css"
+    "app-view.styl"
   ],
   "local": [
      "feed-list-view"

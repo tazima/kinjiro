@@ -27,7 +27,6 @@ function PostWritableStream(feedId, options) {
 /**
  * Inherits from stream.Writable.
  */
-
 require("util").inherits(PostWritableStream, require("stream").Writable);
 
 /**
