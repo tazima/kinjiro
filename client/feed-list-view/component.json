@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": ["index.js"],
   "styles": [
-    "feed-list-view.css"
+    "feed-list-view.styl"
   ],
   "local": ["feed-item-view"],
   "templates": ["template.html"]

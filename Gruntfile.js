@@ -5,6 +5,7 @@
 
 var fs = require("fs"),
     json = require("component-json"),
+    stylusPlugin = require('component-stylus-plugin'),
     path = require('path');
 
 module.exports = function(grunt) {
@@ -15,7 +16,9 @@ module.exports = function(grunt) {
         files: [
           "client/**/*!(-test).js",
           "kinjiro.css",
-          "client/**/*.css"
+          "client/**/*.css",
+          "kinjiro.styl",
+          "client/**/*.styl"
         ],
         tasks: ['component_build:dev']
       },
@@ -76,6 +79,7 @@ module.exports = function(grunt) {
           builder.development();
           builder.addSourceURLs();
           builder.use(json);
+          builder.use(stylusPlugin);
         }
       },
       prod: {
@@ -86,6 +90,7 @@ module.exports = function(grunt) {
         plugins: ["templates"],
         configure: function(builder) {
           builder.use(json);
+          builder.use(stylusPlugin);
         }
       }
     },

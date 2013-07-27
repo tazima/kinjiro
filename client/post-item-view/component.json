@@ -9,6 +9,6 @@
   "development": {},
   "main": "index.js",
   "scripts": ["index.js"],
-  "styles": ["post-item-view.css"],
+  "styles": ["post-item-view.styl"],
   "templates": ["template.html"]
 }
