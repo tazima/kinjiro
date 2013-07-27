@@ -19,7 +19,7 @@ exports = module.exports = getFeedMetaData;
  * First try to parse feed.
  * If get `Not feed url` error then try to scraping `url`
  * to find feed url and retry to parse feed.
- * 
+ *
  * @param {String} url
  * @param {Function} cb
  */
@@ -30,6 +30,7 @@ function getFeedMetaData(originalUrl, cb) {
     input: [originalUrl],
 
     run: function(originalUrl) {
+      console.log("aaaa");
       var job = this,
           emit = job.emit.bind(job);
 
