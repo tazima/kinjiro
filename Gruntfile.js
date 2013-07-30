@@ -174,8 +174,10 @@ module.exports = function(grunt) {
 
   // ci
   grunt.registerTask("ci", [
+    "env:test",
     "jshint",
     "component_build:dev",
+    "uglify",
     "karma:ci",
     "mochaTest"
   ]);
