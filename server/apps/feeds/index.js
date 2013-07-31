@@ -6,6 +6,7 @@
 var express = require("express"),
     flash = require("connect-flash"),
     async = require("async"),
+    staticAsset = require("static-asset"),
     getFeedMetaData = require("../../jobs/get-feed-meta-data"),
     User = require("../../models/user"),
     Feed = require("../../models/feed");
@@ -20,6 +21,8 @@ app.set("view engine", "ejs");
 app.use(express.bodyParser());
 app.use(express.errorHandler({ dumpExceptions: true }));
 app.use(flash());
+app.use(express.static(__dirname + "/build"));
+app.use(staticAsset(__dirname + "/build"));
 
 /**
  * GET /feeds
