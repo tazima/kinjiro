@@ -48,6 +48,7 @@ app.post("/feeds", loadUser(), function(req, res, next) {
     if (err) { return next(err); }
     
     var feed = new Feed(meta[0]);
+    feed._id = meta[0].xmlurl;
     feed.save(function(err) {
       if (err) { return next(err); }
       req.user._subscribes.push(feed._id);

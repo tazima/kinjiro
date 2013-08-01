@@ -4,8 +4,10 @@
  */
 
 var mongoose = require("mongoose"),
+    modelCleaner = require("./mongo-model-cleaner"),
+    async = require("async"),
     root = require("../../../app");
 
 exports = module.exports = function(done) {
-  mongoose.createConnection(root.get("db connection string"), done);
+  modelCleaner(done);
 };

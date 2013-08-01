@@ -20,11 +20,10 @@ var fixture = require("./fixture");
 
 describe("feeds", function() {
 
-  before(function(done) {
+  beforeEach(function(done) {
     var self = this;
     async.series([
-      function(cb) { User.remove(cb); },
-      function(cb) { Feed.remove(cb); },
+      function(cb) { setup(cb); },
       function(cb) { Feed.create(fixture, cb); },
       function(cb) {
         // make user to subscribe feeds.
@@ -46,7 +45,7 @@ describe("feeds", function() {
           next();
         });
         app.use(feed);
-        setup(done);
+        done();
       }
     ]);
   });
@@ -84,11 +83,12 @@ describe("feeds", function() {
         // mock getFeedMetaData job
         var self = this;
         self.jobMock = new nodeio.Job({
-          input: ["http://dailyjs.feed"],
+          input: ["http://www.1101.com/home.html"],
           run: function() {
             this.emit({
-              link: "http://dailyjs.com",
-              title: "DailyJS"
+              xmlurl: "http://www.1101.com/rss/index.html",
+              link: "http://www.1101.com/home.html",
+              title: "ほぼ日刊イトイ新聞"
             });
           }
         });
@@ -107,9 +107,9 @@ describe("feeds", function() {
           .end(function(err, res) {
             expect(this.feedSaveSpy.called).to.be.ok();
             expect(this.feedSaveSpy.thisValues[0])
-              .to.have.property("link", "http://dailyjs.com");
+              .to.have.property("link", "http://www.1101.com/home.html");
             expect(this.feedSaveSpy.thisValues[0])
-              .to.have.property("title", "DailyJS");
+              .to.have.property("title", "ほぼ日刊イトイ新聞");
             done(err);
           }.bind(this));
       });
@@ -138,9 +138,9 @@ describe("feeds", function() {
             var id = this.feedSaveSpy.thisValues[0]
                   ._id.toString();
             expect(res.body).to.have.property("_id", id);
-            expect(res.body).to.have.property("title", "DailyJS");
+            expect(res.body).to.have.property("title", "ほぼ日刊イトイ新聞");
             expect(res.body)
-              .to.have.property("link", "http://dailyjs.com");
+              .to.have.property("link", "http://www.1101.com/home.html");
             done(err);
           }.bind(this));
       });

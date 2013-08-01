@@ -8,11 +8,8 @@ var mongoose = require('mongoose'),
     Post = require("./post");
 
 var FeedSchema = new Schema({
+  _id: String,
   title: {
-    type: String,
-    require: true
-  },
-  xmlurl: {
     type: String,
     require: true
   },

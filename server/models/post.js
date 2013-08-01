@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 var PostSchema = new Schema({
   _id: { type: String }, // guid
   _feed: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: "Feed"
   },
   title: { type: String },

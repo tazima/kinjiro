@@ -82,7 +82,7 @@ exports.job = new nodeio.Job({
 
         var postWritableStream = new PostWritableStream(feed._id, { objectMode: true });
 
-        request(feed.xmlurl)
+        request(feed._id)
           .pipe(new FeedParser())
           .pipe(postWritableStream)
           .on("error", function(err) { job.exit(err); })

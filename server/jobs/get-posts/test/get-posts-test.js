@@ -98,7 +98,7 @@ describe("get-posts", function() {
       });
 
       this.feed = new Feed({
-        title: "new one", xmlurl: "http://hoge", link: "http://hoge",
+        _id: "http://hoge", title: "new one", link: "http://hoge",
         _feed_posts: [this.alreadyStoredPostId] });
       this.feed.save(done);
     });
@@ -131,7 +131,6 @@ describe("get-posts", function() {
       this.newPostIds.push(this.alreadyStoredPostId);
       var expectedIds = this.newPostIds.map(function(p) { return p.toString(); });
       sinon.stub(getPostsJob, "emit", function(feed) {
-        console.log(feed._feed_posts);
         var feedPosts = feed._feed_posts.map(function(p) { return p.toString(); });
         expect(feedPosts).to.eql(expectedIds);
         done();

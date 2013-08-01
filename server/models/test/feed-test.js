@@ -25,8 +25,8 @@ describe("Feed", function() {
       function(post, cb) {
         this.post = post;
         this.feed = new Feed({
+          _id: "http://feeds.feedburner.com/dailyjs",
           title: "DailyJS",
-          xmlurl: "http://feeds.feedburner.com/dailyjs",
           link: "http://dailyjs.com",
           favicon: "http://hoge"
         });
@@ -45,9 +45,9 @@ describe("Feed", function() {
     });
   });
 
-  it("should save `xmlurl`", function(done) {
+  it("should save `_id`", function(done) {
     this.feed.save(function(err, doc) {
-      expect(doc.xmlurl).to.equal("http://feeds.feedburner.com/dailyjs");
+      expect(doc._id).to.equal("http://feeds.feedburner.com/dailyjs");
       done(err);
     });
   });

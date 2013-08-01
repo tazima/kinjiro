@@ -30,7 +30,6 @@ function getFeedMetaData(originalUrl, cb) {
     input: [originalUrl],
 
     run: function(originalUrl) {
-      console.log("aaaa");
       var job = this,
           emit = job.emit.bind(job);
 
