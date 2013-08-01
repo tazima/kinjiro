@@ -7,8 +7,8 @@ var nodeio = require("node.io"),
     request = require("request"),
     FeedParser = require("feedparser"),
     Feed = require("../../models/feed"),
-    root = require("../../../app"),
-    PostWritableStream = require("./post-writable-stream");
+    Post = require("../../models/post"),
+    root = require("../../../app");
 
 mongoose.createConnection(root.get("db connection string"), function(err) {
   if (err) { throw err; }
@@ -80,7 +80,7 @@ exports.job = new nodeio.Job({
       feed.save(function(err, feed) {
         if (err) { return job.exit(); }
 
-        var postWritableStream = new PostWritableStream(feed._id, { objectMode: true });
+        var postWritableStream = Post.createWriteStream(feed._id);
 
         request(feed._id)
           .pipe(new FeedParser())

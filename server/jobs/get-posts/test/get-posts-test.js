@@ -9,7 +9,7 @@ var expect = require("expect.js"),
     Request = require("request").Request,
     ObjectId = require("mongoose").Types.ObjectId,
     Feed = require("../../../models/feed"),
-    PostWritableStream = require("../post-writable-stream"),
+    Post = require("../../../models/post"),
     getPostsJob = require("../").job;
 
 describe("get-posts", function() {
@@ -93,8 +93,12 @@ describe("get-posts", function() {
       this.newPostIds = [new ObjectId(), new ObjectId()];
       this.alreadyStoredPostId = new ObjectId();
 
-      sinon.stub(PostWritableStream.prototype, "getPostIds", function() {
-        return self.newPostIds;
+      sinon.stub(Post, "createWriteStream", function() {
+        return {
+          getPostIds: function() {
+            return self.newPostIds;
+          }
+        };
       });
 
       this.feed = new Feed({
@@ -106,7 +110,7 @@ describe("get-posts", function() {
     afterEach(function() {
       getPostsJob.emit.restore();
       Request.prototype.pipe.restore();
-      PostWritableStream.prototype.getPostIds.restore();
+      Post.createWriteStream.restore();
     });
 
     it("should set crawlEnd as true", function(done) {
