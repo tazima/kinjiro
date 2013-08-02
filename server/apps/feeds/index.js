@@ -53,17 +53,29 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
   Feed.findOne({ _id: url }, function(err, feed) {
     if (!err && feed) { return res.send(feed); }
 
-    var ws = Post.createWriteStream(url);
+    var ws = Post.createWriteStream(url),
+        meta = null;
 
     function onFinish(user) {
-      // TODO upsert
-      feed._feed_posts = ws.getPostIds();
-      feed.save(function(err, feed) {
+      Feed.findOne({ _id: url}, function(err, feed) {
         if (err) { return next(err); }
-        user._subscribes.push(feed._id);
-        user.save(function(err) {
+        if (feed === null) {
+          feed = new Feed(meta);
+          feed._id = url;
+          feed._feed_posts = ws.getPostIds();
+        } else {
+          feed.title = meta.title;
+          feed.link = meta.link;
+          feed._feed_posts.push(ws.getPostIds());
+        }
+
+        feed.save(function(err, feed) {
           if (err) { return next(err); }
-          res.send(feed);
+          user._subscribes.push(feed._id);
+          user.save(function(err) {
+            if (err) { return next(err); }
+            res.send(feed);
+          });
         });
       });
     }
@@ -71,13 +83,8 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
     // request rss feed
     dependencies.feedRequest(url)
       .on("error", next)
-      .on("correcturl", function(correctUrl) {
-        url = correctUrl;
-      })
-      .on("meta", function(meta) {
-        feed = new Feed(meta);
-        feed._id = url;
-      })
+      .on("correcturl", function(correctUrl) { url = correctUrl; })
+      .on("meta", function(data) { meta = data; })
       .pipe(ws)
       .on("finish", onFinish.bind(null, user));
   });
