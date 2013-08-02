@@ -45,6 +45,6 @@
     "grunt-nodemon": "*"
   },
   "scripts": {
-    "postinstall": "./node_modules/.bin/component install --dev"
+    "prepublish": "./node_modules/.bin/component install --dev"
   }
 }
