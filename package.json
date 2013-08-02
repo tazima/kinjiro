@@ -28,7 +28,7 @@
     "expect.js": "*",
     "sinon": "*",
     "supertest": "*",
-    "nock": "*x",
+    "nock": "*",
     "karma": "canary", 
     "karma-mocha": "*",
     "karma-junit-reporter": "*",
