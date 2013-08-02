@@ -26,7 +26,8 @@ describe("get-posts", function() {
 
     beforeEach(function(done) {
       Feed.create([
-        { title: "new one", xmlurl: "http://hoge", link: "http://hoge" },
+        { title: "new one", xmlurl: "http://hoge", link: "http://hoge",
+          crawlEnd: false, lastCrawlDate: null},
 
         { title: "crawling now", xmlurl: "http://hoge",
           link: "http://hoge", crawlEnd: false, lastCrawlDate: new Date() },
