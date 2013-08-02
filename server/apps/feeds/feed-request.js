@@ -101,8 +101,7 @@ FeedRequest.prototype.retry = function() {
   delete this.parser;
   this.parser = request(this.url).pipe(new FeedParser());
   this.parser.on("meta", this.emit.bind(this, "meta"));
-//  this.parser.on("error", this.emit.bind(this, "error"));
-  this.parser.on("error", function() { console.log(arguments); });
+  this.parser.on("error", this.emit.bind(this, "error"));
   this.parser.on("end", this.handleEnd.bind(this));
   this.parser.on("readable", function() {
     this.push(this.parser.read());
