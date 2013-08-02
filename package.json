@@ -16,6 +16,7 @@
     "node.io": "*",
     "feedparser": "*",
     "grunt": "x",
+    "grunt-contrib-uglify": "*",
     "grunt-express": "*",
     "grunt-env": "*",
     "grunt-component-build": "*",

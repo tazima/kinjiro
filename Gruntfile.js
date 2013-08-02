@@ -95,6 +95,14 @@ module.exports = function(grunt) {
       }
     },
 
+    uglify: {
+      prod: {
+        files: {
+          "build/build.min.js": ["build/build.js"]
+        }
+      }
+    },
+
     mochaTest: {
       options: {
         reporter: 'spec',
@@ -142,6 +150,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-env');
 
@@ -165,14 +174,17 @@ module.exports = function(grunt) {
 
   // ci
   grunt.registerTask("ci", [
+    "env:test",
     "jshint",
     "component_build:dev",
+    "uglify",
     "karma:ci",
     "mochaTest"
   ]);
 
   // heroku
   grunt.registerTask("heroku:production", [
-    "component_build:prod"
+    "component_build:prod",
+    "uglify"
   ]);
 };
