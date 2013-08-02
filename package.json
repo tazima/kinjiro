@@ -15,6 +15,7 @@
     "request": "*",
     "node.io": "*",
     "feedparser": "*",
+    "static-asset": "*",
     "grunt": "x",
     "grunt-contrib-uglify": "*",
     "grunt-express": "*",

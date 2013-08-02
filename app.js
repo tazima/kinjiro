@@ -6,7 +6,7 @@
 var express = require("express"),
     flash = require("connect-flash"),
     mongoose = require("mongoose"),
-    exec = require("child_process").exec;
+    staticAsset = require("static-asset");
 
 var app = module.exports = express();
 
@@ -36,6 +36,7 @@ app.use(express.cookieParser());
 app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
 app.use(flash());
 app.use(express.static(__dirname + "/build"));
+app.use(staticAsset(__dirname + "/build"));
 app.use(express.errorHandler());
 
 // db

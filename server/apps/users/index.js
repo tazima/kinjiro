@@ -5,6 +5,7 @@
 
 var express = require("express"),
     flash = require("connect-flash"),
+    staticAsset = require("static-asset"),
     User = require("../../models/user");
 
 var app = module.exports = express();
@@ -18,9 +19,10 @@ app.set("view engine", "ejs");
 
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-// TODO make secret secret!
 app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
 app.use(flash());
+app.use(express.static(__dirname + "/build"));
+app.use(staticAsset(__dirname + "/build"));
 
 /**
  * GET /users/new
