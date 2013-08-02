@@ -7,7 +7,7 @@ var express = require("express"),
     flash = require("connect-flash"),
     mongoose = require("mongoose"),
     debug = require("debug")("http"),
-    exec = require("child_process").exec;
+    staticAsset = require("static-asset");
 
 var app = module.exports = express();
 
