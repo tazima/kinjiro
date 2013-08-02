@@ -16,6 +16,7 @@
     "node.io": "*",
     "feedparser": "*",
     "static-asset": "*",
+    "knit": "*",
     "debug": "*",
     "grunt": "*",
     "grunt-contrib-uglify": "*",

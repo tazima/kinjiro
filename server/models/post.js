@@ -21,6 +21,14 @@ var PostSchema = new Schema({
   imageTitle: { type: String }
 });
 
+/**
+ * Create `Post` writable stream.
+ *
+ * @param {String} feedurl
+ * @return {Writable}
+ * @api public
+ */
+
 PostSchema.statics.createWriteStream = function(feedurl) {
   var ws = new Writable({ objectMode: true }),
       postIds = [];

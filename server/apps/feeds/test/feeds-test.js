@@ -8,15 +8,19 @@ var express = require("express"),
     async = require("async"),
     request = require("supertest"),
     sinon = require("sinon"),
-    nodeio = require("node.io"),
+    knit = require("knit"),
+    EventEmitter = require("events").EventEmitter,
     Feed = require("../../../models/feed"),
+    Post = require("../../../models/post"),
     User = require("../../../models/user"),
     setup = require("../../../test/setup"),
+    FeedRequest = require("../feed-request").FeedRequest,
     feed = require("../");
 
 var app = express();
 
 var fixture = require("./fixture");
+var postFixture = require("./post-fixture");
 
 describe("feeds", function() {
 
@@ -66,112 +70,126 @@ describe("feeds", function() {
 
   describe("POST /feeds", function() {
 
-    beforeEach(function() {
-      this.feedSaveSpy = sinon.spy(Feed.prototype, "save");
-      this.userSaveSpy = sinon.spy(User.prototype, "save");
-      this.url = "http://piyopiyo";
+    before(function() {
+      var self = this;
+
+      this.feedRequestSpy = sinon.spy(function(url) {
+        var mock = Object.create(EventEmitter.prototype);
+        mock.pipe = function(dst) {
+          self.feedRequestPipeDst = dst;
+          mock.emit("meta", { title: "DailyJS", link: "http://dailjy.com" });
+          dst.write(postFixture[0]);
+          dst.write(postFixture[1]);
+          process.nextTick(dst.end.bind(dst));
+          return dst;
+        };
+        return mock;
+      });
+
+      // inject mock
+      knit.config(function(bind) {
+        bind("feedRequest").to(this.feedRequestSpy);
+      }.bind(this));
     });
 
-    afterEach(function() {
-      Feed.prototype.save.restore();
-      User.prototype.save.restore();
+    it("should request feed xml", function(done) {
+      request(app)
+        .post("/feeds")
+        .send({ url: "http://feedurl.xml" })
+        .expect(200)
+        .end(function(err, res) {
+          expect(this.feedRequestSpy.called).to.be.ok();
+          done();
+        }.bind(this));
     });
 
-    describe("when `getFeedMetaData` success", function() {
+    describe("save feed", function() {
 
       beforeEach(function() {
-        // mock getFeedMetaData job
-        var self = this;
-        self.jobMock = new nodeio.Job({
-          input: ["http://www.1101.com/home.html"],
-          run: function() {
-            this.emit({
-              xmlurl: "http://www.1101.com/rss/index.html",
-              link: "http://www.1101.com/home.html",
-              title: "ほぼ日刊イトイ新聞"
-            });
-          }
-        });
-        self.JobStub = sinon.stub(nodeio, "Job", function() { return self.jobMock; });
+        this.saveSpy = sinon.spy(Feed.prototype, "save");
       });
 
       afterEach(function() {
-        nodeio.Job.restore();
+        Feed.prototype.save.restore();
       });
 
-      it("should save meta data", function(done) {
+      it("should save fetched meta data", function(done) {
         request(app)
           .post("/feeds")
-          .send({ url: this.url })
+          .send({ url: "http://feedurl.xml" })
           .expect(200)
           .end(function(err, res) {
-            expect(this.feedSaveSpy.called).to.be.ok();
-            expect(this.feedSaveSpy.thisValues[0])
-              .to.have.property("link", "http://www.1101.com/home.html");
-            expect(this.feedSaveSpy.thisValues[0])
-              .to.have.property("title", "ほぼ日刊イトイ新聞");
-            done(err);
+            expect(this.saveSpy.called).to.be.ok();
+            done();
           }.bind(this));
       });
 
-      it("should add new feeds' id to users' subscribes", function(done) {
+      it("should save fetched posts ids", function(done) {
         request(app)
           .post("/feeds")
-          .send({ url: this.url })
+          .send({ url: "http://feedurl.xml" })
           .expect(200)
           .end(function(err, res) {
-            expect(this.userSaveSpy.called).to.be.ok();
-
-            var subscribes = this.userSaveSpy.thisValues[0]._subscribes,
-                feedId = this.feedSaveSpy.thisValues[0]._id;
-
-            expect(subscribes).contain(feedId);
-            done(err);
+            var actual = this.saveSpy.thisValues[0]._feed_posts
+                  .map(function(id) { return id.toString(); });
+            expect(actual).to.eql(["http://feedurl/1", "http://feedurl/2"]);
+            done();
           }.bind(this));
       });
 
-      it("should responde with saved Feed", function(done) {
-        request(app)
-          .post("/feeds")
-          .send({ url: this.url })
-          .end(function(err, res) {
-            var id = this.feedSaveSpy.thisValues[0]
-                  ._id.toString();
-            expect(res.body).to.have.property("_id", id);
-            expect(res.body).to.have.property("title", "ほぼ日刊イトイ新聞");
-            expect(res.body)
-              .to.have.property("link", "http://www.1101.com/home.html");
-            done(err);
-          }.bind(this));
-      });
     });
 
-    describe("when `getFeedMetaData` fail", function() {
+    describe("save posts", function() {
 
       beforeEach(function() {
-        // mock getFeedMetaData job
-        var self = this;
-        self.jobMock = new nodeio.Job({
-          input: ["http://dailyjs.feed"],
-          run: function() { this.exit("sorry"); }
-        });
-        self.JobStub = sinon.stub(nodeio, "Job", function() { return self.jobMock; });
+        var ws = this.ws = new require("stream").Writable({ objectMode: true });
+        ws._write = function(chunk, enc, next) { next(); };
+        ws.getPostIds = function() { return []; };
+        sinon.stub(Post, "createWriteStream", function() { return ws; });
       });
 
       afterEach(function() {
-        nodeio.Job.restore();
+        Post.createWriteStream.restore();
       });
 
-      it("should respond with `500`", function(done) {
+      it("should pipe `feedRequest` to Post's writable stream", function(done) {
         request(app)
           .post("/feeds")
-          .send({ url: this.url })
-          .set('Accept', 'application/json')
-          .expect(500, done); // TODO err message verification
+          .send({ url: "http://feedurl.xml" })
+          .expect(200)
+          .end(function(err, res) {
+            expect(this.feedRequestPipeDst).to.be(this.ws);
+            done();
+          }.bind(this));
       });
 
     });
-    
+
+    describe("save user", function() {
+
+      beforeEach(function() {
+        this.saveSpy = sinon.spy(User.prototype, "save");
+      });
+
+      afterEach(function() {
+        User.prototype.save.restore();
+      });
+
+      it("should append fetched feed id to subscribes", function(done) {
+        request(app)
+          .post("/feeds")
+          .send({ url: "http://feedurl.xml" })
+          .expect(200)
+          .end(function(err, res) {
+            expect(this.saveSpy.called).to.be.ok();
+            expect(this.saveSpy.thisValues[0]._subscribes)
+              .to.contain("http://feedurl.xml");
+            done();
+          }.bind(this));
+      });
+
+    });
+
   });
   
 });

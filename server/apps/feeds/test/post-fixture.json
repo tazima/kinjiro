@@ -1,0 +1,22 @@
+[
+  {
+    "guid": "http://feedurl/1",
+    "title": "jquery",
+    "description": "my description",
+    "summary": "my summary",
+    "image": {
+      "url": "http://feedurl/1.png",
+      "title": "my title"
+    }
+  },
+  {
+    "guid": "http://feedurl/2",
+    "title": "jquery",
+    "description": "my description",
+    "summary": "my summary",
+    "image": {
+      "url": "http://feedurl/1.png",
+      "title": "my title"
+    }
+  }
+]
