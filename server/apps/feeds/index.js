@@ -82,7 +82,10 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
 
     // request rss feed
     dependencies.feedRequest(url)
-      .on("error", next)
+      .on("error", function(err) {
+        debug("fail to look up feed url: " + url);
+        return next(err);
+      })
       .on("correcturl", function(correctUrl) { url = correctUrl; })
       .on("meta", function(data) { meta = data; })
       .pipe(ws)
