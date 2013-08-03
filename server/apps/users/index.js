@@ -18,8 +18,6 @@ app.set("view engine", "ejs");
 // middleware
 
 app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
 app.use(flash());
 app.use(express.static(__dirname + "/build"));
 app.use(staticAsset(__dirname + "/build"));
