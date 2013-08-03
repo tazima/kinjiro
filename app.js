@@ -46,7 +46,6 @@ app.use(express.static(__dirname + "/build"));
 app.use(staticAsset(__dirname + "/build"));
 app.use(express.errorHandler());
 
-console.log(app.set("session secret"));
 // db
 
 mongoose.connect(app.get("db connection string"), function(err) {
