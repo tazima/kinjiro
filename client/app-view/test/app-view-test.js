@@ -21,8 +21,8 @@ describe("app-view", function() {
       "  <div class=\"feed-list\"></div>",
       "</section>"
     ].join("")).appendTo("body");
-    this.ListViewMock = sinon.spy(Backbone.View.extend());
-    componentMock.registerMock("feed-list-view/index.js", this.ListViewMock);
+    this.FeedListViewMock = sinon.spy(Backbone.View.extend());
+    componentMock.registerMock("feed-list-view/index.js", this.FeedListViewMock);
     AppView = require("app-view");
   });
 
@@ -38,7 +38,7 @@ describe("app-view", function() {
   });
 
   afterEach(function() {
-    this.ListViewMock.reset();
+    this.FeedListViewMock.reset();
     $("#content").off();
   });
 
@@ -46,39 +46,59 @@ describe("app-view", function() {
     
     it("should render list view", function() {
       this.view.render();
-      expect(this.ListViewMock.called).to.be.ok();
+      expect(this.FeedListViewMock.called).to.be.ok();
     });
 
     it("should instantiate ListView with .feed-list el", function() {
       this.view.render();
-      expect(this.ListViewMock.called).to.be.ok();
-      expect(this.ListViewMock.args[0][0].el.attr("class")).to.match(/feed-list/);
+      expect(this.FeedListViewMock.called).to.be.ok();
+      expect(this.FeedListViewMock.args[0][0].el.attr("class")).to.match(/feed-list/);
     });
 
     it("should instantiate ListView with collection", function() {
       this.view.render();
-      expect(this.ListViewMock.args[0][0].collection).to.be(this.collection);
+      expect(this.FeedListViewMock.args[0][0].collection).to.be(this.collection);
     });
   });
 
   describe("on `submit .subscribe`", function() {
 
     beforeEach(function() {
-      this.createSpy = sinon.stub(this.collection, "create", function() {});
+      this.createSpy = sinon.stub(this.collection, "create", function(data, opts) {
+        opts.success({ id: "http://hoge.com/rss" });
+        this.trigger("add");
+      });
+      this.navigateSpy = sinon.spy(Backbone.history, "navigate");
     });
 
     afterEach(function() {
       this.collection.create.restore();
+      Backbone.history.navigate.restore();
     });
 
     it("should create new FeedModel", function() {
       this.view.render();
-      this.view.$(".subscribe [type=text]").val("hoge");
+      this.view.$(".subscribe [type=text]").val("http://hoge.com");
       this.view.$(".subscribe").submit();
 
       expect(this.createSpy.called).to.be.ok();
       expect(this.createSpy.args[0][0])
-        .to.have.property("url", "hoge");
+        .to.have.property("url", "http://hoge.com");
+    });
+
+    it("should navigate to created feed's posts route", function(done) {
+      var self = this;
+
+      this.collection.on("add", function() {
+        expect(self.navigateSpy.args[0][0])
+          .to.match(/feeds\/http%3A%2F%2Fhoge.com%2Frss\/posts/);
+        expect(self.navigateSpy.args[0][1]).to.have.property("trigger", true);
+        done();
+      });
+
+      this.view.render();
+      this.view.$(".subscribe [type=text]").val("http://hoge.com");
+      this.view.$(".subscribe").submit();
     });
 
   });

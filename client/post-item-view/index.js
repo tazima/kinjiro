@@ -14,7 +14,6 @@ exports = module.exports = Backbone.View.extend({
   render: function() {
     var json = this.model.toJSON();
     json.pubdate = moment(json.pubdate).format("YYYY-MM-DD");
-    console.log(json);
     this.$el.html(this.template(json));
     return this;
   },

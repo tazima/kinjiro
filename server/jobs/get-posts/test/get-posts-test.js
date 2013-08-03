@@ -9,7 +9,7 @@ var expect = require("expect.js"),
     Request = require("request").Request,
     ObjectId = require("mongoose").Types.ObjectId,
     Feed = require("../../../models/feed"),
-    PostWritableStream = require("../post-writable-stream"),
+    Post = require("../../../models/post"),
     getPostsJob = require("../").job;
 
 describe("get-posts", function() {
@@ -26,7 +26,8 @@ describe("get-posts", function() {
 
     beforeEach(function(done) {
       Feed.create([
-        { title: "new one", xmlurl: "http://hoge", link: "http://hoge" },
+        { title: "new one", xmlurl: "http://hoge", link: "http://hoge",
+          crawlEnd: false, lastCrawlDate: null},
 
         { title: "crawling now", xmlurl: "http://hoge",
           link: "http://hoge", crawlEnd: false, lastCrawlDate: new Date() },
@@ -93,12 +94,16 @@ describe("get-posts", function() {
       this.newPostIds = [new ObjectId(), new ObjectId()];
       this.alreadyStoredPostId = new ObjectId();
 
-      sinon.stub(PostWritableStream.prototype, "getPostIds", function() {
-        return self.newPostIds;
+      sinon.stub(Post, "createWriteStream", function() {
+        return {
+          getPostIds: function() {
+            return self.newPostIds;
+          }
+        };
       });
 
       this.feed = new Feed({
-        title: "new one", xmlurl: "http://hoge", link: "http://hoge",
+        _id: "http://hoge", title: "new one", link: "http://hoge",
         _feed_posts: [this.alreadyStoredPostId] });
       this.feed.save(done);
     });
@@ -106,7 +111,7 @@ describe("get-posts", function() {
     afterEach(function() {
       getPostsJob.emit.restore();
       Request.prototype.pipe.restore();
-      PostWritableStream.prototype.getPostIds.restore();
+      Post.createWriteStream.restore();
     });
 
     it("should set crawlEnd as true", function(done) {
@@ -131,7 +136,6 @@ describe("get-posts", function() {
       this.newPostIds.push(this.alreadyStoredPostId);
       var expectedIds = this.newPostIds.map(function(p) { return p.toString(); });
       sinon.stub(getPostsJob, "emit", function(feed) {
-        console.log(feed._feed_posts);
         var feedPosts = feed._feed_posts.map(function(p) { return p.toString(); });
         expect(feedPosts).to.eql(expectedIds);
         done();

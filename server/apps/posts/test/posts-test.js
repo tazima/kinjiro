@@ -26,10 +26,8 @@ describe("posts", function() {
     var self = this;
 
     async.waterfall([
-      function(cb) { User.remove(cb); },
-      function(user, cb) { Feed.remove(cb); },
-      function(user, cb) { Post.remove(cb); },
-      function(feed, cb) { Feed.create(feedFixture, cb); },
+      function(cb) { setup(cb); },
+      function(cb) { Feed.create(feedFixture, cb); },
       function() {
         var args = [].slice.call(arguments),
             cb = args.pop();
@@ -58,7 +56,7 @@ describe("posts", function() {
         next();
       });
       app.use(posts);
-      setup(done);
+      done();
     });
   });
 
@@ -68,7 +66,7 @@ describe("posts", function() {
 
       it("should respond with posts of fid", function(done) {
         request(app)
-          .get("/feeds/" + feedIds[0] + "/posts")
+          .get("/feeds/" + encodeURIComponent(feedIds[0]) + "/posts")
           .expect(200)
           .end(function(err, res) {
             var actual = res.body[0],

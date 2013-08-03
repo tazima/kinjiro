@@ -9,7 +9,8 @@ module.exports = function(karma) {
     files: [
       "../node_modules/expect.js/expect.js",
       "../node_modules/sinon/pkg/sinon.js",
-      (process.env.NODE_ENV === "test" ? "../build/build.min.js" : "../build/build.js"),
+      "../build/build.js",
+      // (process.env.NODE_ENV === "test" ? "../build/build.min.js" : "../build/build.js"),
       "test/setup.js",
       "**/test/*-test.js"
     ],

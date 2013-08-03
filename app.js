@@ -6,6 +6,7 @@
 var express = require("express"),
     flash = require("connect-flash"),
     mongoose = require("mongoose"),
+    debug = require("debug")("http"),
     staticAsset = require("static-asset");
 
 var app = module.exports = express();
@@ -17,14 +18,17 @@ app.set("view engine", "ejs");
 
 app.configure("production", function() {
   app.set("db connection string", process.env.MONGOLAB_URI);
+  app.use(express.logger());
 });
 
 app.configure("development", function() {
   app.set("db connection string", "mongodb://localhost:27017/kinjiro");
+  app.use(express.logger("dev"));
 });
 
 app.configure("test", function() {
   app.set("db connection string", "mongodb://localhost:27017/kinjiro-test");
+  app.use(express.logger("dev"));
 });
 
 // middleware
@@ -43,7 +47,7 @@ app.use(express.errorHandler());
 
 mongoose.connect(app.get("db connection string"), function(err) {
   if (err) { throw err; }
-  console.log("Connected to mongo db");
+  debug("Connected to mongo db");
 });
 
 // routes
@@ -67,11 +71,9 @@ function restrict(req, res, next) {
   }
 }
 
-// TODO handle 404
-
 var port = process.env.PORT || 3000;
 if (!module.parent) {
   app.listen(port);
-  console.log('Express started on port 3000');
+  debug('Express started on port 3000');
 }
 
