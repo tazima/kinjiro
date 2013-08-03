@@ -13,6 +13,7 @@ var PostSchema = new Schema({
     type: String,
     ref: "Feed"
   },
+  link: {type: String },
   title: { type: String },
   description: { type: String },
   summary: { type: String },
@@ -37,6 +38,7 @@ PostSchema.statics.createWriteStream = function(feedurl) {
     this.update({ _id: article.guid }, {
       _feed: feedurl,
       title: article.title,
+      link: article.link,
       description: article.description,
       summary: article.summary,
       imageUrl: article.image.url || "",

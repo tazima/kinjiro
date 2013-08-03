@@ -90,6 +90,7 @@ describe("Post", function() {
         this.ws = Post.createWriteStream(this.feedurl);
         this.article = {
           guid: "http://hoge",
+          link: "http://hoge",
           title: "my title",
           description: "my description",
           summary: "my summary",
@@ -116,6 +117,7 @@ describe("Post", function() {
         self.ws.write(self.article, function() {
           Post.findOne({ _id: self.article.guid }, function(err, doc) {
             expect(doc).to.have.property("title", self.article.title);
+            expect(doc).to.have.property("link", self.article.link);
             expect(doc).to.have.property("description", self.article.description);
             expect(doc).to.have.property("summary", self.article.summary);
             expect(doc).to.have.property("imageUrl", self.article.image.url);
