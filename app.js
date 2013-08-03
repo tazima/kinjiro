@@ -18,16 +18,19 @@ app.set("view engine", "ejs");
 
 app.configure("production", function() {
   app.set("db connection string", process.env.MONGOLAB_URI);
+  app.set("session secret", process.env.SESSION_SECRET);
   app.use(express.logger());
 });
 
 app.configure("development", function() {
   app.set("db connection string", "mongodb://localhost:27017/kinjiro");
+  app.set("session secret", "shhhh, very secret");
   app.use(express.logger("dev"));
 });
 
 app.configure("test", function() {
   app.set("db connection string", "mongodb://localhost:27017/kinjiro-test");
+  app.set("session secret", "shhhh, very secret");
   app.use(express.logger("dev"));
 });
 
@@ -36,8 +39,7 @@ app.configure("test", function() {
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-// TODO make secret secret!
-app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
+app.use(express.cookieSession({ secret: app.set("session secret") }));
 app.use(flash());
 app.use(express.compress());
 app.use(express.static(__dirname + "/build"));
