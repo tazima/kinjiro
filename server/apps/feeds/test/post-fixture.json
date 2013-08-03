@@ -1,6 +1,7 @@
 [
   {
     "guid": "http://feedurl/1",
+    "link": "http://hoge",
     "title": "jquery",
     "description": "my description",
     "summary": "my summary",
@@ -11,6 +12,7 @@
   },
   {
     "guid": "http://feedurl/2",
+    "link": "http://hoge",
     "title": "jquery",
     "description": "my description",
     "summary": "my summary",
