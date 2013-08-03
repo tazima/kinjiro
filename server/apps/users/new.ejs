@@ -1,34 +1,20 @@
 <% include ../../views/head %>
 
 <div class="container">
-	<div class="signin">
-        <div class="signin-box">
-          <h2 class="form-signin-heading">Sign in</h2>
-          <% include ../../views/flash %>
-          <form method="POST" action="/users">
-          	<fieldset>
-          		<label for="id">ID</label>
-              	<input type="text" class="input-block-level" name="user[name]" >
-              	<label for="passwd">Password</label>
-              	<input type="password" class="input-block-level" name="user[password]">
-              	<input type="submit" class="btn btn-primary" value="Sign in">
-            </fieldset>
-          </form>
-      	</div>
+  <div class="signin">
+    <div class="signin-box">
+      <h2 class="form-signin-heading">Sign in</h2>
+      <% include ../../views/flash %>
+      <form method="POST" action="/users">
+        <fieldset>
+          <label for="id">ID</label>
+          <input type="text" class="input-block-level" name="user[name]" >
+          <label for="passwd">Password</label>
+          <input type="password" class="input-block-level" name="user[password]">
+          <input type="submit" class="btn btn-primary" value="Sign in">
+        </fieldset>
+      </form>
     </div>
+  </div>
 </div>
 <% include ../../views/foot %>
-<!-- <% include ../../views/flash %>
-<form method="POST" action="/users">
-  <label>
-    ID
-    <input type="text" name="user[name]" />
-  </label>
-  <label>
-    password
-    <input type="password" name="user[password]" />
-  </label>
-  <input type="submit" value="sign in" />
-</form>
-<% include ../../views/foot %>
- -->
