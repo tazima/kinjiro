@@ -54,9 +54,12 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
     if (!err && feed) { return res.send(feed); }
 
     var ws = Post.createWriteStream(url),
-        meta = null;
+        meta = null,
+        fail = false;
 
     function onFinish(user) {
+      if (fail) { return; }
+
       Feed.findOne({ _id: url}, function(err, feed) {
         if (err) { return next(err); }
         if (feed === null) {
@@ -81,9 +84,12 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
     }
 
     // request rss feed
-    dependencies.feedRequest(url)
+    var request = dependencies.feedRequest(url);
+
+    request
       .on("error", function(err) {
         debug("fail to look up feed url: " + url);
+        fail = true;
         return next(err);
       })
       .on("correcturl", function(correctUrl) { url = correctUrl; })
