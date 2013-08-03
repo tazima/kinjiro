@@ -11,7 +11,7 @@ describe("feed-item-view", function() {
 
   beforeEach(function() {
     this.model = new Backbone.Model({
-      _id: "myid",
+      _id: "http://feeds.feedburner.com/dailyjs",
       title: "hoge",
       link: "piyo"
     });
@@ -29,7 +29,7 @@ describe("feed-item-view", function() {
 
   it("should have anchor to its' posts", function() {
     expect(this.view.render().$("a").attr("href"))
-      .to.equal("#feeds/" + this.model.get("_id") + "/posts");
+      .to.equal("#feeds/" + encodeURIComponent(this.model.get("_id")) + "/posts");
   });
 
   it("should render models' title", function() {

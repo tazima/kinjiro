@@ -14,7 +14,7 @@ exports = module.exports = Backbone.View.extend({
   },
 
   initialize: function() {
-    _.bindAll(this, "clearForm", "alertError");
+    _.bindAll(this, "navigateToPosts", "alertError");
   },
 
   render: function() {
@@ -28,14 +28,19 @@ exports = module.exports = Backbone.View.extend({
 
   create: function(e) {
     e.preventDefault();
+    var url = this.$(".subscribe [type=text]").val();
     this.$("[type=submit]").attr("disabled", true);
-    this.collection.create({
-      url: this.$(".subscribe [type=text]").val()
-    }, {
+    this.collection.create({ url: url }, {
       wait: true,
-      success: this.clearForm,
+      success: this.navigateToPosts,
       error: this.alertError
     });
+  },
+
+  navigateToPosts: function(model) {
+    Backbone.history.navigate("feeds/" + encodeURIComponent(model.id) + "/posts",
+                              { trigger: true });
+    this.clearForm();
   },
 
   alertError: function(model, response) {

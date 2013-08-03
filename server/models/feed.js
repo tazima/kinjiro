@@ -8,11 +8,8 @@ var mongoose = require('mongoose'),
     Post = require("./post");
 
 var FeedSchema = new Schema({
+  _id: String,
   title: {
-    type: String,
-    require: true
-  },
-  xmlurl: {
     type: String,
     require: true
   },
@@ -23,8 +20,8 @@ var FeedSchema = new Schema({
   favicon: {
     type: String
   },
-  lastCrawlDate: { type: Date, default: null },
-  crawlEnd: { type: Boolean, default: false },
+  lastCrawlDate: { type: Date, default: Date.now },
+  crawlEnd: { type: Boolean, default: true },
   _feed_posts: [{
     type: String,
     ref: "Post"

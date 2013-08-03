@@ -18,9 +18,9 @@ describe("feed-collection", function() {
       .to.have.property("url", "/feeds");
   });
 
-  it("should have idAttribute `_id`", function() {
-    expect(this.collection)
-      .to.have.property("idAttribute", "_id");
+  it("model should have idAttribute `_id`", function() {
+    var m = new this.collection.model({ _id: "hoge" });
+    expect(m.id).to.equal("hoge");
   });
 
 });

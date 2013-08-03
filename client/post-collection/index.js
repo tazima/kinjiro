@@ -12,7 +12,7 @@ exports = module.exports = Backbone.Collection.extend({
   },
 
   url: function() {
-    return "/feeds/" + this.fid + "/posts";
+    return "/feeds/" + encodeURIComponent(this.fid) + "/posts";
   },
 
   idAttribute: "_id"

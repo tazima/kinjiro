@@ -1,10 +1,12 @@
 [
   {
+    "_id": "http://feeds.feedburner.com/dailyjs",
     "title": "DailyJS",
-    "link": "http://feeds.feedburner.com/dailyjs"
+    "link": "http://dailyjs.com/"
   },
   {
+    "_id": "http://weblog.rubyonrails.org/feed/atom.xml",
     "title": "ROR",
-    "link": "http://weblog.rubyonrails.org/feed/atom.xml"
+    "link": "http://ride-on-rails.blogspot.jp"
   }
 ]

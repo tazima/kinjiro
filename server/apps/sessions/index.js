@@ -4,6 +4,7 @@
  */
 
 var express = require("express"),
+    debug = require("debug")("http"),
     User = require("../../models/user");
 
 var app = module.exports = express();
@@ -61,7 +62,7 @@ app.del("/session", function(req, res) {
  */
 
 function authenticate(name, password, cb) {
-  console.log('authenticating %s:%s', name, password);
+  debug('authenticating %s:xxx', name);
 
   User.findOne({ name: name }, function(err, user) {
     if (err) { throw err; }

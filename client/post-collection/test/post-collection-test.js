@@ -10,13 +10,15 @@ var $ = require("component-jquery"),
 describe("feed-collection", function() {
 
   beforeEach(function() {
-    this.collection = new PostCollection([], { fid: "my-feed-id" });
+    this.collection = new PostCollection([], { fid: "http://feeds.feedburner.com/dailyjs" });
   });
 
   describe("#url()",  function() {
     it("should return `/feeds/:fid/posts`", function() {
       expect(this.collection.url())
-        .to.equal("/feeds/my-feed-id/posts");
+        .to.equal("/feeds/" +
+                  encodeURIComponent("http://feeds.feedburner.com/dailyjs") +
+                  "/posts");
     });
   });
 

@@ -12,14 +12,15 @@ var UserSchema = new Schema({
   name: {
     type: String,
     required: true,
-    index: {unique: true, dropDups: true}
+    index: true,
+    unique: true
   },
   password: {
     type: String,
     required: true
   },
   _subscribes: [{
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: "Feed"
   }]
 });

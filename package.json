@@ -16,7 +16,9 @@
     "node.io": "*",
     "feedparser": "*",
     "static-asset": "*",
-    "grunt": "x",
+    "knit": "*",
+    "debug": "*",
+    "grunt": "*",
     "grunt-contrib-uglify": "*",
     "grunt-express": "*",
     "grunt-env": "*",
@@ -43,6 +45,6 @@
     "grunt-nodemon": "*"
   },
   "scripts": {
-    "postinstall": "./node_modules/.bin/component install --dev"
+    "prepublish": "./node_modules/.bin/component install --dev"
   }
 }

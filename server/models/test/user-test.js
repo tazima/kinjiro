@@ -7,20 +7,26 @@ var expect = require("expect.js"),
     sinon = require("sinon"),
     async = require("async"),
     ObjectId = require("mongoose").Schema.ObjectId,
-    setup = require("../../test/setup"),
-    Feed = require("../feed"),
-    User = require("../user");
+    setup = require("../../test/setup");
+
+var User, Feed;
 
 var MONGO_CONN_STRING = "mongodb://localhost:27017/kinjiro-test";
 
 describe("User", function() {
 
-  before(function(done) {
+  beforeEach(function(done) {
     setup(done);
   });
 
   beforeEach(function(done) {
-    this.feed = new Feed();
+    Feed = require("../feed");
+    User = require("../user");
+    this.feed = new Feed({
+      _id: "http://feeds.feedburner.com/dailyjs",
+      link: "http://dailyjs.com/",
+      title: "DailyJS"
+    });
     this.feed.save(function(err, feed) {
       this.user = new User({
         name: "foo",
@@ -28,7 +34,7 @@ describe("User", function() {
       });
       expect(this.user._subscribes).to.not.be(undefined);
       this.user._subscribes.push(feed._id);
-      User.remove(done);
+      done();
     }.bind(this));
   });
 
