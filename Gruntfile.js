@@ -15,6 +15,7 @@ module.exports = function(grunt) {
       component_build: {
         files: [
           "client/**/*!(-test).js",
+          "client/**/*.html",
           "kinjiro.css",
           "client/**/*.css",
           "kinjiro.styl",

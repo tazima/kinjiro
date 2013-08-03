@@ -14,6 +14,7 @@ describe("post-item-view", function() {
     beforeEach(function() {
       this.model = new Backbone.Model({
         title: "DailyJs",
+        link: "http://hoge",
         description: "Hello, world.",
         pubdate: "Fri Jul 26 2013 17:08:00 GMT+0900 (JST)"
       });
@@ -23,6 +24,11 @@ describe("post-item-view", function() {
     it("should render title", function() {
       this.view.render();
       expect(this.view.$(".title").text()).to.match(/DailyJs/);
+    });
+
+    it("should render link", function() {
+      this.view.render();
+      expect(this.view.$("a.link").attr("href")).to.match(/http\:\/\/hoge/);
     });
 
     it("should render description", function() {
