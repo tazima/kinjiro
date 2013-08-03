@@ -3,17 +3,38 @@
  * Module dependencies.
  */
 
-var expect = require("expect.js"),
+var express = require("express"),
+    expect = require("expect.js"),
     request = require("supertest"),
     sinon = require("sinon"),
-    app = require("../"),
+    async = require("async"),
+    user = require("../"),
     setup = require("../../../test/setup"),
     User = require("../../../models/user");
+
+var app = express();
 
 describe("users", function() {
 
   before(function(done) {
-    setup(done);
+    var self = this;
+    async.series([
+      function(cb) { setup(cb); },
+      function(cb) {
+        var user = new User({ name: "a", password: "b" });
+        user.save(cb);
+      },
+      function() {
+        // fake user_id
+        app.use(function(req, res, next) {
+          req.session = {};
+          req.session.user_id = self.user._id;
+          next();
+        });
+        app.use(user);
+        done();
+      }
+    ]);
   });
   
   describe("GET /users/new", function() {
