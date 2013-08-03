@@ -39,6 +39,7 @@ app.use(express.cookieParser());
 // TODO make secret secret!
 app.use(express.cookieSession({ secret: 'shhhh, very secret' }));
 app.use(flash());
+app.use(express.compress());
 app.use(express.static(__dirname + "/build"));
 app.use(staticAsset(__dirname + "/build"));
 app.use(express.errorHandler());
