@@ -61,10 +61,11 @@ module.exports = function(grunt) {
     },
 
     express: {
-      server: {
+      docs: {
         options: {
           hostname: "localhost",
-          server: path.resolve('./app')
+          port: 3001,
+          bases: "."
         }
       }
     },
@@ -142,6 +143,22 @@ module.exports = function(grunt) {
         watchedExtensions: ['js', "ejs"],
         watchedFolders: ["server"]
       }
+    },
+
+    dox: {
+      files: {
+        src: ['server/', 'client/'],
+        dest: './docs'
+      }
+    },
+
+    open: {
+      dev: {
+        path: "http://127.0.0.1:3000"
+      },
+      docs: {
+        path: "http://127.0.0.1:3001/docs/index.html"
+      }
     }
   });
 
@@ -154,6 +171,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-env');
+  grunt.loadNpmTasks('grunt-dox');
+  grunt.loadNpmTasks('grunt-open');
 
   grunt.loadTasks("tasks");
 
@@ -161,9 +180,15 @@ module.exports = function(grunt) {
   grunt.registerTask('server', [
     "component_build:dev",
     "env:dev",
-    "nodemon",
-    'express',
-    'express-keepalive'
+    "nodemon" // TODO add `open` task
+  ]);
+
+  // start api documentation server.
+  grunt.registerTask('docs', [
+    "dox",
+    "express:docs",
+    "open:docs",
+    "express-keepalive"
   ]);
 
   // default for test task.
