@@ -1,8 +1,10 @@
 /node_modules
+/docs
 components
 build
 
 test-results.xml
+libpeerconnection.log
 
 \#*
 .\#*
