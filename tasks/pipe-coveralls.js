@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     var done = this.async();
 
     require("child_process").exec(
-      "cat ./lcov | ./node_modules/coveralls/bin/coveralls.js"
-    , {}, function(err, stdout, stderr) { done(); });
+      "cat ./lcov | ./node_modules/coveralls/bin/coveralls.js",
+      {}, function(err, stdout, stderr) { console.log(arguments);done(); });
   });
 };
