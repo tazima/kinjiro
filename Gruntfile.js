@@ -38,7 +38,7 @@ module.exports = function(grunt) {
           "server/**/*.js",
           "server/**/*.ejs"
         ],
-        tasks: ["mochaTest"]
+        tasks: ["mochaTest:unit"]
       },
 
       jshint: {
@@ -105,11 +105,20 @@ module.exports = function(grunt) {
     },
 
     mochaTest: {
-      options: {
-        reporter: 'spec',
-        growl: true
+      unit: {
+        options: {
+          reporter: 'spec',
+          growl: true
+        },
+        src: ['server/**/test/*-test.js']
       },
-      test: {
+      ci: {
+        options: {
+          reporter: 'mocha-lcov-reporter',
+          quiet: true,
+          captureFile: "lcov",
+          require: 'coverage-blanket'
+        },
         src: ['server/**/test/*-test.js']
       }
     },
@@ -180,7 +189,8 @@ module.exports = function(grunt) {
     "component_build:dev",
     "uglify",
     "karma:ci",
-    "mochaTest"
+    "mochaTest:ci",
+    "pipe-coveralls"
   ]);
 
   // heroku

@@ -5,6 +5,7 @@
 var nodeio = require("node.io"),
     mongoose = require("mongoose"),
     request = require("request"),
+    debug = require("debug")("job"),
     FeedParser = require("feedparser"),
     Feed = require("../../models/feed"),
     Post = require("../../models/post"),
@@ -12,7 +13,7 @@ var nodeio = require("node.io"),
 
 mongoose.createConnection(root.get("db connection string"), function(err) {
   if (err) { throw err; }
-  console.log("Connected to mongo db");
+  debug("Connected to mongo db");
 });
 
 /**

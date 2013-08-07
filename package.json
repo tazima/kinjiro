@@ -28,6 +28,9 @@
   },
   "devDependencies": {
     "mocha": "*",
+    "blanket": "*",
+    "coveralls": "*",
+    "mocha-lcov-reporter": "*",
     "expect.js": "*",
     "sinon": "*",
     "supertest": "*",
