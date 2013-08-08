@@ -3,6 +3,7 @@ components
 build
 
 test-results.xml
+lcov
 
 \#*
 .\#*

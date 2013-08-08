@@ -28,6 +28,9 @@
   },
   "devDependencies": {
     "mocha": "*",
+    "blanket": "*",
+    "coveralls": "*",
+    "mocha-lcov-reporter": "*",
     "expect.js": "*",
     "sinon": "*",
     "supertest": "*",
@@ -37,6 +40,7 @@
     "karma-junit-reporter": "*",
     "karma-growl-reporter": "*",
     "karma-phantomjs-launcher": "*",
+    "karma-coverage": "*",
     "growly": "*",
     "grunt-contrib-watch": "*",
     "grunt-contrib-jshint": "*",
