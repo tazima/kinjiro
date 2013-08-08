@@ -35,7 +35,7 @@ app.use(staticAsset(__dirname + "/build"));
 app.get("/feeds", loadUser("withSubscribes"), function(req, res) {
   res.render("index", {
     bodyId: "feeds",
-    feeds: req.user._subscribes
+    feeds: req.user.subscribes
   });
 });
 
@@ -74,7 +74,7 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
 
         feed.save(function(err, feed) {
           if (err) { return next(err); }
-          user._subscribes.push(feed._id);
+          user.subscribes.push({ _feed: feed._id });
           user.save(function(err) {
             if (err) { return next(err); }
             res.send(feed);
@@ -117,7 +117,7 @@ function loadUser(withSubscribes) {
 
     if (withSubscribes) {
       query
-        .populate("_subscribes")
+        .populate("subscribes._feed")
         .exec(proceedToNext);
     } else {
       query

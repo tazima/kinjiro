@@ -36,7 +36,10 @@ describe("posts", function() {
       },
       function(cb) {
         self.user = new User({ name: "a", password: "b" });
-        self.user._subscribes.push.apply(self.user._subscribes, feedIds);
+        self.user.subscribes.push.apply(
+          self.user.subscribes,
+          feedIds.map(function(id) { return { _feed: id }; })
+        );
         self.user.save(cb);
       },
       function(user, numberAffected, cb) {

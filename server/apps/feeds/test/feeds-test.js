@@ -34,9 +34,9 @@ describe("feeds", function() {
         Feed.find(function(err, feeds) {
           if (err) { cb(err); }
           self.user = new User({ name: "a", password: "b" });
-          self.user._subscribes.push.apply(
-            self.user._subscribes,
-            feeds.map(function(feed) { return feed._id; })
+          self.user.subscribes.push.apply(
+            self.user.subscribes,
+            feeds.map(function(feed) { return { _feed: feed._id }; })
           );
           self.user.save(cb);
         });
@@ -56,7 +56,7 @@ describe("feeds", function() {
 
   describe("GET /feeds", function() {
     
-    it("should respond users' `feeds`", function(done) {
+    it("should respond users' `subscribes`", function(done) {
       request(app)
         .get("/feeds")
         .expect(/DailyJS/)
@@ -228,8 +228,9 @@ describe("feeds", function() {
             .expect(200)
             .end(function(err, res) {
               expect(this.saveSpy.called).to.be.ok();
-              expect(this.saveSpy.thisValues[0]._subscribes)
-                .to.contain("http://feedurl.xml");
+              var feeds = this.saveSpy.thisValues[0].subscribes
+                    .map(function(subscribe) { return subscribe._feed; });
+              expect(feeds).to.contain("http://feedurl.xml");
               done();
             }.bind(this));
         });

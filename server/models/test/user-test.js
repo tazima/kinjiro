@@ -32,8 +32,8 @@ describe("User", function() {
         name: "foo",
         password: "abc"
       });
-      expect(this.user._subscribes).to.not.be(undefined);
-      this.user._subscribes.push(feed._id);
+      expect(this.user.subscribes).to.not.be(undefined);
+      this.user.subscribes.push({ _feed: feed._id });
       done();
     }.bind(this));
   });
@@ -54,11 +54,19 @@ describe("User", function() {
     });
   });
 
-  it("should save subscribes", function(done) {
+  it("should save subscribed feeds", function(done) {
     this.user.save(function(err, doc) {
       expect(err).to.be(null);
-      expect(doc._subscribes).to.not.be(undefined);
-      expect(doc._subscribes).to.contain(this.feed._id);
+      expect(doc.subscribes).to.not.be.empty();
+      expect(doc.subscribes[0]).to.have.property('_feed', this.feed._id);
+      done();
+    }.bind(this));
+  });
+
+  it("should have subscribed feed's unread count default to 0", function(done) {
+    this.user.save(function(err, doc) {
+      expect(err).to.be(null);
+      expect(doc.subscribes[0]).to.have.property('unread_count', 0);
       done();
     }.bind(this));
   });
