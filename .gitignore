@@ -1,9 +1,11 @@
 /node_modules
+/docs
 components
 build
 
 test-results.xml
 lcov
+libpeerconnection.log
 
 \#*
 .\#*

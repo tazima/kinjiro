@@ -46,7 +46,9 @@
     "grunt-contrib-jshint": "*",
     "grunt-mocha-test": "*",
     "grunt-karma": "git://github.com/karma-runner/grunt-karma.git",
-    "grunt-nodemon": "*"
+    "grunt-nodemon": "*",
+    "grunt-dox": "*",
+    "grunt-open": "*"
   },
   "scripts": {
     "prepublish": "./node_modules/.bin/component install --dev"
