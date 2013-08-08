@@ -1,5 +1,5 @@
 module.exports = function(karma) {
-  karma.configure({
+  karma.set({
     // base path, that will be used to resolve files and exclude
     basePath: './client',
 
@@ -21,7 +21,7 @@ module.exports = function(karma) {
     // use dots reporter, as travis terminal does not support escaping sequences
     // possible values: 'dots', 'progress', 'junit', 'teamcity'
     // CLI --reporters progress
-    reporters: ['progress', 'junit', 'growl'],
+    reporters: ['progress', 'junit', 'growl'/* 'coverage' */],
 
     junitReporter: {
       // will be resolved to basePath (in the same way as files/exclude patterns)
@@ -74,7 +74,13 @@ module.exports = function(karma) {
 
     // compile coffee scripts
     preprocessors: {
-      '**/*.coffee': 'coffee'
+      '**/*.coffee': 'coffee',
+      '../build/build.js': 'coverage'
+    },
+
+    coverageReporter: {
+      type : 'html',
+      dir: '../coverage/'
     },
 
     plugins: [
@@ -82,7 +88,9 @@ module.exports = function(karma) {
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       "karma-phantomjs-launcher",
-      'karma-junit-reporter'
+      'karma-junit-reporter',
+      'karma-coverage',
+      'karma-growl-reporter'
     ]
   });
 };
