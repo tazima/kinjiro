@@ -117,7 +117,7 @@ module.exports = function(grunt) {
           reporter: 'mocha-lcov-reporter',
           quiet: true,
           captureFile: "lcov",
-          require: 'coverage-blanket'
+          require: 'server/test/blanket'
         },
         src: ['server/**/test/*-test.js']
       }
