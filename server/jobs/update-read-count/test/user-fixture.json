@@ -1,0 +1,17 @@
+[
+  {
+    "name": "tj",
+    "password": "my password",
+    "subscribes": [
+      { "_feed": "http://rssfeed.com/first", "unread_count": 0 },
+      { "_feed": "http://rssfeed.com/second", "unread_count": 5 }
+    ],
+    "_read_posts": [
+      "http://rssfeed.com/second/1",
+      "http://rssfeed.com/second/2",
+      "http://rssfeed.com/second/3",
+      "http://rssfeed.com/second/4",
+      "http://rssfeed.com/second/5"
+    ]
+  }
+]
