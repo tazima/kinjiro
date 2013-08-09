@@ -38,6 +38,7 @@ describe("feeds", function() {
             self.user.subscribes,
             feeds.map(function(feed) { return { _feed: feed._id }; })
           );
+          self.user._read_posts.push("http://rssfeed.com/1");
           self.user.save(cb);
         });
       },
@@ -64,6 +65,12 @@ describe("feeds", function() {
         .expect(/ROR/)
         .expect(/http:\/\/weblog\.rubyonrails\.org\/feed\/atom\.xml/)
         .expect(200, done);
+    });
+
+    it("should respond users' `_read_posts`", function(done) {
+      request(app)
+        .get("/feeds")
+        .expect(/http:\/\/rssfeed\.com\/1/, done);
     });
 
   });

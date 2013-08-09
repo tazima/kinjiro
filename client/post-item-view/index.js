@@ -12,9 +12,7 @@ exports = module.exports = Backbone.View.extend({
   className: "post-item",
 
   render: function() {
-    var json = this.model.toJSON();
-    json.pubdate = moment(json.pubdate).format("YYYY-MM-DD");
-    this.$el.html(this.template(json));
+    this.$el.html(this.template(_.extend({ moment: moment }, this.model.toJSON())));
     return this;
   },
 

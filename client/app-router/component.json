@@ -12,6 +12,7 @@
   "local": [
     "app-view",
     "post-list-view",
-    "post-collection"
+    "post-collection",
+    "read-collection"
   ]
 }
