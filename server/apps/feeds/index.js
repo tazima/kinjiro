@@ -35,7 +35,16 @@ app.use(staticAsset(__dirname + "/build"));
 app.get("/feeds", loadUser("withSubscribes"), function(req, res) {
   res.render("index", {
     bodyId: "feeds",
-    feeds: req.user.subscribes
+    feeds: req.user.subscribes.map(function(subscribe) {
+      var feed = subscribe._feed;
+
+      return {
+        _id: feed._id,
+        link: feed.link,
+        title: feed.title,
+        unread_count: subscribe.unread_count
+      };
+    })
   });
 });
 
