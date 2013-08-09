@@ -13,7 +13,8 @@ describe("feed-item-view", function() {
     this.model = new Backbone.Model({
       _id: "http://feeds.feedburner.com/dailyjs",
       title: "hoge",
-      link: "piyo"
+      link: "piyo",
+      unread_count: 10
     });
     this.model.idAttribute = "_id";
     this.view = new FeedItemView({ model: this.model });
@@ -34,7 +35,12 @@ describe("feed-item-view", function() {
 
   it("should render models' title", function() {
     expect(this.view.render().$("a").text())
-      .to.equal(this.model.get("title"));
+      .to.match(new RegExp(this.model.get("title")));
+  });
+
+  it("should render unread count", function() {
+    expect(this.view.render().$("a").text())
+      .to.match(/10/);
   });
 
 });

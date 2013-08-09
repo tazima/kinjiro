@@ -12,10 +12,18 @@ exports = module.exports = Backbone.View.extend({
 
   className: "feed-item",
 
+  /**
+   * Render view.
+   */
+
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
     return this;
   },
+
+  /**
+   * template
+   */
 
   template: _.template(require("./template"))
 
