@@ -15,43 +15,28 @@ var express = require("express"),
 
 var app = express();
 
-var feedFixture = require("../../feeds/test/fixture");
+var feedFixture = require("./feed-fixture");
 var postFixture = require("./post-fixture");
+var userFixture = require("./user-fixture");
 
 describe("posts", function() {
 
   var feedIds = [];
 
-  before(function(done) {
+  beforeEach(function(done) {
     var self = this;
 
-    async.waterfall([
+    async.series([
       function(cb) { setup(cb); },
       function(cb) { Feed.create(feedFixture, cb); },
-      function() {
-        var args = [].slice.call(arguments),
-            cb = args.pop();
-        feedIds = args.map(function(feed) { return feed._id; });
-        cb(null);
-      },
+      function(cb) { Post.create(postFixture, cb); },
       function(cb) {
-        self.user = new User({ name: "a", password: "b" });
-        self.user.subscribes.push.apply(
-          self.user.subscribes,
-          feedIds.map(function(id) { return { _feed: id }; })
-        );
-        self.user.save(cb);
-      },
-      function(user, numberAffected, cb) {
-        Post.create(postFixture(feedIds[0]), cb);
-      },
-      function(post, cb) {
-        Feed.findOne({ _id: post._feed }, function(err, feed) {
-          feed._feed_posts.push(post._id);
-          feed.save(cb);
+        User.create(userFixture, function(err, user) {
+          self.user = user;
+          cb(err);
         });
       }
-    ], function(err, resu) {
+    ], function(err, result) {
       // fake user_id
       app.use(function(req, res, next) {
         req.session = {};
@@ -69,16 +54,29 @@ describe("posts", function() {
 
       it("should respond with posts of fid", function(done) {
         request(app)
-          .get("/feeds/" + encodeURIComponent(feedIds[0]) + "/posts")
+          .get("/feeds/" + encodeURIComponent(postFixture[0]._feed) + "/posts")
           .expect(200)
           .end(function(err, res) {
             var actual = res.body[0],
-                expected = postFixture(feedIds[0]);
+                expected = postFixture[0];
             expect(actual).to.have.property("_feed", expected._feed);
             expect(actual).to.have.property("_id", expected._id);
             expect(actual).to.have.property("title", expected.title);
             expect(actual).to.have.property("description", expected.description);
             done(err);
+          });
+      });
+
+      it("should mark unread true for unread posts", function(done) {
+        request(app)
+          .get("/feeds/" + encodeURIComponent(postFixture[0]._feed) + "/posts")
+          .expect(200)
+          .end(function(err, res) {
+            var unreads = res.body.filter(function(post) { return post.unread; });
+            // see post-fixture
+            expect(unreads).to.have.length(1);
+            expect(unreads[0]._id).to.equal("http://dailyjs.com/2013/08/19/hoge");
+            done();
           });
       });
 

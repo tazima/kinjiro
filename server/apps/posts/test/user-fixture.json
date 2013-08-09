@@ -1,0 +1,13 @@
+{
+  "name": "tj",
+  "password": "my password",
+  "subscribes": [
+    { "_feed": "http://feeds.feedburner.com/dailyjs" },
+    { "_feed": "http://weblog.rubyonrails.org/feed/atom.xml" }
+  ],
+  "_read_posts": [
+    "http://dailyjs.com/2013/07/19/feaxures-rbush-bmodal"
+  ]
+}
+
+
