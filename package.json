@@ -23,8 +23,8 @@
     "grunt-express": "*",
     "grunt-env": "*",
     "grunt-component-build": "*",
-    "component-json": "git://github.com/segmentio/component-json.git",
-    "component-stylus-plugin": "*"
+    "component-stylus-plugin": "*",
+    "migrate": "git://github.com/nooks/node-migrate.git"
   },
   "devDependencies": {
     "mocha": "*",
@@ -51,6 +51,7 @@
     "grunt-open": "*"
   },
   "scripts": {
-    "prepublish": "./node_modules/.bin/component install --dev"
+    "prepublish": "./node_modules/.bin/component install --dev",
+    "prepublish": "./node_modules/.bin/migrate"
   }
 }
