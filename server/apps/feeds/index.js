@@ -62,8 +62,7 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
   Feed.findOne({ _id: url }, function(err, feed) {
     if (!err && feed) { return res.send(feed); }
 
-    var ref = { url: url },
-        ws = Post.createWriteStream(url),
+    var ws = Post.createWriteStream(url),
         meta = null, fail = false;
 
     function onFinish(user) {
@@ -108,9 +107,12 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
         fail = true;
         return next(err);
       })
-      .on("correcturl", function(correctUrl) { ref.url = correctUrl; })
+      .on("correcturl", function(correctUrl) {
+        url = correctUrl;
+        ws.correctUrl(correctUrl);
+      })
       .on("meta", function(data) { meta = data; })
-      .pipe(ws = Post.createWriteStream(ref.url))
+      .pipe(ws)
       .on("finish", onFinish.bind(null, user));
   });
 });
