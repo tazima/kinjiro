@@ -55,6 +55,10 @@ PostSchema.statics.createWriteStream = function(feedurl) {
     return postIds;
   };
 
+  ws.correcturl = function(correcturl) {
+    feedurl = correcturl;
+  };
+
   return ws;
 };
 
