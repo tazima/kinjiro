@@ -94,6 +94,7 @@ describe("Post", function() {
           title: "my title",
           description: "my description",
           summary: "my summary",
+          pubdate: "2013-07-31T00:00:00+01:00",
           image: {
             url: "http://pyo",
             title: "my image"
@@ -120,6 +121,7 @@ describe("Post", function() {
             expect(doc).to.have.property("link", self.article.link);
             expect(doc).to.have.property("description", self.article.description);
             expect(doc).to.have.property("summary", self.article.summary);
+            expect(doc).to.have.property("pubdate", self.article.pubdate);
             expect(doc).to.have.property("imageUrl", self.article.image.url);
             expect(doc).to.have.property("imageTitle", self.article.image.title);
             done();
