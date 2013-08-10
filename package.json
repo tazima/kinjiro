@@ -51,7 +51,7 @@
     "grunt-open": "*"
   },
   "scripts": {
-    "prepublish": "./node_modules/.bin/component install --dev",
+    "postinstall": "./node_modules/.bin/component install --dev",
     "prepublish": "./node_modules/.bin/migrate"
   }
 }
