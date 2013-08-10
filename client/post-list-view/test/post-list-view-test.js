@@ -3,61 +3,90 @@
  * Module dependencies.
  */
 
-var $ = require("component-jquery"),
-    Backbone = require("tazima-backbone"),
-    PostListView = require("post-list-view"),
-    PostItemView = require("post-item-view");
+var $ = require('component-jquery'),
+    Backbone = require('tazima-backbone'),
+    ScrollPosition = require('timoxley-scroll-position'),
+    PostListView = require('post-list-view'),
+    PostItemView = require('post-item-view');
 
-describe("post-list-view", function() {
+describe('post-list-view', function() {
 
   beforeEach(function() {
     this.collection = new Backbone.Collection();
-    this.collection.url = "/foo";
+    this.collection.url = '/foo';
     this.collectionFetchSpy =
-      sinon.stub(this.collection, "fetch", function() {
-        this.reset([{ _id: "post-1" }, { _id: "post-2" }]);
+      sinon.stub(this.collection, 'fetch', function() {
+        this.reset([{ _id: 'post-1' }, { _id: 'post-2' }]);
       });
     this.itemViewInitializeSpy =
-      sinon.spy(PostItemView.prototype, "initialize");
+      sinon.spy(PostItemView.prototype, 'initialize');
     this.itemViewRenderSpy =
-      sinon.stub(PostItemView.prototype, "render", function() {
+      sinon.stub(PostItemView.prototype, 'render', function() {
         return this;
       });
-    this.view = new PostListView({ collection: this.collection });
+    // TODO liverage real function
+    // in PhantomJs, function's bind is not supported and
+    // real `bindScrollPosition` cannot be called.
+    this.bindScrollPositionStub = sinon.stub(
+      PostListView.prototype, "bindScrollPosition",
+      function() {});
+    this.reads = new Backbone.Collection();
+    this.reads.url = '/reads';
+    this.view = new PostListView({ collection: this.collection, reads: this.reads });
   });
 
   afterEach(function() {
     this.collection.fetch.restore();
     PostItemView.prototype.initialize.restore();
     PostItemView.prototype.render.restore();
+    PostListView.prototype.bindScrollPosition.restore();
   });
 
-  describe("#initialize()", function() {
+  describe('#initialize()', function() {
 
-    it("should send `fetch` to collection", function() {
+    it('should send `fetch` to collection', function() {
       expect(this.collectionFetchSpy.called).to.be.ok();
     });
 
-    it("should render on  `reset` event", function() {
-      expect(this.view.$("ul")).to.not.be.empty();      
+    it('should render on  `reset` event', function() {
+      expect(this.view.$('ul')).to.not.be.empty();
     });
 
   });
 
-  describe("#render()", function() {
+  describe('#render()', function() {
 
-    it("should create item view with model", function() {
+    it('should create item view with model', function() {
       expect(this.itemViewInitializeSpy.callCount)
         .to.equal(this.collection.size());
-      expect(this.itemViewInitializeSpy.args[0][0].model.get("_id"))
-        .to.equal("post-1");
-      expect(this.itemViewInitializeSpy.args[1][0].model.get("_id"))
-        .to.equal("post-2");
+      expect(this.itemViewInitializeSpy.args[0][0].model.get('_id'))
+        .to.equal('post-1');
+      expect(this.itemViewInitializeSpy.args[1][0].model.get('_id'))
+        .to.equal('post-2');
     });
 
-    it("should render item view", function() {
+    it('should render item view', function() {
       expect(this.itemViewRenderSpy.callCount)
         .to.equal(this.collection.size());      
+    });
+
+  });
+
+  describe('`post.read` event', function() {
+
+    describe('when scrolled into an el', function() {
+
+      it('should trigger `post.read` event on scrolled into the el', function() {
+        // TODO emit real scroll event
+        var item = this.view.$('li:nth-child(2)'),
+            spy = sinon.spy();
+
+        item.on('post.read', spy);
+        this.view.triggerRead(item.get(0));
+
+        expect(spy.called).to.be.ok();
+      });
+
     });
 
   });

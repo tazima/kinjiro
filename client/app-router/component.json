@@ -2,6 +2,7 @@
   "name": "app-router",
   "description": "Application router.",
   "dependencies": {
+    "component/underscore": "*",
     "tazima/backbone": "topic-component"
   },
   "development": {},
@@ -12,6 +13,7 @@
   "local": [
     "app-view",
     "post-list-view",
-    "post-collection"
+    "post-collection",
+    "read-collection"
   ]
 }

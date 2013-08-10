@@ -4,7 +4,6 @@
  */
 
 var fs = require("fs"),
-    json = require("component-json"),
     stylusPlugin = require('component-stylus-plugin'),
     path = require('path');
 
@@ -80,7 +79,6 @@ module.exports = function(grunt) {
         configure: function(builder) {
           builder.development();
           builder.addSourceURLs();
-          builder.use(json);
           builder.use(stylusPlugin);
         }
       },
@@ -91,7 +89,6 @@ module.exports = function(grunt) {
         verbose: true,
         plugins: ["templates"],
         configure: function(builder) {
-          builder.use(json);
           builder.use(stylusPlugin);
         }
       }

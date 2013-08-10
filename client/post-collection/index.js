@@ -5,7 +5,15 @@
 
 var Backbone = require("backbone");
 
+var PostModel = Backbone.Model.extend({
+
+  idAttribute: "_id"
+
+});
+
 exports = module.exports = Backbone.Collection.extend({
+
+  model: PostModel,
 
   initialize: function(models, options) {
     this.fid = options.fid;
@@ -13,8 +21,6 @@ exports = module.exports = Backbone.Collection.extend({
 
   url: function() {
     return "/feeds/" + encodeURIComponent(this.fid) + "/posts";
-  },
-
-  idAttribute: "_id"
+  }
 
 });

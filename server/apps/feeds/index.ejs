@@ -23,7 +23,7 @@
 <script>
   (function() {
     var Feeds = require("feed-collection"),
-        feeds = new Feeds;
+        feeds = new Feeds();
     require("boot")({
       feeds: feeds.reset(<%- JSON.stringify(feeds) %>)
     });
