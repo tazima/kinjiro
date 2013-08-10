@@ -40,11 +40,10 @@ describe("post-item-view", function() {
       expect(this.view.$el.text()).to.match(/Hello, world/);
     });
 
-    it("should render pubdate"// , function() {
-    //   this.view.render();
-    //   expect(this.view.$(".pubdate").text()).to.match(/2013-07-26/);
-    // }
-      );
+    it("should render pubdate", function() {
+      this.view.render();
+      expect(this.view.$(".pubdate").text()).to.match(/2013-07-26/);
+    });
 
   });
 
