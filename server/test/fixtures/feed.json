@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "http://feeds.feedburner.com/dailyjs",
+    "title": "DailyJS",
+    "link": "http://dailyjs.com/",
+    "_feed_posts": [
+      "http://dailyjs.com/2013/07/19/feaxures-rbush-bmodal",
+      "http://dailyjs.com/2013/08/19/hoge"
+    ]
+  },
+  {
+    "_id": "http://weblog.rubyonrails.org/feed/atom.xml",
+    "title": "ROR",
+    "link": "http://ride-on-rails.blogspot.jp"
+  }
+]

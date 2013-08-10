@@ -5,8 +5,13 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    bcrypt = require('bcrypt'),
-    SALT_WORK_FACTOR = 10;
+    bcrypt = require('bcrypt');
+
+var SALT_WORK_FACTOR = 10;
+
+/**
+ * User schema
+ */
 
 var UserSchema = new Schema({
   name: {
@@ -19,11 +24,17 @@ var UserSchema = new Schema({
     type: String,
     required: true
   },
-  _subscribes: [{
-    type: String,
-    ref: "Feed"
-  }]
+  subscribes: [{
+    _feed: { type: String, ref: 'Feed' },
+    unread_count: { type: Number, default: 0 }
+  }],
+  _read_posts: [{ type: String, ref: 'Post', default: 0 }]
 });
+
+/**
+ * Pre `save`
+ * make `user` password crypted.
+ */
 
 UserSchema.pre('save', function(next) {
   var user = this;
@@ -44,6 +55,14 @@ UserSchema.pre('save', function(next) {
     });
   });
 });
+
+/**
+ * Compare `user` password to `candidatePassword`.
+ *
+ * @param {String} candidatePassword
+ * @param {Function} cb
+ * @api public
+ */
 
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {

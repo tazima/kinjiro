@@ -3,14 +3,21 @@
   "description": "View list posts.",
   "dependencies": {
     "component/underscore": "*",
-    "tazima/backbone": "topic-component"
+    "component/jquery": "*",
+    "tazima/backbone": "topic-component",
+    "timoxley/scroll-position": "*"
   },
   "development": {},
   "main": "index.js",
-  "scripts": ["index.js"],
-  "styles": [
-    
+  "scripts": [
+    "index.js"
   ],
-  "local": ["post-item-view"],
-  "templates": ["template.html"]
+  "styles": [
+  ],
+  "local": [
+    "post-item-view"
+  ],
+  "templates": [
+    "template.html"
+  ]
 }

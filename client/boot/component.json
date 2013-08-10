@@ -3,7 +3,8 @@
   "description": "boot",
   "dependencies": {
     "component/jquery": "*",
-    "tazima/backbone": "topic-component"
+    "tazima/backbone": "topic-component",
+    "enyo/functionbind": "*"
   },
   "development": {},
   "main": "index.js",

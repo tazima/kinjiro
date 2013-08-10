@@ -1,0 +1,34 @@
+[
+  {
+    "_id": "http://rssfeed.com/first/1",
+    "_feed": "http://rssfeed.com/first"
+  },
+  {
+    "_id": "http://rssfeed.com/second/1",
+    "_feed": "http://rssfeed.com/second"
+  },
+  {
+    "_id": "http://rssfeed.com/second/2",
+    "_feed": "http://rssfeed.com/second"
+  },
+  {
+    "_id": "http://rssfeed.com/second/3",
+    "_feed": "http://rssfeed.com/second"
+  },
+  {
+    "_id": "http://rssfeed.com/second/4",
+    "_feed": "http://rssfeed.com/second"
+  },
+  {
+    "_id": "http://rssfeed.com/second/5",
+    "_feed": "http://rssfeed.com/second"
+  },
+  {
+    "_id": "http://rssfeed.com/second/6",
+    "_feed": "http://rssfeed.com/second"
+  },
+  {
+    "_id": "http://rssfeed.com/second/7",
+    "_feed": "http://rssfeed.com/second"
+  }
+]

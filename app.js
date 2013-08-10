@@ -65,6 +65,7 @@ app.use(require("./server/apps/sessions"));
 app.use(require("./server/apps/users"));
 app.use(require("./server/apps/feeds"));
 app.use(require("./server/apps/posts"));
+app.use(require("./server/apps/reads"));
 
 function restrict(req, res, next) {
   if (req.session.user_id) {
