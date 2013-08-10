@@ -2,7 +2,7 @@
   "name": "kinjiro",
   "repo": "tazima/kinjiro",
   "description": "kinjiro",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "keywords": [],
   "dependencies": {
     "layerssss/todc-bootstrap": "*",
