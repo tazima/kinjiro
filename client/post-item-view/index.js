@@ -28,6 +28,7 @@ exports = module.exports = Backbone.View.extend({
 
   render: function() {
     this.$el.html(this.template(_.extend({ moment: moment }, this.model.toJSON())));
+    if (!this.model.get('unread')) { this.$el.addClass('read'); }
     return this;
   },
 
