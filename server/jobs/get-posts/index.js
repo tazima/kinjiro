@@ -88,7 +88,7 @@ exports.job = new nodeio.Job({
           .pipe(postWritableStream)
           .on("error", function(err) { job.exit(err); })
           .on("finish", function() {
-            feed._feed_posts = postWritableStream.getPostIds();
+            feed._feed_posts = feed._feed_posts.concat(postWritableStream.getPostIds());
             feed.lastCrawlDate = new Date();
             feed.crawlEnd = true;
             feed.save(function(err, feed) {
