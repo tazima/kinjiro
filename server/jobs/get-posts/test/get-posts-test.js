@@ -133,11 +133,12 @@ describe("get-posts", function() {
     });
 
     it("should merge `_feed_post_ids", function(done) {
-      this.newPostIds.push(this.alreadyStoredPostId);
-      var expectedIds = this.newPostIds.map(function(p) { return p.toString(); });
+      var expectedIds = this.newPostIds.slice(0);
+      expectedIds.unshift(this.alreadyStoredPostId);
+      expectedIds = expectedIds.map(function(p) { return p.toString(); });
       sinon.stub(getPostsJob, "emit", function(feed) {
         var feedPosts = feed._feed_posts.map(function(p) { return p.toString(); });
-        expect(feedPosts).to.eql(expectedIds);
+        expectedIds.forEach(function(f) { expect(feedPosts).to.contain(f); });
         done();
       });
       getPostsJob.run(this.feed);
