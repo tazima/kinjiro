@@ -2,6 +2,7 @@
   "name": "app-router",
   "description": "Application router.",
   "dependencies": {
+    "component/underscore": "*",
     "tazima/backbone": "topic-component"
   },
   "development": {},

@@ -13,7 +13,15 @@ exports = module.exports = Backbone.View.extend({
   className: "feed-item",
 
   /**
-   * Render view.
+   * @Override
+   */
+
+  initialize: function() {
+    this.model.on('change', this.render, this);
+  },
+
+  /**
+   * @Override
    */
 
   render: function() {
