@@ -32,6 +32,8 @@ exports = module.exports = Backbone.View.extend({
   render: function() {
     this.$el.html(this.template());
     this.collection.each(this.renderOne, this);
+    // trigger `read` evnet on first child.
+    this.triggerRead(this.$('.post-item:first-child'));
     this.bindScrollPosition();
     return this;
   },
