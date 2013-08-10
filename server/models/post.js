@@ -41,6 +41,7 @@ PostSchema.statics.createWriteStream = function(feedurl) {
       link: article.link,
       description: article.description,
       summary: article.summary,
+      pubdate: article.pubdate,
       imageUrl: article.image.url || "",
       imageTitle: article.image.title || ""
     }, { upsert: true }, function(err, post) {
