@@ -62,31 +62,38 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
   Feed.findOne({ _id: url }, function(err, feed) {
     if (!err && feed) { return res.send(feed); }
 
-    var ws = Post.createWriteStream(url),
-        meta = null,
-        fail = false;
+    var ref = { url: url },
+        ws = Post.createWriteStream(url),
+        meta = null, fail = false;
 
     function onFinish(user) {
       if (fail) { return; }
 
       Feed.findOne({ _id: url}, function(err, feed) {
+        var postIds = ws.getPostIds();
         if (err) { return next(err); }
         if (feed === null) {
           feed = new Feed(meta);
           feed._id = url;
-          feed._feed_posts = ws.getPostIds();
+          feed._feed_posts = postIds;
         } else {
           feed.title = meta.title;
           feed.link = meta.link;
-          feed._feed_posts.push(ws.getPostIds());
+          feed._feed_posts.push(postIds);
         }
 
         feed.save(function(err, feed) {
           if (err) { return next(err); }
-          user.subscribes.push({ _feed: feed._id });
+          var unreadCount = postIds.length;
+          user.subscribes.push({ _feed: feed._id, unread_count: unreadCount });
           user.save(function(err) {
             if (err) { return next(err); }
-            res.send(feed);
+            res.send({
+              _id: feed._id,
+              link: feed.link,
+              title: feed.title,
+              unread_count: unreadCount
+            });
           });
         });
       });
@@ -101,9 +108,9 @@ app.post("/feeds", inject, loadUser(), function(req, res, next) {
         fail = true;
         return next(err);
       })
-      .on("correcturl", function(correctUrl) { url = correctUrl; })
+      .on("correcturl", function(correctUrl) { ref.url = correctUrl; })
       .on("meta", function(data) { meta = data; })
-      .pipe(ws)
+      .pipe(ws = Post.createWriteStream(ref.url))
       .on("finish", onFinish.bind(null, user));
   });
 });
