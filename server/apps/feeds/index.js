@@ -44,8 +44,7 @@ app.get("/feeds", loadUser("withSubscribes"), function(req, res) {
         title: feed.title,
         unread_count: subscribe.unread_count
       };
-    }),
-    _read_posts: req.user._read_posts
+    })
   });
 });
 

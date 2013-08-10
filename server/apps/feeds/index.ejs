@@ -23,12 +23,9 @@
 <script>
   (function() {
     var Feeds = require("feed-collection"),
-        Reads = require("read-collection"),
-        feeds = new Feeds(),
-	reads = new Reads();
+        feeds = new Feeds();
     require("boot")({
-      feeds: feeds.reset(<%- JSON.stringify(feeds) %>),
-      reads: reads.reset(<%- JSON.stringify(_read_posts) %>)
+      feeds: feeds.reset(<%- JSON.stringify(feeds) %>)
     });
   }());
 </script>

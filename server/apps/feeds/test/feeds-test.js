@@ -67,12 +67,6 @@ describe("feeds", function() {
         .expect(200, done);
     });
 
-    it("should respond users' `_read_posts`", function(done) {
-      request(app)
-        .get("/feeds")
-        .expect(/http:\/\/rssfeed\.com\/1/, done);
-    });
-
   });
 
   describe("POST /feeds", function() {

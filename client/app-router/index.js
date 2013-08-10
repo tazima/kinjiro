@@ -7,7 +7,8 @@ var _ = require('underscore'),
     Backbone = require('backbone'),
     AppView = require('app-view'),
     PostListView = require('post-list-view'),
-    PostCollection = require('post-collection');
+    PostCollection = require('post-collection'),
+    ReadCollection = require('read-collection');
 
 exports = module.exports = Backbone.Router.extend({
 
@@ -15,15 +16,25 @@ exports = module.exports = Backbone.Router.extend({
     'feeds/:fid/posts': 'posts'
   },
 
+  /**
+   * @Override
+   */
+
   initialize: function(options) {
     this.feeds = options.feeds;
-    this.reads = options.reads;
+    this.reads = new ReadCollection();
     this.delegateReadCreationToFeeds();
     (new AppView({
       el: '#content',
       collection: this.feeds
     })).render();
   },
+
+  /**
+   * route feeds/:fid/posts
+   *
+   * @param {String} fid
+   */
 
   posts: function(fid) {
     (new PostListView({
@@ -32,6 +43,13 @@ exports = module.exports = Backbone.Router.extend({
       reads: this.reads
     })).render();
   },
+
+  /**
+   * Register listener for add event of reads to
+   * modify read feed's unread_count
+   *
+   * @api private
+   */
 
   delegateReadCreationToFeeds: function() {
     this.reads.on('add', _.bind(function(read) {
