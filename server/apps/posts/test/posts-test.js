@@ -15,9 +15,9 @@ var express = require("express"),
 
 var app = express();
 
-var feedFixture = require("./feed-fixture");
-var postFixture = require("./post-fixture");
-var userFixture = require("./user-fixture");
+var feedFixture = require("../../../test/fixtures/feed");
+var postFixture = require("../../../test/fixtures/post");
+var userFixture = require("../../../test/fixtures/user");
 
 describe("posts", function() {
 

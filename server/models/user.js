@@ -28,7 +28,7 @@ var UserSchema = new Schema({
     _feed: { type: String, ref: 'Feed' },
     unread_count: { type: Number, default: 0 }
   }],
-  _read_posts: [{ type: String, ref: 'Post' }]
+  _read_posts: [{ type: String, ref: 'Post', default: 0 }]
 });
 
 /**
