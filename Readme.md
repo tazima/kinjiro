@@ -1,16 +1,35 @@
 # kinjiro [![Build Status](https://travis-ci.org/tazima/kinjiro.png?branch=master)](https://travis-ci.org/tazima/kinjiro) [![Coverage Status](https://coveralls.io/repos/tazima/kinjiro/badge.png?branch=topic-coverage)](https://coveralls.io/r/tazima/kinjiro?branch=topic-coverage)
 
-  kinjiro
+  RSS Reader on Node.js.
 
-## Installation
+## Acknowledgements
+  Kinjiro is hosted on [Heroku](https://www.heroku.com/‎).
 
-  Install with [component(1)](http://component.io):
+  This project uses many other open source libraries such as:
 
-    $ component install tazima/kinjiro
+  * [express](http://expressjs.com/)
+  * [component](https://github.com/component/component)
+  * [mongoose](http://mongoosejs.com/)
+  * [node.io](http://node.io/)
+  * [node-feedparser](https://github.com/danmactough/node-feedparser)
+  * [Backbone](http://backbonejs.org/)
 
-## API
+  These are just a few of the major dependencies, the entire list of dependencies is listed in the app's package.json and component.json files.
+  
+## Development
 
+  Some common tasks are executed via [Grunt](http://gruntjs.com/).
 
+```bash
+# start automated test
+$ grunt
+
+# start development server on port 3000
+$ grunt server
+
+# open api document
+$ grunt docs
+```
 
 ## License
 
