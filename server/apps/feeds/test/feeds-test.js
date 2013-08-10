@@ -113,7 +113,7 @@ describe("feeds", function() {
 
     describe("when feed fetched", function() {
 
-      before(function() {
+      beforeEach(function() {
         var self = this;
 
         this.feedRequestSpy = sinon.spy(function(url) {
@@ -135,7 +135,7 @@ describe("feeds", function() {
         }.bind(this));
       });
 
-      after(function() {
+      afterEach(function() {
         require("../module")();
       });
 
@@ -240,8 +240,8 @@ describe("feeds", function() {
 
     });
 
+    // TODO test for `correcturl`
+
   });
-
-
   
 });
