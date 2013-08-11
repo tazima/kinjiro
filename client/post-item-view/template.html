@@ -1,9 +1,14 @@
-<a class="link" target="_brank" href="<%- link %>"><h2 class="title"><%- title %></h2></a>
+<article>
+  <h2>
+    <a class="link" target="_brank" href="<%- link %>"><%- title %></a>
+  </h2>
 
-<%= description %>
+  <%= description %>
 
-<p class="pubdate">
-  <% if (pubdate) { %>
-    <%= moment(pubdate).format('YYYY-MM-DD') %>
-  <% } %>
-</p>
+  <p class="pubdate">
+    <% if (pubdate) { %>
+      <%= moment(pubdate).format('YYYY-MM-DD') %>
+    <% } %>
+  </p>
+
+</article>
