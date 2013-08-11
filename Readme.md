@@ -11,8 +11,8 @@
   * [component](https://github.com/component/component)
   * [mongoose](http://mongoosejs.com/)
   * [node.io](http://node.io/)
-  * [node-feedparser](https://github.com/danmactough/node-feedparser)
   * [Backbone](http://backbonejs.org/)
+  * [node-feedparser](https://github.com/danmactough/node-feedparser)
 
   These are just a few of the major dependencies, the entire list of dependencies is listed in the app's package.json and component.json files.
   
