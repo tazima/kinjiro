@@ -15,14 +15,26 @@ var _ = require("underscore"),
 
 exports = module.exports = Backbone.View.extend({
 
+  events: {
+    "click .next": "next"
+  },
+
+  next: function() {
+    this.collection.fetch({ data: { page: this.page } });
+    this.page += 1;
+  },
+
   /**
    * @Override
    */
 
   initialize: function(opts) {
     this.reads = opts.reads;
+    this.page = 1;
     this.collection.on("reset", this.render, this);
-    this.collection.fetch({ reset: true });
+    this.collection.on("add", this.renderOne, this);
+    this.collection.fetch({ reset: true, data: { page: this.page } });
+    this.page += 1;
   },
 
   /**
@@ -34,7 +46,6 @@ exports = module.exports = Backbone.View.extend({
     this.collection.each(this.renderOne, this);
     // trigger `read` evnet on first child.
     this.triggerRead(this.$('.post-item:first-child'));
-    this.bindScrollPosition();
     return this;
   },
 
@@ -45,16 +56,16 @@ exports = module.exports = Backbone.View.extend({
    */
 
   renderOne: function(model) {
-    this.$(".post-list").append(
-      new PostItemView({ model: model, reads: this.reads }).render().el
-    );
+    var itemView = new PostItemView({ model: model, reads: this.reads }).render();
+    this.$(".post-list").append(itemView.el);
+    this.bindScrollPosition(itemView.el);
   },
 
   /**
    * Bind scrolle event.
    */
 
-  bindScrollPosition: function() {
+  bindScrollPosition: function(el) {
     var itemPosition = new ScrollPosition(this.$('.post-item').get(), {
       offsetOut: 100,
       offsetIn: 0

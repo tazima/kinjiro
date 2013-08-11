@@ -12,7 +12,7 @@ var express = require("express"),
 
 var app = module.exports = express();
 
-var MAX_PAGE = 10;
+var MAX_PAGE = 5;
 
 // config
 
