@@ -2,7 +2,8 @@
  * Module dependencies.
  */
 
-var nodeio = require("node.io"),
+var _ = require("underscore"),
+    nodeio = require("node.io"),
     mongoose = require("mongoose"),
     request = require("request"),
     debug = require("debug")("job"),
@@ -88,7 +89,9 @@ exports.job = new nodeio.Job({
           .pipe(postWritableStream)
           .on("error", function(err) { job.exit(err); })
           .on("finish", function() {
-            feed._feed_posts = feed._feed_posts.concat(postWritableStream.getPostIds());
+            var newIds = postWritableStream.getPostIds();
+            feed._feed_posts = _.uniq(feed._feed_posts.concat(newIds),
+                                      function(a) { return a.toString(); });
             feed.lastCrawlDate = new Date();
             feed.crawlEnd = true;
             feed.save(function(err, feed) {

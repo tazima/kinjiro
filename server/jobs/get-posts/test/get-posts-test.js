@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var expect = require("expect.js"),
+var _ = require("underscore"),
+    expect = require("expect.js"),
     sinon = require("sinon"),
     nock = require("nock"),
     Request = require("request").Request,
@@ -91,8 +92,8 @@ describe("get-posts", function() {
       });
 
       var self = this;
-      this.newPostIds = [new ObjectId(), new ObjectId()];
       this.alreadyStoredPostId = new ObjectId();
+      this.newPostIds = [new ObjectId(), new ObjectId(), this.alreadyStoredPostId];
 
       sinon.stub(Post, "createWriteStream", function() {
         return {
@@ -135,10 +136,10 @@ describe("get-posts", function() {
     it("should merge `_feed_post_ids", function(done) {
       var expectedIds = this.newPostIds.slice(0);
       expectedIds.unshift(this.alreadyStoredPostId);
-      expectedIds = expectedIds.map(function(p) { return p.toString(); });
+      expectedIds = _.uniq(expectedIds.map(function(p) { return p.toString(); }));
       sinon.stub(getPostsJob, "emit", function(feed) {
         var feedPosts = feed._feed_posts.map(function(p) { return p.toString(); });
-        expectedIds.forEach(function(f) { expect(feedPosts).to.contain(f); });
+        expect(feedPosts).to.eql(expectedIds);
         done();
       });
       getPostsJob.run(this.feed);
