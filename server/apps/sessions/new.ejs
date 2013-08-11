@@ -1,29 +1,39 @@
 <% include ../../views/head %>
 
-<div class="container">
-  <div class="signin">
-    <div class="signin-box">
-      <h2 class="form-signin-heading">Log in</h2>
-      <% include ../../views/flash %>
-      <form method="POST" action="/sessions">
-        <fieldset>
-          <label for="id">ID</label>
-          <input type="text" class="input-block-level" name="name" >
-          <label for="passwd">Password</label>
-          <input type="password" class="input-block-level" name="password">
-          <input type="submit" class="btn btn-primary" value="Log in">
-	  <label class="checkbox-inline remember">
-	    <input type="checkbox" name="remember" checked="checked">
-	    <span class="remember-lablel">Keep login</span>
-	  </label>
-        </fieldset>
-      </form>
-      <ul>
-	<li>
-	  <a href="/users/new">Sign in</a>
-	</li>
-      </ul>
-    </div>
-  </div>
+  <% include ../../views/flash %>
+  
+  <form class="form-horizontal" method="POST" action="/sessions">
+    <fieldset>
+      <legend>Log in</legend>
+      <div class="form-group">
+        <label for="name" class="col-lg-2 col-lg-offset-2 control-label">Name</label>
+        <div class="col-lg-5">
+    	  <input type="text" class="form-control" placeholder="name" name="name" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password" class="col-lg-2 col-lg-offset-2 control-label">Password</label>
+        <div class="col-lg-5">
+    	  <input type="password" class="form-control" name="password" placeholder="Password" />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-offset-4 col-lg-8"> 
+    	  <div class="checkbox">
+    	    <label>
+    	      <input type="checkbox" name="remember" checked="checked">Remember me
+    	    </label>
+    	  </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-lg-offset-4 col-lg-8">
+    	  <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <a class="col-lg-offset-4 col-lg-8" id="signin" href="/users/new">Sign in</a>
 </div>
+
 <% include ../../views/foot %>

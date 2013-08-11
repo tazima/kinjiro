@@ -4,6 +4,7 @@
  */
 
 var $ = require("jquery"),
+    bootstrap = require("bootstrap"),
     Backbone = require("backbone"),
     bind = require("functionbind"),
     AppRouter = require("app-router");

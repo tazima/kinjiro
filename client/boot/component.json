@@ -4,6 +4,7 @@
   "dependencies": {
     "component/jquery": "*",
     "tazima/backbone": "topic-component",
+    "tazima/bootstrap": "3.0.0-wip",
     "enyo/functionbind": "*"
   },
   "development": {},

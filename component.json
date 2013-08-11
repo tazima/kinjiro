@@ -5,7 +5,8 @@
   "version": "0.1.1",
   "keywords": [],
   "dependencies": {
-    "tazima/backbone": "topic-component"
+    "tazima/backbone": "topic-component",
+    "tazima/bootstrap": "3.0.0-wip"
   },
   "development": {
     "tazima/component-mock": "*"
