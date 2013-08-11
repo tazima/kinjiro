@@ -85,7 +85,7 @@ describe("posts", function() {
     describe("paging", function() {
 
       it("should respond with specified page posts", function(done) {
-        posts.setMaxPage(2);
+        posts.setMaxCount(2);
         request(app)
           .get("/feeds/" + encodeURIComponent(postFixture[2]._feed) + "/posts?page=2")
           .expect(200)

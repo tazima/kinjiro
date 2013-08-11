@@ -12,7 +12,7 @@ var express = require("express"),
 
 var app = module.exports = express();
 
-var MAX_PAGE = 5;
+var MAX_COUNT = 10;
 
 // config
 
@@ -51,7 +51,7 @@ function loadFeed(req, res, next) {
     .lean()
     .populate("_feed_posts")
     .where("_feed_posts")
-    .slice([((req.query.page || 1) - 1) * MAX_PAGE, MAX_PAGE])
+    .slice([((req.query.page || 1) - 1) * MAX_COUNT, MAX_COUNT])
     .exec(function(err, feed) {
       if (!feed) { return next(); }
       if (req.user) { feed._feed_posts = postsMarkedRead(req.user, feed._feed_posts); }
@@ -78,7 +78,7 @@ function postsMarkedRead(user, posts) {
   });
 }
 
-app.setMaxPage = function(maxPage) {
-  MAX_PAGE = maxPage;
+app.setMaxCount = function(maxCount) {
+  MAX_COUNT = maxCount;
   return this;
 };
