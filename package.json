@@ -17,6 +17,7 @@
     "feedparser": "*",
     "static-asset": "*",
     "knit": "*",
+    "underscore": "*",
     "debug": "*",
     "grunt": "*",
     "grunt-contrib-uglify": "*",
