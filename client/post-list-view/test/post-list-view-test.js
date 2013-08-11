@@ -48,7 +48,11 @@ describe('post-list-view', function() {
       expect(this.collectionFetchSpy.called).to.be.ok();
     });
 
-    it('should render on  `reset` event', function() {
+    it('should bind itemViews to scroll event', function() {
+      expect(this.bindScrollPositionStub.callCount).to.equal(2);
+    });
+
+    it('should render on `reset` event', function() {
       expect(this.view.$('ul')).to.not.be.empty();
     });
 
@@ -87,6 +91,16 @@ describe('post-list-view', function() {
         expect(spy.called).to.be.ok();
       });
 
+    });
+
+  });
+
+  describe('#next()', function() {
+
+    it('should fetch with page count', function() {
+      this.view.next();
+      expect(this.collectionFetchSpy.lastCall.args[0].data)
+        .to.have.property('page', 2);
     });
 
   });

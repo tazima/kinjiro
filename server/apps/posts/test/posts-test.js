@@ -74,9 +74,26 @@ describe("posts", function() {
           .end(function(err, res) {
             var unreads = res.body.filter(function(post) { return post.unread; });
             // see post-fixture
-            expect(unreads).to.have.length(1);
+            expect(unreads).to.have.length(4);
             expect(unreads[0]._id).to.equal("http://dailyjs.com/2013/08/19/hoge");
             done();
+          });
+      });
+
+    });
+
+    describe("paging", function() {
+
+      it("should respond with specified page posts", function(done) {
+        posts.setMaxCount(2);
+        request(app)
+          .get("/feeds/" + encodeURIComponent(postFixture[2]._feed) + "/posts?page=2")
+          .expect(200)
+          .end(function(err, res) {
+            expect(res.body).to.have.length(2);
+            expect(res.body.map(function(p) { return p._id; }))
+              .to.eql(postFixture.slice(2, 4).map(function(p) { return p._id; }));
+            done(err);
           });
       });
 

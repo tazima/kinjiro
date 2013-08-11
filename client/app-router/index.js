@@ -24,10 +24,10 @@ exports = module.exports = Backbone.Router.extend({
     this.feeds = options.feeds;
     this.reads = new ReadCollection();
     this.delegateReadCreationToFeeds();
-    (new AppView({
+    this.view = new AppView({
       el: '#content',
       collection: this.feeds
-    })).render();
+    }).render();
   },
 
   /**
@@ -37,11 +37,12 @@ exports = module.exports = Backbone.Router.extend({
    */
 
   posts: function(fid) {
-    (new PostListView({
-      el: '.posts',
+    if (this.postListView) { this.postListView.clear(); }
+    this.postListView = new PostListView({
+      el: ".posts",
       collection: new PostCollection([], { fid: fid }),
       reads: this.reads
-    })).render();
+    }).render();
   },
 
   /**
