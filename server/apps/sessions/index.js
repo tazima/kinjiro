@@ -14,6 +14,8 @@ var app = module.exports = express();
 app.set("views", __dirname);
 app.set("view engine", "ejs");
 
+var MAX_AGE = 365 * 24 * 60 * 60 * 1000;
+
 /**
  * GET /sessions/new
  */
@@ -35,6 +37,7 @@ app.post("/sessions", function(req, res) {
   authenticate(param.name, param.password, function(err, user) {
     if (user) {
       req.session.user_id = user._id;
+      if (req.body.remember) { req.session.cookie.maxAge = MAX_AGE; }
       res.redirect("/feeds");
     } else {
       req.session.user_id = null;
