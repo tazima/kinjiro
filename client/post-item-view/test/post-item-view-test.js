@@ -45,6 +45,16 @@ describe("post-item-view", function() {
       expect(this.view.$(".pubdate").text()).to.match(/2013-07-26/);
     });
 
+    describe("when pubdate is null", function() {
+
+      it("should not render pubdate but render view propery", function() {
+        this.model.set('pubdate', null);
+        this.view.render();
+        expect($.trim(this.view.$(".pubdate").text())).to.be.empty();
+      });
+
+    });
+
   });
 
   describe('when `post.read` is triggered on el', function() {
