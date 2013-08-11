@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" type="text/css" href="<%= assetFingerprint("/build.css") %>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="<%= assetFingerprint("/build.css") %>"
+	  media="screen"/>
   </head>
   <% if (bodyId) { %>
   <body id="<%- bodyId %>">
   <% } else { %>
   <body>
   <% } %>
+
+    <div id="content" class="container">
+      <header class="navbar navbar-fixed-top">
+        <button type="button" class="navbar-toggle"
+    	    data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Kinjiro</a>
+        <div class="nav-collapse navbar-responsive-collapse collapse" style="height: 0px;">
+          <form action="/session" method="POST" class="navbar-form pull-right">
+    	<button type="submit" class="btn btn-info">Logout</button>
+    	<input type="hidden" name="_method" value="delete" />
+          </form>
+        </div>
+      </header>
+    

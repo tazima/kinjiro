@@ -8,9 +8,13 @@ var _ = require("underscore"),
 
 exports = module.exports = Backbone.View.extend({
 
-  tagName: "li",
+  tagName: "a",
 
-  className: "feed-item",
+  className: "feed-item list-group-item",
+
+  active: function() {
+    console.log("active");
+  },
 
   /**
    * @Override
@@ -26,6 +30,7 @@ exports = module.exports = Backbone.View.extend({
 
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
+    this.$el.attr('href', '#feeds/' + encodeURIComponent(this.model.id) + '/posts');
     return this;
   },
 

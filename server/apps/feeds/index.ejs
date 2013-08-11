@@ -1,26 +1,21 @@
 
 <% include ../../views/head %>
 
-<div id="content">
-  <nav class="feeds">
-    <section>
-      <h1>New Subscribe</h1>
-      <form class="subscribe" action="#" method="">
-	<input type="text" placeholder="Enter url" name="url" />
-	<button type="submit">Add</button>
-      </form>
-    </section>
+  <nav class="feeds col-12 col-sm-4 col-lg-4">
+    <form class="subscribe form-inline" action="#" method="">
+      <div class="input-group">
+	<input id="url" class="form-control" type="text"
+	       placeholder="Enter url" name="url" />
+	<span class="input-group-btn">
+	  <button type="submit" class="btn btn-primary">Submit</button>
+	</span>
+      </div>
+    </form>
     <section>
       <section class="feed-list"></section>
     </section>
-    <section>
-      <form action="/session" method="POST">
-	<input type="submit" value="logout" />
-	<input type="hidden" name="_method" value="delete" />
-      </form>
-    </section>
   </nav>
-  <div class="posts"></div>
+  <div class="posts col-12 col-sm-8 col-lg-8 col-sm-offset-4 col-lg-offset-4"></div>
 </div>
 <script src="<%= assetFingerprint(settings.env === "production" ? "/build.min.js" : "/build.js")  %>"></script>
 <script>

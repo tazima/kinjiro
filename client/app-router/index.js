@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var _ = require('underscore'),
+var $ = require('jquery'),
+    _ = require('underscore'),
     Backbone = require('backbone'),
     AppView = require('app-view'),
     PostListView = require('post-list-view'),
@@ -37,6 +38,10 @@ exports = module.exports = Backbone.Router.extend({
    */
 
   posts: function(fid) {
+    this.view.$(".feed-list .feed-item").removeClass("active");
+    this.view.$(".feed-list")
+      .find("[href*=\"" + encodeURIComponent(fid) + "\"]")
+      .addClass("active");
     if (this.postListView) { this.postListView.clear(); }
     this.postListView = new PostListView({
       el: ".posts",

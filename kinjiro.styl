@@ -1,1 +1,24 @@
 
+body
+  padding-top 70px
+
+
+/**
+ * #feeds
+ */
+
+body#feeds
+  .feeds
+    padding-right 30px
+    position relative
+  
+  @media (max-width: 991px) and (min-width: 768px)
+    .feeds
+      position fixed
+  
+  @media (min-width: 992px)
+    .feeds
+      position fixed
+  
+  ul.post-list, li.post-item
+    list-style none
