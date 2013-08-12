@@ -1,14 +1,31 @@
 
 <% include ../../views/head %>
 
+<div id="content" class="container">
+  <header class="navbar navbar-fixed-top">
+    <button type="button" class="navbar-toggle"
+            data-toggle="collapse" data-target=".navbar-responsive-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Kinjiro</a>
+    <div class="nav-collapse navbar-responsive-collapse collapse" style="height: 0px;">
+      <form action="/session" method="POST" class="navbar-form pull-right">
+        <button type="submit" class="btn btn-info">Logout</button>
+        <input type="hidden" name="_method" value="delete" />
+      </form>
+    </div>
+  </header>
+
   <nav class="feeds col-12 col-sm-4 col-lg-4">
     <form class="subscribe form-inline" action="#" method="">
       <div class="input-group">
-	<input id="url" class="form-control" type="text"
-	       placeholder="Enter url" name="url" />
-	<span class="input-group-btn">
-	  <button type="submit" class="btn btn-primary">Submit</button>
-	</span>
+    <input id="url" class="form-control" type="text"
+           placeholder="Enter url" name="url" />
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </span>
       </div>
     </form>
     <section>
@@ -16,7 +33,7 @@
     </section>
   </nav>
   <div class="posts col-12 col-sm-8 col-lg-8 col-sm-offset-4 col-lg-offset-4"></div>
-</div>
+</div> <!-- #content -->
 <script src="<%= assetFingerprint(settings.env === "production" ? "/build.min.js" : "/build.js")  %>"></script>
 <script>
   (function() {
