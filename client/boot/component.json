@@ -4,7 +4,7 @@
   "dependencies": {
     "component/jquery": "*",
     "tazima/backbone": "topic-component",
-    "tazima/bootstrap": "3.0.0-wip",
+    "p-baleine/bootstrap": "topic-component-3.0.0-wip",
     "enyo/functionbind": "*"
   },
   "development": {},
@@ -12,5 +12,7 @@
   "scripts": [
     "index.js"
   ],
-  "local": ["app-router"]
+  "local": [
+    "app-router"
+  ]
 }

@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "tazima/backbone": "topic-component",
-    "tazima/bootstrap": "3.0.0-wip"
+    "p-baleine/bootstrap": "topic-component-3.0.0-wip"
   },
   "development": {
     "tazima/component-mock": "*"
