@@ -14,7 +14,8 @@ var $ = require('jquery'),
 exports = module.exports = Backbone.Router.extend({
 
   routes: {
-    'feeds/:fid/posts': 'posts'
+    'feeds/:fid/posts': 'posts',
+    '': 'top'
   },
 
   /**
@@ -25,10 +26,14 @@ exports = module.exports = Backbone.Router.extend({
     this.feeds = options.feeds;
     this.reads = new ReadCollection();
     this.delegateReadCreationToFeeds();
-    this.view = new AppView({
+    this.appView = new AppView({
       el: '#content',
       collection: this.feeds
     }).render();
+  },
+
+  top: function() {
+    this.toggleResponsiveClasses();
   },
 
   /**
@@ -38,8 +43,9 @@ exports = module.exports = Backbone.Router.extend({
    */
 
   posts: function(fid) {
-    this.view.$(".feed-list .feed-item").removeClass("active");
-    this.view.$(".feed-list")
+    this.toggleResponsiveClasses();
+    this.appView.$(".feed-list .feed-item").removeClass("active");
+    this.appView.$(".feed-list")
       .find("[href*=\"" + encodeURIComponent(fid) + "\"]")
       .addClass("active");
     if (this.postListView) { this.postListView.clear(); }
@@ -62,6 +68,12 @@ exports = module.exports = Backbone.Router.extend({
       var feed = this.feeds.findWhere({ _id: read.get('_feed') });
       feed.set('unread_count', feed.get('unread_count') - 1);
     }, this));
+  },
+
+  toggleResponsiveClasses: function() {
+    this.appView.$el.find('.feeds').toggleClass('hidden-xs');
+    this.appView.$el.find('.posts').toggleClass('hidden-xs');
+    this.appView.$el.find('.back').toggleClass('hidden-xs');
   }
 
 });

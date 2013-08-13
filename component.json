@@ -5,6 +5,7 @@
   "version": "0.1.1",
   "keywords": [],
   "dependencies": {
+    "component/jquery": "*",
     "tazima/backbone": "topic-component",
     "p-baleine/bootstrap": "topic-component-3.0.0-wip"
   },
