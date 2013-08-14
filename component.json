@@ -12,12 +12,12 @@
   "development": {
     "tazima/component-mock": "*"
   },
-  "styles": [
-    "kinjiro.styl"
-  ],
   "local": [
     "boot",
     "feed-collection"
+  ],
+  "styles": [
+    "kinjiro.less"
   ],
   "paths": [
     "client"

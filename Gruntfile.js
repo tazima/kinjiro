@@ -4,7 +4,8 @@
  */
 
 var fs = require("fs"),
-    stylusPlugin = require('component-stylus-plugin'),
+    less = require("component-less"),
+//    stylusPlugin = require('component-stylus-plugin'),
     path = require('path');
 
 module.exports = function(grunt) {
@@ -15,10 +16,8 @@ module.exports = function(grunt) {
         files: [
           "client/**/*!(-test).js",
           "client/**/*.html",
-          "kinjiro.css",
-          "client/**/*.css",
-          "kinjiro.styl",
-          "client/**/*.styl"
+          "kinjiro.less",
+          "client/**/*.less"
         ],
         tasks: ['component_build:dev']
       },
@@ -79,7 +78,7 @@ module.exports = function(grunt) {
         configure: function(builder) {
           builder.development();
           builder.addSourceURLs();
-          builder.use(stylusPlugin);
+          builder.use(less);
         }
       },
       prod: {
@@ -89,7 +88,7 @@ module.exports = function(grunt) {
         verbose: true,
         plugins: ["templates"],
         configure: function(builder) {
-          builder.use(stylusPlugin);
+          builder.use(less);
         }
       }
     },

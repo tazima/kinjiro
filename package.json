@@ -33,7 +33,7 @@
     "grunt-express": "*",
     "grunt-env": "*",
     "grunt-component-build": "*",
-    "component-stylus-plugin": "*",
+    "component-less": "*",
     "migrate": "git://github.com/nooks/node-migrate.git"
   },
   "devDependencies": {
