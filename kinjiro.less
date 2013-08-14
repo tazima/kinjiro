@@ -1,4 +1,21 @@
 
+@import "components/p-baleine-bootstrap/less/bootstrap.less";
+
 body {
   padding-top: 70px;
+}
+
+body#feeds {
+  .feeds {
+    position: relative;
+    @media (min-width: @screen-tablet) and (max-width: @screen-tablet-max) {
+      position: fixed;
+    }
+    @media (min-width: @screen-desktop) and (max-width: @screen-desktop-max) {
+      position: fixed;
+    }
+    @media (min-width: @screen-large-desktop) {
+      position: fixed;
+    }
+  }
 }
