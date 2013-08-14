@@ -7,10 +7,16 @@
   },
   "development": {},
   "main": "index.js",
-  "scripts": ["index.js"],
-  "styles": [
-    "feed-list-view.styl"
+  "local": [
+    "feed-item-view"
   ],
-  "local": ["feed-item-view"],
-  "templates": ["template.html"]
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [
+    "feed-list-view.less"
+  ],
+  "templates": [
+    "template.html"
+  ]
 }
