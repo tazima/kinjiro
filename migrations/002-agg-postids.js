@@ -5,9 +5,9 @@
 
 var mongoose = require('mongoose'),
     async = require('async'),
+    root = require("../app"),
     Feed = require('../server/models/feed'),
     Post = require('../server/models/post');
-
 
 exports.up = function(next) {
   var tasks = [];

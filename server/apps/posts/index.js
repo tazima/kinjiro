@@ -49,8 +49,11 @@ function loadUser(req, res, next) {
 function loadFeed(req, res, next) {
   Feed.findOne({ _id: req.params.fid })
     .lean()
-    .populate("_feed_posts")
-    .where("_feed_posts")
+    .populate({
+      path: '_feed_posts',
+      options: { sort: { 'pubdate': -1 } }
+    })
+    .where('_feed_posts')
     .slice([((req.query.page || 1) - 1) * MAX_COUNT, MAX_COUNT])
     .exec(function(err, feed) {
       if (!feed) { return next(); }
