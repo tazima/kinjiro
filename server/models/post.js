@@ -5,7 +5,8 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    Writable = require('stream').Writable;
+    Writable = require('stream').Writable,
+    sanitise = require('../libs/sanitise');
 
 var PostSchema = new Schema({
   _id: { type: String }, // guid
@@ -39,7 +40,7 @@ PostSchema.statics.createWriteStream = function(feedurl) {
       _feed: feedurl,
       title: article.title,
       link: article.link,
-      description: article.description,
+      description: sanitise(article.description),
       summary: article.summary,
       pubdate: article.pubdate,
       imageUrl: article.image.url || "",
