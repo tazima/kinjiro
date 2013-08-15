@@ -25,6 +25,7 @@ app.post("/reads", function(req, res) {
 
     user._read_posts.push(req.body._id);
 
+    // TODO make async
     for (i = 0, l = user.subscribes.length; i < l; i++) {
       s = user.subscribes[i];
       if (s._feed === req.body._feed) {

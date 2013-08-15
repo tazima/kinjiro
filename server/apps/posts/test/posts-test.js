@@ -26,6 +26,14 @@ describe("posts", function() {
   beforeEach(function(done) {
     var self = this;
 
+    // fake user_id
+    app.use(function(req, res, next) {
+      req.session = {};
+      req.session.user_id = self.user._id;
+      next();
+    });
+    app.use(posts);
+
     async.series([
       function(cb) { setup(cb); },
       function(cb) { Feed.create(feedFixture, cb); },
@@ -36,16 +44,7 @@ describe("posts", function() {
           cb(err);
         });
       }
-    ], function(err, result) {
-      // fake user_id
-      app.use(function(req, res, next) {
-        req.session = {};
-        req.session.user_id = self.user._id;
-        next();
-      });
-      app.use(posts);
-      done();
-    });
+    ], done);
   });
 
   describe("GET /feeds/:fid/posts", function() {
