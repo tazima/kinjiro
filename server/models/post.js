@@ -41,7 +41,7 @@ PostSchema.statics.createWriteStream = function(feedurl) {
       title: article.title,
       link: article.link,
       description: sanitise(article.description),
-      summary: article.summary,
+      summary: article.summary || article.description,
       pubdate: article.pubdate,
       imageUrl: article.image.url || "",
       imageTitle: article.image.title || ""
