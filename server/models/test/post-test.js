@@ -69,7 +69,7 @@ describe("Post", function() {
 
     it("should save `pubdate`", function(done) {
       this.feed.save(function(err, doc) {
-        expect(doc.pubdate).to.equal("2013-07-31T00:00:00+01:00");
+        expect(doc.pubdate).to.eql(new Date("2013-07-31T00:00:00+01:00"));
         done(err);
       });
     });
@@ -121,7 +121,8 @@ describe("Post", function() {
             expect(doc).to.have.property("link", self.article.link);
             expect(doc).to.have.property("description", self.article.description);
             expect(doc).to.have.property("summary", self.article.summary);
-            expect(doc).to.have.property("pubdate", self.article.pubdate);
+            expect(doc).to.have.property("pubdate");
+            expect(doc.pubdate).to.eql(new Date(self.article.pubdate));
             expect(doc).to.have.property("imageUrl", self.article.image.url);
             expect(doc).to.have.property("imageTitle", self.article.image.title);
             done();

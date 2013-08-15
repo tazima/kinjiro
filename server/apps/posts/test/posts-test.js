@@ -26,6 +26,14 @@ describe("posts", function() {
   beforeEach(function(done) {
     var self = this;
 
+    // fake user_id
+    app.use(function(req, res, next) {
+      req.session = {};
+      req.session.user_id = self.user._id;
+      next();
+    });
+    app.use(posts);
+
     async.series([
       function(cb) { setup(cb); },
       function(cb) { Feed.create(feedFixture, cb); },
@@ -36,16 +44,7 @@ describe("posts", function() {
           cb(err);
         });
       }
-    ], function(err, result) {
-      // fake user_id
-      app.use(function(req, res, next) {
-        req.session = {};
-        req.session.user_id = self.user._id;
-        next();
-      });
-      app.use(posts);
-      done();
-    });
+    ], done);
   });
 
   describe("GET /feeds/:fid/posts", function() {
@@ -75,7 +74,20 @@ describe("posts", function() {
             var unreads = res.body.filter(function(post) { return post.unread; });
             // see post-fixture
             expect(unreads).to.have.length(4);
-            expect(unreads[0]._id).to.equal("http://dailyjs.com/2013/08/19/hoge");
+            expect(unreads[0]._id).to.equal("http://dailyjs.com/2013/08/19/hoge2");
+            done();
+          });
+      });
+
+      it("should be sorted by pubdate desc", function(done) {
+        request(app)
+          .get("/feeds/" + encodeURIComponent(postFixture[0]._feed) + "/posts")
+          .expect(200)
+          .end(function(err, res) {
+            var posts = res.body, i, j, l;
+            for (i = 0, j = 1, l = posts.length; j < l; i++, j++) {
+              expect(posts[i].pubdate).greaterThan(posts[j].pubdate);
+            }
             done();
           });
       });

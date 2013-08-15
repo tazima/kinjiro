@@ -17,7 +17,7 @@ var PostSchema = new Schema({
   title: { type: String },
   description: { type: String },
   summary: { type: String },
-  pubdate: { type: String},
+  pubdate: { type: Date },
   imageUrl: { type: String },
   imageTitle: { type: String }
 });
