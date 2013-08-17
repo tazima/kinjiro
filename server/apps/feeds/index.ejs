@@ -21,7 +21,7 @@
   </nav>
 
   <div class="row">
-    <nav class="feeds col-sm-4 hidden-xs">
+    <nav class="feeds col-sm-4 col-md-4 col-lg-4 hidden-xs">
       <form class="subscribe form-inline" action="#" method="">
 	<div class="input-group">
 	  <input id="url" class="form-control" type="text"
@@ -35,10 +35,8 @@
 	<section class="feed-list"></section>
       </section>
     </nav>
-    <div class="posts col-sm-7 col-sm-offset-5"></div>
+    <div class="posts col-sm-7 col-md-7 col-lg-7 col-sm-offset-5 col-md-offset-5 col-lg-offset-5"></div>
   </div>
-
-  <div style="height:1000px;width:1px;"></div>
 </div> <!-- #content -->
 
 <script src="<%= assetFingerprint(settings.env === "production" ? "/build.min.js" : "/build.js")  %>"></script>

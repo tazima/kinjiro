@@ -28,6 +28,7 @@ exports = module.exports = Backbone.View.extend({
 
   render: function() {
     this.$el.html(this.template(_.extend({ moment: moment }, this.model.toJSON())));
+    this.makeImagesResponsive();
     if (!this.model.get('unread')) { this.$el.addClass('read'); }
     return this;
   },
@@ -41,6 +42,10 @@ exports = module.exports = Backbone.View.extend({
     this.$el.addClass('read');
     this.reads.create({ _feed: this.model.get('_feed'), _id: this.model.id });
     this.model.set('unread', false);
+  },
+
+  makeImagesResponsive: function() {
+    this.$("img").addClass("img-responsive");
   },
 
   /**
