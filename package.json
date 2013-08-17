@@ -27,6 +27,7 @@
     "static-asset": "*",
     "knit": "*",
     "underscore": "*",
+    "html-sanitiser": "git://github.com/p-baleine/html-sanitiser.git#topic-update-jsdom",
     "debug": "*",
     "grunt": "*",
     "grunt-contrib-uglify": "*",
