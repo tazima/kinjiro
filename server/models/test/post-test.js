@@ -8,6 +8,7 @@ var expect = require("expect.js"),
     async = require("async"),
     ObjectId = require("mongoose").Types.ObjectId,
     setup = require("../../test/setup"),
+    sanitise = require("../../libs/sanitise"),
     Post = require("../post");
 
 var MONGO_CONN_STRING = "mongodb://localhost:27017/kinjiro-test";
@@ -92,7 +93,7 @@ describe("Post", function() {
           guid: "http://hoge",
           link: "http://hoge",
           title: "my title",
-          description: "my description",
+          description: "my description<script>alert('hoge')</script>",
           summary: "my summary",
           pubdate: "2013-07-31T00:00:00+01:00",
           image: {
@@ -119,12 +120,21 @@ describe("Post", function() {
           Post.findOne({ _id: self.article.guid }, function(err, doc) {
             expect(doc).to.have.property("title", self.article.title);
             expect(doc).to.have.property("link", self.article.link);
-            expect(doc).to.have.property("description", self.article.description);
             expect(doc).to.have.property("summary", self.article.summary);
             expect(doc).to.have.property("pubdate");
             expect(doc.pubdate).to.eql(new Date(self.article.pubdate));
             expect(doc).to.have.property("imageUrl", self.article.image.url);
             expect(doc).to.have.property("imageTitle", self.article.image.title);
+            done();
+          });
+        });
+      });
+
+      it("should sanitise article's description", function(done) {
+        var self = this;
+        self.ws.write(self.article, function() {
+          Post.findOne({ _id: self.article.guid }, function(err, doc) {
+            expect(doc).to.have.property("description", sanitise(self.article.description));
             done();
           });
         });
