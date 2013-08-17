@@ -52,6 +52,7 @@ exports = module.exports = Backbone.Router.extend({
     this.postListView = new PostListView({
       el: ".posts",
       collection: new PostCollection([], { fid: fid }),
+      feed: this.feeds.findWhere({ _id: fid }),
       reads: this.reads
     }).render();
   },

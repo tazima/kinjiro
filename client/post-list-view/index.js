@@ -39,6 +39,7 @@ exports = module.exports = Backbone.View.extend({
    */
 
   initialize: function(opts) {
+    this.feed = opts.feed;
     this.reads = opts.reads;
     this.page = 1;
     this.listenTo(this.collection, 'reset', this.render);
@@ -53,7 +54,7 @@ exports = module.exports = Backbone.View.extend({
    */
 
   render: function() {
-    this.$el.html(this.template());
+    this.$el.html(this.template(this.feed.toJSON()));
     this.collection.each(this.renderOne, this);
     this.$el.animate({ scrollTop: 0 });
     // trigger `read` evnet on first child.
