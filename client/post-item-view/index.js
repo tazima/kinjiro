@@ -3,13 +3,17 @@
  * Module dependencies.
  */
 
-var _ = require("underscore"),
-    Backbone = require("backbone"),
-    moment = require("moment");
+var _ = require('underscore'),
+    Backbone = require('backbone'),
+    strftime = require('strftime');
+
+/**
+ * Expose post item view.
+ */
 
 exports = module.exports = Backbone.View.extend({
 
-  className: "post-item",
+  className: 'post-item',
 
   tagName: 'li',
 
@@ -27,7 +31,7 @@ exports = module.exports = Backbone.View.extend({
    */
 
   render: function() {
-    this.$el.html(this.template(_.extend({ moment: moment }, this.model.toJSON())));
+    this.$el.html(this.template(_.extend({ strftime: strftime }, this.model.toJSON())));
     this.makeImagesResponsive();
     if (!this.model.get('unread')) { this.$el.addClass('read'); }
     return this;
@@ -35,6 +39,8 @@ exports = module.exports = Backbone.View.extend({
 
   /**
    * Make status of this post read.
+   *
+   * @api private
    */
 
   makeRead: function(e) {
@@ -44,14 +50,20 @@ exports = module.exports = Backbone.View.extend({
     this.model.set('unread', false);
   },
 
+  /**
+   * Make images Bootstrap responsive.
+   *
+   * @api private
+   */
+
   makeImagesResponsive: function() {
-    this.$("img").addClass("img-responsive");
+    this.$('img').addClass('img-responsive');
   },
 
   /**
    * Template function.
    */
 
-  template: _.template(require("./template"))
+  template: _.template(require('./template'))
 
 });

@@ -19,11 +19,18 @@ body#feeds {
     }
   }
 
-  .feeds .feed-item .title {
-    width: 80%;
-    display: inline-block;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+  .feeds .feed-item {
+    .title {
+      width: 80%;
+      display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .unread {
+      animation-duration: .5s;
+      animation-delay:: .5s;
+    }
   }
 }

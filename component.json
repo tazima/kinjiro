@@ -7,7 +7,8 @@
   "dependencies": {
     "component/jquery": "*",
     "tazima/backbone": "topic-component",
-    "p-baleine/bootstrap": "topic-component-3.0.0-wip"
+    "p-baleine/bootstrap": "topic-component-3.0.0-wip",
+    "p-baleine/animate.css": "topic-component"
   },
   "development": {
     "tazima/component-mock": "*"

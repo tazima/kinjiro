@@ -15,7 +15,7 @@ describe("post-item-view", function() {
       title: "DailyJs",
       link: "http://hoge",
       description: "Hello, world.",
-      pubdate: "Fri Jul 26 2013 17:08:00 GMT+0900 (JST)",
+      pubdate: new Date("Fri Jul 26 2013 17:08:00 GMT+0900 (JST)"),
       unread: true
     });
     this.reads = new Backbone.Collection();

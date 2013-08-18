@@ -12,16 +12,12 @@ exports = module.exports = Backbone.View.extend({
 
   className: "feed-item list-group-item",
 
-  active: function() {
-    console.log("active");
-  },
-
   /**
    * @Override
    */
 
   initialize: function() {
-    this.model.on('change', this.render, this);
+    this.model.on('change:unread_count', this.updateUnreadCount, this);
   },
 
   /**
@@ -31,7 +27,14 @@ exports = module.exports = Backbone.View.extend({
   render: function() {
     this.$el.html(this.template(this.model.toJSON()));
     this.$el.attr('href', '#feeds/' + encodeURIComponent(this.model.id) + '/posts');
+    this.$el.momentaryClass('animated fadeInUp');
     return this;
+  },
+
+  updateUnreadCount: function() {
+    var count = this.model.get('unread_count');
+    this.$('.unread').text(count > 0 ? count : '');
+    this.$('.unread').momentaryClass('animated pulse');
   },
 
   /**

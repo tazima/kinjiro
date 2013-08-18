@@ -82,7 +82,7 @@ exports = module.exports = Backbone.View.extend({
 
   bindScrollPosition: function(el) {
     var itemPosition = new ScrollPosition(el, this.scrollPositionDefault);
-    itemPosition.on('scrollInOut', _.bind(this.triggerRead, this));
+    itemPosition.on('inOut', _.bind(this.triggerRead, this));
   },
 
   /**
@@ -102,7 +102,7 @@ exports = module.exports = Backbone.View.extend({
 
     this.infiniteScrollPosition = new ScrollPosition(
       this.$('.post-item').eq(-3).get(), this.scrollPositionDefault);
-    this.infiniteScrollPosition.on('scrollInOut', _.bind(this.next, this));
+    this.infiniteScrollPosition.on('inOut', _.bind(this.next, this));
   },
 
   /**

@@ -4,7 +4,7 @@
   "dependencies": {
     "component/underscore": "*",
     "tazima/backbone": "topic-component",
-    "component/moment": "*"
+    "samsonjs/strftime": "*"
   },
   "development": {},
   "main": "index.js",

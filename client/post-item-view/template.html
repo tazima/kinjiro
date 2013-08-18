@@ -7,7 +7,7 @@
 
   <p class="pubdate">
     <% if (pubdate) { %>
-      <%= moment(pubdate).format('YYYY-MM-DD') %>
+      <%= strftime('%F', new Date(pubdate)) %>
     <% } %>
   </p>
 
