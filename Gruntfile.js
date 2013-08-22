@@ -5,7 +5,6 @@
 
 var fs = require("fs"),
     less = require("component-less"),
-//    stylusPlugin = require('component-stylus-plugin'),
     path = require('path');
 
 module.exports = function(grunt) {

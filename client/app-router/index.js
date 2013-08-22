@@ -85,9 +85,7 @@ exports = module.exports = Backbone.Router.extend({
    */
 
   toggleResponsiveClasses: function() {
-    this.appView.$el.find('.feeds').toggleClass('hidden-xs');
-    this.appView.$el.find('.posts').toggleClass('hidden-xs');
-    this.appView.$el.find('.back').toggleClass('hidden-xs');
+    this.appView.$el.find('.feeds,.posts,.back').toggleClass('hidden-xs');
   },
 
   /**
