@@ -5,18 +5,21 @@
   "version": "0.1.1",
   "keywords": [],
   "dependencies": {
-    "layerssss/todc-bootstrap": "*",
-    "tazima/backbone": "topic-component"
+    "component/jquery": "*",
+    "tazima/backbone": "topic-component",
+    "p-baleine/bootstrap": "topic-component-3.0.0-wip",
+    "p-baleine/animate.css": "topic-component",
+    "p-baleine/elusive-iconfont": "topic-component"
   },
   "development": {
     "tazima/component-mock": "*"
   },
-  "styles": [
-    "kinjiro.styl"
-  ],
   "local": [
     "boot",
     "feed-collection"
+  ],
+  "styles": [
+    "kinjiro.less"
   ],
   "paths": [
     "client"

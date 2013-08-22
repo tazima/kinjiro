@@ -19,8 +19,14 @@ var allowedElements = [
   'h4',
   'h5',
   'h6',
+  'br',
   'img',
-  'p'
+  'code',
+  'pre',
+  'blockquote',
+  'p',
+  'div',
+  'span'
 ];
 
 var allowedAttributes = [

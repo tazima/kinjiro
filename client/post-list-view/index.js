@@ -39,6 +39,7 @@ exports = module.exports = Backbone.View.extend({
    */
 
   initialize: function(opts) {
+    this.feed = opts.feed;
     this.reads = opts.reads;
     this.page = 1;
     this.listenTo(this.collection, 'reset', this.render);
@@ -53,7 +54,7 @@ exports = module.exports = Backbone.View.extend({
    */
 
   render: function() {
-    this.$el.html(this.template());
+    this.$el.html(this.template(this.feed.toJSON()));
     this.collection.each(this.renderOne, this);
     this.$el.animate({ scrollTop: 0 });
     // trigger `read` evnet on first child.
@@ -81,7 +82,7 @@ exports = module.exports = Backbone.View.extend({
 
   bindScrollPosition: function(el) {
     var itemPosition = new ScrollPosition(el, this.scrollPositionDefault);
-    itemPosition.on('scrollInOut', _.bind(this.triggerRead, this));
+    itemPosition.on('inOut', _.bind(this.triggerRead, this));
   },
 
   /**
@@ -101,7 +102,7 @@ exports = module.exports = Backbone.View.extend({
 
     this.infiniteScrollPosition = new ScrollPosition(
       this.$('.post-item').eq(-3).get(), this.scrollPositionDefault);
-    this.infiniteScrollPosition.on('scrollInOut', _.bind(this.next, this));
+    this.infiniteScrollPosition.on('inOut', _.bind(this.next, this));
   },
 
   /**

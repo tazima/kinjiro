@@ -6,14 +6,14 @@
     "tazima/backbone": "topic-component"
   },
   "development": {},
+  "local": [
+     "feed-list-view"
+  ],
   "main": "index.js",
   "scripts": [
     "index.js"
   ],
   "styles": [
-    "app-view.styl"
-  ],
-  "local": [
-     "feed-list-view"
+    "app-view.less"
   ]
 }
