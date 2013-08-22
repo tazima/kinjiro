@@ -1,0 +1,12 @@
+{
+  "name": "jquery-kinjiro-custom",
+  "description": "jquery plugin for kinjiro.",
+  "dependencies": {
+    "component-jquery": "*"
+  },
+  "development": {},
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

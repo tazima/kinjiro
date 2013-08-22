@@ -32,7 +32,9 @@ describe('post-list-view', function() {
       function() {});
     this.reads = new Backbone.Collection();
     this.reads.url = '/reads';
-    this.view = new PostListView({ collection: this.collection, reads: this.reads });
+    this.feed = new Backbone.Model({ title: "my title" });
+    this.view = new PostListView({ collection: this.collection, 
+                                   reads: this.reads, feed: this.feed });
   });
 
   afterEach(function() {
@@ -59,6 +61,10 @@ describe('post-list-view', function() {
   });
 
   describe('#render()', function() {
+
+    it('should render feed title', function() {
+      expect(this.view.$('.title').text()).to.contain(this.feed.get('title'));
+    });
 
     it('should create item view with model', function() {
       expect(this.itemViewInitializeSpy.callCount)

@@ -4,8 +4,10 @@
  */
 
 var $ = require("jquery"),
+    bootstrap = require("bootstrap"),
     Backbone = require("backbone"),
     bind = require("functionbind"),
+    jqCustom = require("jquery-kinjiro-custom"),
     AppRouter = require("app-router");
 
 Backbone.$ = $;

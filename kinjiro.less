@@ -1,0 +1,47 @@
+
+/**
+ * Components dependencies.
+ */
+
+@import "components/p-baleine-bootstrap/less/bootstrap.less";
+@import "components/p-baleine-elusive-iconfont/less/elusive-webfont.less";
+
+/**
+ * Override elusive-iconfont font path.
+ */
+
+@elusiveWebfontPath: '/p-baleine-elusive-iconfont/font/';
+
+body {
+  padding-top: 70px;
+}
+
+body#feeds {
+  .feeds {
+    position: relative;
+    @media (min-width: @screen-tablet) and (max-width: @screen-tablet-max) {
+      position: fixed;
+    }
+    @media (min-width: @screen-desktop) and (max-width: @screen-desktop-max) {
+      position: fixed;
+    }
+    @media (min-width: @screen-large-desktop) {
+      position: fixed;
+    }
+  }
+
+  .feeds .feed-item {
+    .title {
+      width: 80%;
+      display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .unread {
+      animation-duration: .5s;
+      animation-delay:: .5s;
+    }
+  }
+}

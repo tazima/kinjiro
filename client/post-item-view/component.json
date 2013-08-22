@@ -4,11 +4,17 @@
   "dependencies": {
     "component/underscore": "*",
     "tazima/backbone": "topic-component",
-    "component/moment": "*"
+    "samsonjs/strftime": "*"
   },
   "development": {},
   "main": "index.js",
-  "scripts": ["index.js"],
-  "styles": ["post-item-view.styl"],
-  "templates": ["template.html"]
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [
+    "post-item-view.less"
+  ],
+  "templates": [
+    "template.html"
+  ]
 }

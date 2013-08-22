@@ -1,32 +1,74 @@
 
 <% include ../../views/head %>
 
-<section id="content" class="container">
-  <div class="row-fluid">
-    <div class="span3 feeds">
-      <div class="bs-docs-sidenav affix">
-        <form class="subscribe input-append" action="#" method="">
-          <input type="text" placeholder="Enter url" name="url" />
-          <button class="btn" type="submit"><i class="icon-plus"></i></button>
-        </form>
-        <div class="feed-list"></div>
-        <form action="/session" method="POST">
-          <input class="btn btn-primary" type="submit" value="logout" />
-          <input type="hidden" name="_method" value="delete" />
-        </form>
-      </div>
+<div id="content" class="container">
+  <nav class="navbar navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle"
+              data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand icon-github" href="#">Kinjiro</a>
     </div>
-    <div class="span9 posts"></div>
+
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav pull-right">
+	<li><a id="logout" href="#">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="row">
+    <nav class="feeds col-sm-4 col-md-4 col-lg-4 hidden-xs">
+      <form class="subscribe form-inline" action="#" method="">
+	<div class="input-group">
+	  <input id="url" class="form-control" type="text"
+		 placeholder="Enter url" name="url" />
+	  <span class="input-group-btn">
+	    <button type="submit" class="btn btn-default">Submit</button>
+	  </span>
+	</div>
+      </form>
+      <section>
+	<section class="feed-list"></section>
+      </section>
+    </nav>
+    <div class="posts col-sm-7 col-md-7 col-lg-7 col-sm-offset-5 col-md-offset-5 col-lg-offset-5"></div>
   </div>
-</section>
+</div> <!-- #content -->
+
 <script src="<%= assetFingerprint(settings.env === "production" ? "/build.min.js" : "/build.js")  %>"></script>
+
 <script>
-  (function() {
-    var Feeds = require("feed-collection"),
+  ;(function() {
+    var Feeds = require('feed-collection'),
         feeds = new Feeds();
-    require("boot")({
+    require('boot')({
       feeds: feeds.reset(<%- JSON.stringify(feeds) %>)
     });
   }());
 </script>
+
+<script>
+  ;(function() {
+    var $ = require('component-jquery');
+    $(function() {
+      // logout
+      $('#logout').click(function(e) {
+        e.preventDefault();
+        $.ajax({ type: 'POST', url: '/session', data: { _method: 'delete' } })
+          .then(function() {
+            window.location.href = '/';
+          });
+      });
+      // hide safari navbar
+      setTimeout(function() {
+        scrollBy(0, 1);
+      }, 1000);
+    });
+  }());
+</script>
+
 <% include ../../views/foot %>
